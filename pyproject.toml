@@ -35,17 +35,17 @@ build_args = ["-j"]
 install_components = ["python_module"]
 
 [tool.py-build-cmake.windows.cmake] # Windows-specific options
-env = { "CMAKE_LIBRARY_PATH" = "usr/lib;boost/lib64-msvc-14.3", "INCLUDE_PATH" = "usr/include" }
+env = { "LIB" = "usr/lib", "INCLUDE" = "usr/include" }
 [tool.py-build-cmake.windows.sdist]
-include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*", "usr/*", "boost/*"]
+include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*", "usr/*"]
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
-env = { "CMAKE_LIBRARY_PATH" = "usr/lib", "INCLUDE_PATH" = "usr/include", "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
+env = { "ZLIB_INCLUDE_DIR" = "usr/include", "ZLIB_LIBRARY" = "usr/lib", "PNG_INCLUDE_DIRS" = "usr/include", "PNG_LIBRARIES" = "usr/lib", "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
 [tool.py-build-cmake.mac.cmake.options]
 CMAKE_OSX_DEPLOYMENT_TARGET = "10.15"
 
 [tool.py-build-cmake.linux.cmake] # Linux-specific options
-env = { "CMAKE_LIBRARY_PATH" = "usr/lib", "INCLUDE_PATH" = "usr/include" }
+env = { "ZLIB_INCLUDE_DIR" = "usr/include", "ZLIB_LIBRARY" = "usr/lib", "PNG_INCLUDE_DIRS" = "usr/include", "PNG_LIBRARIES" = "usr/lib" }
 
 # stubgen depends on mypy, which depends on typed-ast
 # typed-ast cannot run on pypy <3.8
