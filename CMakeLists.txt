@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
 project(apngasm-python)
 
-include_directories(zlib)
-include_directories(libpng)
-
 add_subdirectory(zlib)
 add_subdirectory(libpng)
 add_subdirectory(apngasm)
