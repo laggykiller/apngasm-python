@@ -37,7 +37,7 @@ install_components = ["python_module"]
 [tool.py-build-cmake.windows.cmake] # Windows-specific options
 env = { "LIB" = "{cd}/deps/lib;C:/local/boost_1_82_0/lib64-msvc-14.3", "INCLUDE" = "{cd}/deps/include" }
 
-[tool.py-build-cmake.windows.cmake] # macOS-specific options
+[tool.py-build-cmake.mac.cmake] # macOS-specific options
 env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
 
 # stubgen depends on mypy, which depends on typed-ast
