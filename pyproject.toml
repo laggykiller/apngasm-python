@@ -40,12 +40,12 @@ env = { "LIB" = "deps/lib;boost/lib64-msvc-14.3", "INCLUDE" = "deps/include" }
 include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*", "deps/*", "boost/*"]
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
-env = { "DYLD_LIBRARY_PATH" = "${pwd}/deps/lib:${DYLD_LIBRARY_PATH}", "INCLUDE_PATH" = "${pwd}/deps/include:${INCLUDE_PATH}", "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
+env = { "DYLD_LIBRARY_PATH" = "deps/lib:${DYLD_LIBRARY_PATH}", "INCLUDE_PATH" = "deps/include:${INCLUDE_PATH}", "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
 [tool.py-build-cmake.mac.cmake.options]
 CMAKE_OSX_DEPLOYMENT_TARGET = "10.15"
 
 [tool.py-build-cmake.linux.cmake] # Linux-specific options
-env = { "LD_LIBRARY_PATH" = "${pwd}/deps/lib:${LD_LIBRARY_PATH}", "INCLUDE_PATH" = "${pwd}/deps/include:${INCLUDE_PATH}" }
+env = { "LD_LIBRARY_PATH" = "deps/lib:${LD_LIBRARY_PATH}", "INCLUDE_PATH" = "deps/include:${INCLUDE_PATH}" }
 
 # stubgen depends on mypy, which depends on typed-ast
 # typed-ast cannot run on pypy <3.8
