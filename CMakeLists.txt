@@ -15,7 +15,7 @@ if (WIN32)
             RUNTIME DESTINATION ${PY_BUILD_CMAKE_MODULE_NAME}
             COMPONENT python_module)
 else()
-    install(TARGETS zlib png_shared apngasm
+    install(TARGETS zlib png_shared apngasm-dynamic
             EXCLUDE_FROM_ALL
             LIBRARY DESTINATION ${PY_BUILD_CMAKE_MODULE_NAME}
             COMPONENT python_module)
