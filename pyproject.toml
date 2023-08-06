@@ -31,7 +31,7 @@ include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*"]
 [tool.py-build-cmake.cmake] # How to build the CMake project
 build_type = "Release"
 source_path = "."
-build_args = ["-j"]
+build_args = ["-j", "VERBOSE=1"]
 install_components = ["python_module"]
 
 [tool.py-build-cmake.windows.cmake] # Windows-specific options
@@ -45,7 +45,7 @@ env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt
 CMAKE_OSX_DEPLOYMENT_TARGET = "10.15"
 
 [tool.py-build-cmake.linux.cmake] # Linux-specific options
-env = { "ZLIB_INCLUDE_DIR" = "usr/include", "ZLIB_LIBRARY" = "usr/lib", "PNG_INCLUDE_DIRS" = "usr/include", "PNG_LIBRARIES" = "usr/lib" }
+env = { "ZLIB_INCLUDE_DIR" = "usr/include", "ZLIB_LIBRARY" = "usr/lib", "PNG_INCLUDE_DIRS" = "usr/include", "PNG_LIBRARIES" = "usr/lib", "PNG_LIBRARY" = "usr/lib", "PNG_PNG_INCLUDE_DIR" = "usr/include", "CMAKE_LIBRARY_PATH_FLAG" = "usr/lib" }
 
 # stubgen depends on mypy, which depends on typed-ast
 # typed-ast cannot run on pypy <3.8
