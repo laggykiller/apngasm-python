@@ -2,18 +2,18 @@
 
 brew install cmake boost icu4c
 
-cd zlib
+cd ./zlib
 mkdir build
-cd build
-cmake -DCMAKE_OSX_DEPLOYMENT_TARGET "10.15" ..
+cd ./build
+cmake "-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15" ..
 make -j
 make install
 cd ../../
 
-cd libpng
+cd ./libpng
 mkdir build
-cd build
-cmake -DCMAKE_OSX_DEPLOYMENT_TARGET "10.15" ..
+cd ./build
+cmake "-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15" ..
 make -j
 make install
 cd ../../

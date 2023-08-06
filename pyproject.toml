@@ -35,7 +35,7 @@ build_args = ["-j"]
 install_components = ["python_module"]
 
 [tool.py-build-cmake.windows.cmake] # Windows-specific options
-env = { "LIB" = "usr/lib;C:/local/boost/lib64-msvc-14.3", "INCLUDE" = "usr/include" }
+env = { "LIB" = "usr/lib;C:/boost/lib64-msvc-14.3", "INCLUDE" = "usr/include" }
 [tool.py-build-cmake.windows.sdist]
 include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*", "usr/*"]
 
