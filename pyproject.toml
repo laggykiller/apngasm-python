@@ -44,7 +44,7 @@ env = { "DYLD_LIBRARY_PATH" = "${pwd}/deps/lib:${DYLD_LIBRARY_PATH}", "INCLUDE_P
 [tool.py-build-cmake.mac.cmake.options]
 CMAKE_OSX_DEPLOYMENT_TARGET = "10.15"
 
-[tool.py-build-cmake.linux.cmake.options]
+[tool.py-build-cmake.linux.cmake] # Linux-specific options
 env = { "LD_LIBRARY_PATH" = "${pwd}/deps/lib:${LD_LIBRARY_PATH}", "INCLUDE_PATH" = "${pwd}/deps/include:${INCLUDE_PATH}" }
 
 # stubgen depends on mypy, which depends on typed-ast
