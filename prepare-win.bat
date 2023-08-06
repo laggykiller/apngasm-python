@@ -1,6 +1,5 @@
 @echo off
 
-mkdir deps
 mkdir deps\lib
 mkdir deps\include
 
@@ -8,7 +7,7 @@ cd zlib
 mkdir build
 cd build
 cmake ..
-cmake --build . --config Release
+cmake --build . --config Release -j
 cd ..\..\
 :: For some reason zconf.h disappear after compiling
 copy zlib\build\zconf.h zlib
@@ -20,7 +19,7 @@ cd libpng
 mkdir build
 cd build
 cmake "-DZLIB_LIBRARY=%cd%\..\..\zlib\build\Release\zlib.lib" "-DZLIB_INCLUDE_DIR=%cd%\..\..\zlib" ..
-cmake --build . --config Release
+cmake --build . --config Release -j
 cd ..\..\
 copy libpng\png.h deps\include
 copy libpng\pngconf.h deps\include

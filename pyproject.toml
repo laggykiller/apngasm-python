@@ -26,7 +26,7 @@ name = "apngasm_python"
 directory = "."
 
 [tool.py-build-cmake.sdist] # What to include in source distributions
-include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*"]
+include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*", "deps/*"]
 
 [tool.py-build-cmake.cmake] # How to build the CMake project
 build_type = "Release"
@@ -35,7 +35,7 @@ build_args = ["-j"]
 install_components = ["python_module"]
 
 [tool.py-build-cmake.windows.cmake] # Windows-specific options
-env = { "LIB" = "{cd}/deps/lib;C:/local/boost_1_82_0/lib64-msvc-14.3", "INCLUDE" = "{cd}/deps/include" }
+env = { "LIB" = "deps/lib;C:/local/boost_1_82_0/lib64-msvc-14.3", "INCLUDE" = "deps/include" }
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
 env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include", "CMAKE_CXX_FLAGS" = "17" , "CMAKE_OSX_DEPLOYMENT_TARGET" = "10.15"}

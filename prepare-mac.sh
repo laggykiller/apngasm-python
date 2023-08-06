@@ -8,7 +8,7 @@ git submodule update --init
 mkdir build
 cd build
 cmake ..
-make
+make -j
 make install
 cd ../../
 
@@ -16,7 +16,7 @@ cd libpng
 mkdir build
 cd build
 cmake ..
-make
+make -j
 make install
 cd ../../
 
@@ -24,6 +24,6 @@ cd zlib
 mkdir build
 cd build
 cmake ..
-make
+make -j
 make install
 cd ../../
