@@ -1,5 +1,7 @@
 #!/bin/sh
 
+yum install -y boost-devel
+
 cd libpng
 mkdir build
 cd build
