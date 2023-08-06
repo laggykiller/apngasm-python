@@ -1,3 +1,3 @@
 #!/bin/sh
 
-sudo apt-get install -y libpng-dev libboost-dev
+apt-get install cmake libpng-dev libboost-program-options-dev libboost-regex-dev libboost-system-dev libboost-filesystem-dev build-essential

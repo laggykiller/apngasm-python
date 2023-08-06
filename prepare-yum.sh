@@ -1,3 +1,4 @@
 #!/bin/sh
 
-yum install -y libpng-devel boost-devel
+yum check-update
+yum install -y zlib-devel libpng-devel boost-devel cmake
