@@ -1,17 +1,14 @@
 #!/bin/sh
 
-curl -O -L https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.gz
-tar -xf boost_1_82_0.tar.gz
-rm boost_1_82_0.tar.gz
-cd boost_1_82_0
-./bootstrap.sh
-./b2 install program_options regex system
-cd ../
+yum update -y
+yum install -y boost-devel
+
+mkdir ./deps
 
 cd libpng
 mkdir build
 cd build
-cmake ..
+cmake -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/../../deps ..
 make -j
 make install
 cd ../../
@@ -19,7 +16,7 @@ cd ../../
 cd zlib
 mkdir build
 cd build
-cmake ..
+cmake -DZLIB_LIBRARY=$(pwd)/../../deps/lib/zlib.so -DZLIB_INCLUDE_DIR=$(pwd)/../../deps/include -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/../../deps ..
 make -j
 make install
 cd ../../
