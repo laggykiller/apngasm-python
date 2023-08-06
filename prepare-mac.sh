@@ -1,4 +1,3 @@
 #!/bin/sh
 
-brew install libpng
-brew install boost
+brew install cmake boost libpng lzlib icu4c
