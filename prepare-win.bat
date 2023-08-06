@@ -1,8 +1,7 @@
 @echo off
 
-:: mkdir usr\lib
-:: mkdir usr\include
-mkdir usr
+mkdir usr\lib
+mkdir usr\include
 
 cd zlib
 mkdir build
@@ -27,11 +26,11 @@ copy libpng\pngconf.h usr\include
 copy libpng\build\pnglibconf.h usr\include
 copy libpng\build\Release\libpng16.lib usr\lib
 
-:: mkdir boost
-:: cd boost
-:: curl -O -L https://sourceforge.net/projects/boost/files/boost-binaries/1.82.0/boost_1_82_0-msvc-14.3-64.exe
-:: start /wait boost_1_82_0-msvc-14.3-64.exe /verysilent /dir=%cd%
-:: del boost_1_82_0-msvc-14.3-64.exe
+mkdir boost
+cd boost
+curl -O -L https://sourceforge.net/projects/boost/files/boost-binaries/1.82.0/boost_1_82_0-msvc-14.3-64.exe
+start /wait boost_1_82_0-msvc-14.3-64.exe /verysilent /dir=%cd%
+del boost_1_82_0-msvc-14.3-64.exe
 :: DEBUG
-:: dir
-:: cd ..
+dir
+cd ..

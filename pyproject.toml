@@ -35,12 +35,12 @@ build_args = ["-j"]
 install_components = ["python_module"]
 
 [tool.py-build-cmake.windows.cmake] # Windows-specific options
-env = { "LIB" = "usr/lib", "INCLUDE" = "usr/include" }
+env = { "LIB" = "usr/lib;boost/lib64-msvc-14.3", "INCLUDE" = "usr/include" }
 [tool.py-build-cmake.windows.sdist]
-include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*", "usr/*"]
+include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*", "usr/*", "boost/*"]
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
-env = { "ZLIB_INCLUDE_DIR" = "usr/include", "ZLIB_LIBRARY" = "usr/lib", "PNG_INCLUDE_DIRS" = "usr/include", "PNG_LIBRARIES" = "usr/lib", "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
+env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
 [tool.py-build-cmake.mac.cmake.options]
 CMAKE_OSX_DEPLOYMENT_TARGET = "10.15"
 
