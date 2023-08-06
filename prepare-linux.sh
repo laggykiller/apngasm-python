@@ -3,12 +3,10 @@
 yum update -y
 yum install -y boost-devel
 
-mkdir ./usr
-
 cd zlib
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/../../usr ..
+cmake ..
 make -j
 make install
 cd ../../
@@ -16,7 +14,7 @@ cd ../../
 cd libpng
 mkdir build
 cd build
-cmake -DZLIB_LIBRARY=$(pwd)/../../usr/lib/libz.so -DZLIB_INCLUDE_DIR=$(pwd)/../../usr/include -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/../../usr ..
+cmake ..
 make -j
 make install
 cd ../../
