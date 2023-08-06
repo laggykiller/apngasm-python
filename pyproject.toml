@@ -1,0 +1,44 @@
+[project] # Project metadata
+name = "apngasm-python"
+description = "A nanobind API for apngasm"
+requires-python = ">=3.7"
+readme = "README.md"
+license = { "file" = "LICENSE" }
+authors = [{ "name" = "chaudominic", "email" = "chaudominic2@gmail.com" }]
+keywords = ["apng", "png", "nanobind"]
+classifiers = ["Topic :: Multimedia :: Graphics"]
+dependencies = []
+dynamic = ["version"]
+
+[project.urls]
+homepage = "https://github.com/laggykiller/apngasm-python"
+Source = "https://github.com/laggykiller/apngasm-python"
+Documentation = "https://github.com/laggykiller/apngasm-python"
+Tracker = "https://github.com/laggykiller/apngasm-python/issues"
+repository = "https://github.com/laggykiller/apngasm-python"
+
+[build-system] # How pip and other frontends should build this project
+requires = ["py-build-cmake~=0.1.9a1"]
+build-backend = "py_build_cmake.build"
+
+[tool.py-build-cmake.module] # Where to find the Python module to package
+name = "apngasm_python"
+directory = "."
+
+[tool.py-build-cmake.sdist] # What to include in source distributions
+include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*"]
+
+[tool.py-build-cmake.cmake] # How to build the CMake project
+build_type = "Release"
+source_path = "."
+build_args = ["-j"]
+install_components = ["python_module"]
+
+[tool.py-build-cmake.windows.cmake] # Windows-specific options
+generator = "Visual Studio 17 2022"
+env = { "LIB" = "deps/lib;C:/local/boost_1_82_0/lib64-msvc-14.3", "INCLUDE" = "deps/include" }
+
+# stubgen depends on mypy, which depends on typed-ast
+# typed-ast cannot run on pypy <3.8
+# https://mypy.readthedocs.io/en/stable/faq.html
+# [tool.py-build-cmake.stubgen] # Whether and how to generate typed stub files
