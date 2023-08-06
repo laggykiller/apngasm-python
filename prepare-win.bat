@@ -26,6 +26,11 @@ copy libpng\pngconf.h deps\include
 copy libpng\build\pnglibconf.h deps\include
 copy libpng\build\Release\libpng16.lib deps\lib
 
+mkdir boost
+cd boost
 curl -O -L https://sourceforge.net/projects/boost/files/boost-binaries/1.82.0/boost_1_82_0-msvc-14.3-64.exe
-start /wait boost_1_82_0-msvc-14.3-64.exe /verysilent
+start /wait boost_1_82_0-msvc-14.3-64.exe /verysilent /dir=%cd%
 del boost_1_82_0-msvc-14.3-64.exe
+:: DEBUG
+dir
+cd ..
