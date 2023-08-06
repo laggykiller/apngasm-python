@@ -38,8 +38,7 @@ install_components = ["python_module"]
 env = { "LIB" = "{cd}/deps/lib;C:/local/boost_1_82_0/lib64-msvc-14.3", "INCLUDE" = "{cd}/deps/include" }
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
-build_args = ["-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15"]
-env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include", "CMAKE_CXX_FLAGS" = "17" }
+env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include", "CMAKE_CXX_FLAGS" = "17" , "CMAKE_OSX_DEPLOYMENT_TARGET" = "10.15"}
 
 # stubgen depends on mypy, which depends on typed-ast
 # typed-ast cannot run on pypy <3.8

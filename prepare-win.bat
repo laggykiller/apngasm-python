@@ -30,5 +30,3 @@ copy libpng\build\Release\libpng16.lib deps\lib
 curl -O -L https://sourceforge.net/projects/boost/files/boost-binaries/1.82.0/boost_1_82_0-msvc-14.3-64.exe
 start /wait boost_1_82_0-msvc-14.3-64.exe /verysilent
 del boost_1_82_0-msvc-14.3-64.exe
-
-cmd /V /C "set LIB=%cd%\deps\lib;C:\local\boost_1_82_0\lib64-msvc-14.3 && set INCLUDE=%cd%\deps\include && cmake .. && cmake --build . --config Release"
