@@ -44,6 +44,9 @@ env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt
 [tool.py-build-cmake.mac.cmake.options]
 CMAKE_OSX_DEPLOYMENT_TARGET = "10.15"
 
+[tool.py-build-cmake.linux.cmake] # Linux-specific options
+env = { "ZLIB_INCLUDE_DIR" = "usr/include", "ZLIB_LIBRARY" = "usr/lib", "PNG_INCLUDE_DIRS" = "usr/include", "PNG_LIBRARIES" = "usr/lib" }
+
 # stubgen depends on mypy, which depends on typed-ast
 # typed-ast cannot run on pypy <3.8
 # https://mypy.readthedocs.io/en/stable/faq.html
