@@ -26,7 +26,7 @@ name = "apngasm_python"
 directory = "."
 
 [tool.py-build-cmake.sdist] # What to include in source distributions
-include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*", "deps/*"]
+include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*", "usr/*"]
 
 [tool.py-build-cmake.cmake] # How to build the CMake project
 build_type = "Release"
@@ -35,17 +35,17 @@ build_args = ["-j"]
 install_components = ["python_module"]
 
 [tool.py-build-cmake.windows.cmake] # Windows-specific options
-env = { "LIB" = "deps/lib;boost/lib64-msvc-14.3", "INCLUDE" = "deps/include" }
+env = { "CMAKE_LIBRARY_PATH" = "usr/lib;boost/lib64-msvc-14.3", "INCLUDE_PATH" = "usr/include" }
 [tool.py-build-cmake.windows.sdist]
-include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*", "deps/*", "boost/*"]
+include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*", "usr/*", "boost/*"]
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
-env = { "DYLD_LIBRARY_PATH" = "deps/lib:${DYLD_LIBRARY_PATH}", "INCLUDE_PATH" = "deps/include:${INCLUDE_PATH}", "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
+env = { "CMAKE_LIBRARY_PATH" = "usr/lib", "INCLUDE_PATH" = "usr/include", "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
 [tool.py-build-cmake.mac.cmake.options]
 CMAKE_OSX_DEPLOYMENT_TARGET = "10.15"
 
 [tool.py-build-cmake.linux.cmake] # Linux-specific options
-env = { "LD_LIBRARY_PATH" = "deps/lib:${LD_LIBRARY_PATH}", "INCLUDE_PATH" = "deps/include:${INCLUDE_PATH}" }
+env = { "CMAKE_LIBRARY_PATH" = "usr/lib", "INCLUDE_PATH" = "usr/include" }
 
 # stubgen depends on mypy, which depends on typed-ast
 # typed-ast cannot run on pypy <3.8
