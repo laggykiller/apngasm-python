@@ -1,9 +1,6 @@
 [submodule "libpng"]
 	path = libpng
 	url = https://github.com/glennrp/libpng.git
-[submodule "apngasm"]
-	path = apngasm
-	url = https://github.com/laggykiller/apngasm
 [submodule "zlib"]
 	path = zlib
 	url = https://github.com/laggykiller/zlib.git

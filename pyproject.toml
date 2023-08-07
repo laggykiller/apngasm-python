@@ -35,7 +35,6 @@ install_components = ["python_module"]
 
 [tool.py-build-cmake.windows.cmake] # Windows-specific options
 env = { "INCLUDE" = "usr/include;C:/boost", "LIB" = "usr/lib;C:/boost/lib64-msvc-14.3" }
-
 [tool.py-build-cmake.windows.cmake.options] # Windows-specific options
 CMAKE_POLICY_DEFAULT_CMP0074 = "NEW"
 CMAKE_POLICY_DEFAULT_CMP0144 = "NEW"
