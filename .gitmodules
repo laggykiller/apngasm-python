@@ -1,6 +1,3 @@
-[submodule "zlib"]
-	path = zlib
-	url = https://github.com/laggykiller/zlib.git
 [submodule "libpng"]
 	path = libpng
 	url = https://github.com/glennrp/libpng.git

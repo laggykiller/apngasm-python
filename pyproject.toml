@@ -37,7 +37,7 @@ install_components = ["python_module"]
 CMAKE_POLICY_DEFAULT_CMP0074 = "NEW"
 ZLIB_ROOT = "usr"
 PNG_ROOT = "usr"
-BOOST_ROOT = "C:/boost"
+Boost_ROOT = "C:/boost"
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
 env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
