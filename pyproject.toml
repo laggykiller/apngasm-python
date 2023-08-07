@@ -35,9 +35,10 @@ install_components = ["python_module"]
 
 [tool.py-build-cmake.windows.cmake.options] # Windows-specific options
 CMAKE_POLICY_DEFAULT_CMP0074 = "NEW"
+CMAKE_POLICY_DEFAULT_CMP0144 = "NEW"
 ZLIB_ROOT = "usr"
 PNG_ROOT = "usr"
-Boost_ROOT = "C:/boost"
+BOOST_ROOT = "C:/boost"
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
 env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
