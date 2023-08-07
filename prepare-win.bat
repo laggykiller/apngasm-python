@@ -9,6 +9,7 @@ cd build
 cmake "-DCMAKE_INSTALL_PREFIX:PATH=C:/usr" ..
 cmake --build . --config Release --target INSTALL -j
 cd ..\..\
+rd /s /q zlib\build
 
 cd libpng
 mkdir build
@@ -16,6 +17,7 @@ cd build
 cmake "-DCMAKE_POLICY_DEFAULT_CMP0074=NEW" "-DCMAKE_INSTALL_PREFIX:PATH=C:/usr" "-DZLIB_ROOT=C:/usr" ..
 cmake --build . --config Release --target INSTALL -j
 cd ..\..\
+rd /s /q libpng\build
 
 C:
 cd C:\

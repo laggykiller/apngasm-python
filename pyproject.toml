@@ -39,6 +39,7 @@ CMAKE_POLICY_DEFAULT_CMP0144 = "NEW"
 ZLIB_ROOT = "C:\\usr"
 PNG_ROOT = "C:\\usr"
 BOOST_ROOT = "C:\\boost"
+Boost_COMPILER = "vc143"
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
 env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
