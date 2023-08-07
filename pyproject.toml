@@ -38,9 +38,7 @@ CMAKE_POLICY_DEFAULT_CMP0074 = "NEW"
 CMAKE_POLICY_DEFAULT_CMP0144 = "NEW"
 ZLIB_ROOT = "usr"
 PNG_ROOT = "usr"
-BOOST_ROOT = "C:/boost"
-BOOST_INCLUDE_DIR = "C:/boost"
-BOOST_LIBRARY_DIR = "C:/boost/lib64-msvc-14.3"
+BOOST_ROOT = "C:\\boost"
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
 env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
@@ -49,7 +47,7 @@ ZLIB_ROOT = "usr"
 PNG_ROOT = "usr"
 
 [tool.py-build-cmake.linux.cmake.options] # Linux-specific options
-# ZLIB_ROOT = "usr"
+ZLIB_ROOT = "usr"
 PNG_ROOT = "usr"
 
 # stubgen depends on mypy, which depends on typed-ast
