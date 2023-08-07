@@ -6,14 +6,12 @@ cd ./zlib
 mkdir build
 cd ./build
 cmake -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/../../usr ..
-make -j
-make install
+make install -j
 cd ../../
 
 cd ./libpng
 mkdir build
 cd ./build
 cmake -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/../../usr ..
-make -j
-make install
+make install -j
 cd ../../
