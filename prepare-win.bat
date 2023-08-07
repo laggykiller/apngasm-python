@@ -13,7 +13,7 @@ cd ..\..\
 cd libpng
 mkdir build
 cd build
-cmake "-DCMAKE_POLICY_DEFAULT_CMP0074=NEW" "-DCMAKE_INSTALL_PREFIX:PATH=%cd%/../../usr" "-DZLIB_ROOT=../../usr" ..
+cmake "-DCMAKE_POLICY_DEFAULT_CMP0074=NEW" "-DCMAKE_INSTALL_PREFIX:PATH=%cd%/../../usr" "-DZLIB_ROOT=%cd%/../../usr" ..
 cmake --build . --config Release --target INSTALL -j
 cd ..\..\
 
