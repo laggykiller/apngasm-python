@@ -6,7 +6,7 @@ mkdir usr\include
 cd zlib
 mkdir build
 cd build
-cmake "-DCMAKE_INSTALL_PREFIX:PATH=%cd%../../usr" ..
+cmake "-DCMAKE_INSTALL_PREFIX:PATH=%cd%/../../usr" ..
 cmake --build . --config Release --target INSTALL -j
 cd ..\..\
 
