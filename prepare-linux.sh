@@ -12,12 +12,12 @@ cd ../
 
 # zlib and libpng usually already exist in Linux system,
 # need to isolate own and system build!
-cd ./zlib
-mkdir build
-cd ./build
-cmake -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/../../usr ..
-make install -j
-cd ../../
+# cd ./zlib
+# mkdir build
+# cd ./build
+# cmake -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/../../usr ..
+# make install -j
+# cd ../../
 
 cd ./libpng
 mkdir build

@@ -47,7 +47,7 @@ ZLIB_ROOT = "usr"
 PNG_ROOT = "usr"
 
 [tool.py-build-cmake.linux.cmake.options] # Linux-specific options
-ZLIB_ROOT = "usr"
+# ZLIB_ROOT = "usr"
 PNG_ROOT = "usr"
 
 # stubgen depends on mypy, which depends on typed-ast
