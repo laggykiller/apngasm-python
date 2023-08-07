@@ -23,6 +23,5 @@ cd ./libpng
 mkdir build
 cd ./build
 cmake -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/../../usr -DZLIB_ROOT=$(pwd)/../../usr ..
-cmake -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/../../usr ..
 make install -j
 cd ../../
