@@ -33,12 +33,17 @@ build_type = "Release"
 source_path = "."
 install_components = ["python_module"]
 
+[tool.py-build-cmake.windows.cmake] # Windows-specific options
+
 [tool.py-build-cmake.windows.cmake.options] # Windows-specific options
+env = { "INCLUDE" = "usr/include;C:/boost", "LIB" = "usr/lib;C:/boost/lib64-msvc-14.3" }
 CMAKE_POLICY_DEFAULT_CMP0074 = "NEW"
 CMAKE_POLICY_DEFAULT_CMP0144 = "NEW"
 ZLIB_ROOT = "usr"
 PNG_ROOT = "usr"
 BOOST_ROOT = "C:/boost"
+CMAKE_INCLUDE_PATH = "usr/include;C:/boost"
+CMAKE_LIBRARY_PATH = "usr/lib;C:/boost/lib64-msvc-14.3"
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
 env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
