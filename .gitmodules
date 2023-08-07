@@ -7,3 +7,4 @@
 [submodule "apngasm"]
 	path = apngasm
 	url = https://github.com/laggykiller/apngasm.git
+	branch = fix-windows-build
