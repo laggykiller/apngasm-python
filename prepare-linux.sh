@@ -7,14 +7,14 @@ mkdir ./usr
 cd ./zlib
 mkdir build
 cd ./build
-cmake -DCMAKE_POLICY_DEFAULT_CMP0074=NEW -DCMAKE_INSTALL_PREFIX:PATH=../../usr ..
+cmake -DCMAKE_POLICY_DEFAULT_CMP0074=NEW -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/../../usr ..
 make install -j
 cd ../../
 
 cd ./libpng
 mkdir build
 cd ./build
-cmake -DCMAKE_POLICY_DEFAULT_CMP0074=NEW -DCMAKE_INSTALL_PREFIX:PATH=../../usr -DZLIB_ROOT=../../usr ..
+cmake -DCMAKE_POLICY_DEFAULT_CMP0074=NEW -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/../../usr -DZLIB_ROOT=../../usr ..
 make install -j
 cd ../../
 
