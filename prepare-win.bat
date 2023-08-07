@@ -18,7 +18,7 @@ copy zlib\build\Release\zlib.lib usr\lib
 cd libpng
 mkdir build
 cd build
-cmake "-DZLIB_LIBRARY=%cd%\..\..\zlib\build\Release\zlib.lib" "-DZLIB_INCLUDE_DIR=%cd%\..\..\zlib" ..
+cmake "-DZLIB_LIBRARY=..\..\zlib\build\Release\zlib.lib" "-DZLIB_INCLUDE_DIR=..\..\zlib" ..
 cmake --build . --config Release -j
 cd ..\..\
 copy libpng\png.h usr\include
