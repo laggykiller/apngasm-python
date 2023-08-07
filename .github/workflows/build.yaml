@@ -73,6 +73,9 @@ jobs:
         env:
           CIBW_BUILD_FRONTEND: build
           CIBW_ARCHS_MACOS: x86_64
+          CIBW_ENVIRONMENT_MACOS: >
+            _PYTHON_HOST_PLATFORM=macosx-11-x86_64
+          MACOSX_DEPLOYMENT_TARGET: 11
           CIBW_BEFORE_ALL: ./prepare-mac.sh
 
       - uses: actions/upload-artifact@v3
@@ -96,6 +99,9 @@ jobs:
   #       env:
   #         CIBW_BUILD_FRONTEND: build
   #         CIBW_ARCHS_MACOS: universal2 arm64
+  #        CIBW_ENVIRONMENT_MACOS: >
+  #          _PYTHON_HOST_PLATFORM=macosx-11-x86_64
+  #        MACOSX_DEPLOYMENT_TARGET: 11
   #         CIBW_BEFORE_ALL: ./prepare-mac.sh
 
   #     - uses: actions/upload-artifact@v3
