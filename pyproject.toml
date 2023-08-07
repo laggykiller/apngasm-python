@@ -23,7 +23,7 @@ build-backend = "py_build_cmake.build"
 
 [tool.py-build-cmake.module] # Where to find the Python module to package
 name = "apngasm_python"
-directory = "."
+directory = "src-python"
 
 [tool.py-build-cmake.sdist] # What to include in source distributions
 include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*", "usr/*"]
