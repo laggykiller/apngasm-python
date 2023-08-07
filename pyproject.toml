@@ -26,7 +26,7 @@ name = "apngasm_python"
 directory = "src-python"
 
 [tool.py-build-cmake.sdist] # What to include in source distributions
-include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*", "usr/*"]
+include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*"]
 
 [tool.py-build-cmake.cmake] # How to build the CMake project
 build_type = "Release"
@@ -36,20 +36,20 @@ install_components = ["python_module"]
 [tool.py-build-cmake.windows.cmake.options] # Windows-specific options
 CMAKE_POLICY_DEFAULT_CMP0074 = "NEW"
 CMAKE_POLICY_DEFAULT_CMP0144 = "NEW"
-ZLIB_ROOT = "usr"
-PNG_ROOT = "usr"
+ZLIB_ROOT = "C:\\usr"
+PNG_ROOT = "C:\\usr"
 BOOST_ROOT = "C:\\boost"
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
 env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
 [tool.py-build-cmake.mac.cmake.options]
-ZLIB_ROOT = "usr"
-PNG_ROOT = "usr"
+ZLIB_ROOT = "/usr/local"
+PNG_ROOT = "/usr/local"
 
 [tool.py-build-cmake.linux.cmake.options] # Linux-specific options
 CMAKE_POLICY_DEFAULT_CMP0074 = "NEW"
-ZLIB_ROOT = "usr"
-PNG_ROOT = "usr"
+ZLIB_ROOT = "/usr/local"
+PNG_ROOT = "/usr/local"
 
 # stubgen depends on mypy, which depends on typed-ast
 # typed-ast cannot run on pypy <3.8

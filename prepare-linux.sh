@@ -1,20 +1,18 @@
 #!/bin/sh
 
-mkdir ./usr
-
 # zlib and libpng usually already exist in Linux system,
 # need to isolate own and system build!
 cd ./zlib
 mkdir build
 cd ./build
-cmake -DCMAKE_POLICY_DEFAULT_CMP0074=NEW -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/../../usr ..
+cmake -DCMAKE_POLICY_DEFAULT_CMP0074=NEW -DCMAKE_INSTALL_PREFIX:PATH=/usr/local ..
 make install -j
 cd ../../
 
 cd ./libpng
 mkdir build
 cd ./build
-cmake -DCMAKE_POLICY_DEFAULT_CMP0074=NEW -DCMAKE_INSTALL_PREFIX:PATH=$(pwd)/../../usr -DZLIB_ROOT=$(pwd)/../../usr ..
+cmake -DCMAKE_POLICY_DEFAULT_CMP0074=NEW -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -DZLIB_ROOT=/usr/local ..
 make install -j
 cd ../../
 
