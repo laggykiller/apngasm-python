@@ -6,28 +6,19 @@ mkdir usr\include
 cd zlib
 mkdir build
 cd build
-cmake ..
+cmake "-DCMAKE_INSTALL_PREFIX:PATH=../../usr" ..
 cmake --build . --config Release -j
 cd ..\..\
-:: For some reason zconf.h disappear after compiling
-copy zlib\build\zconf.h zlib
-copy zlib\build\zconf.h usr\include
-copy zlib\zlib.h usr\include
-copy zlib\build\Release\zlib.lib usr\lib
 
 cd libpng
 mkdir build
 cd build
-cmake "-DZLIB_LIBRARY=..\..\zlib\build\Release\zlib.lib" "-DZLIB_INCLUDE_DIR=..\..\zlib" ..
+cmake "-DCMAKE_POLICY_DEFAULT_CMP0074=NEW" "-DCMAKE_INSTALL_PREFIX:PATH=../../usr" "-DZLIB_ROOT=../../usr" ..
 cmake --build . --config Release -j
 cd ..\..\
-copy libpng\png.h usr\include
-copy libpng\pngconf.h usr\include
-copy libpng\build\pnglibconf.h usr\include
-copy libpng\build\Release\libpng16.lib usr\lib
 
-curl -O -L https://sourceforge.net/projects/boost/files/boost-binaries/1.82.0/boost_1_82_0-msvc-14.3-64.exe
-start /wait boost_1_82_0-msvc-14.3-64.exe /verysilent /dir="C:\boost"
-del boost_1_82_0-msvc-14.3-64.exe
-:: DEBUG
-dir C:\boost
+C:
+cd C:\
+curl -O -L https://github.com/MarkusJx/prebuilt-boost/releases/download/1.81.0/boost-1.81.0-windows-2022-msvc-static-x86.tar.gz
+tar -xf boost-1.81.0-windows-2022-msvc-static-x86.tar.gz
+del boost-1.81.0-windows-2022-msvc-static-x86.tar.gz

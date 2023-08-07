@@ -27,7 +27,6 @@ jobs:
           CIBW_BUILD_FRONTEND: build
           CIBW_ARCHS_WINDOWS: AMD64 x86
           CIBW_BEFORE_ALL: prepare-win.bat
-          CIBW_ENVIRONMENT_WINDOWS: BOOST_ROOT="C:\\boost"
 
       - uses: actions/upload-artifact@v3
         with:
@@ -51,7 +50,6 @@ jobs:
   #         CIBW_BUILD_FRONTEND: build
   #         CIBW_ARCHS_WINDOWS: ARM64
   #         CIBW_BEFORE_ALL: prepare-win.bat
-  #         CIBW_ENVIRONMENT_WINDOWS: BOOST_ROOT=C:\boost
 
   #     - uses: actions/upload-artifact@v3
   #       with:
