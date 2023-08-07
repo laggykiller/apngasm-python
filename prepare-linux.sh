@@ -1,5 +1,8 @@
 #!/bin/sh
 
+yum update -y
+yum install zlib-devel
+
 mkdir ./usr
 
 curl -O -L https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.gz
