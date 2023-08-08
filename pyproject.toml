@@ -33,12 +33,9 @@ build_type = "Release"
 source_path = "."
 install_components = ["python_module"]
 [tool.py-build-cmake.cmake.options]
-CMAKE_POLICY_DEFAULT_CMP0074 = "NEW"
-CMAKE_POLICY_DEFAULT_CMP0144 = "NEW"
-ZLIB_USE_STATIC_LIBS = "ON"
+BUILD_SHARED_LIBS = "OFF"
 
 [tool.py-build-cmake.windows.cmake.options] # Windows-specific options
-CMAKE_CXX_FLAGS_RELEASE = "/MT"
 ZLIB_ROOT = "C:\\opt\\zlib"
 PNG_ROOT = "C:\\opt\\libpng"
 BOOST_ROOT = "C:\\opt\\boost"
@@ -47,6 +44,7 @@ Boost_COMPILER = "vc142"
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
 env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
 [tool.py-build-cmake.mac.cmake.options]
+CMAKE_POLICY_DEFAULT_CMP0042 = "NEW"
 ZLIB_ROOT = "/tmp/zlib"
 PNG_ROOT = "/tmp/libpng"
 # BOOST_ROOT = "/tmp/boost"

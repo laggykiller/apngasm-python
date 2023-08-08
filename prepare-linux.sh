@@ -29,4 +29,5 @@ cd /tmp
 mv ./boost_1_82_0 ./boost
 cd ./boost
 ./bootstrap.sh
-./b2 install --build-dir=tmp --prefix=. --build-type=complete --with-program_options --with-regex --with-system -j16 --layout=tagged
+# ./b2 install --build-dir=tmp --prefix=. --build-type=complete --with-program_options --with-regex --with-system -j16 --layout=tagged
+./b2 install --with-program_options --with-regex --with-system
