@@ -2,18 +2,19 @@
 
 brew install cmake boost icu4c
 
+mkdir /opt/zlib
+mkdir /opt/libpng
+
 cd ./zlib
 mkdir build
 cd ./build
-cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local ..
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/zlib ..
 make install -j
 cd ../../
-rm -rf ./zlib/build # https://github.com/pypa/cibuildwheel/issues/139#issuecomment-495984087
 
 cd ./libpng
 mkdir build
 cd ./build
-cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -DZLIB_ROOT=/usr/local ..
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/libpng -DZLIB_ROOT=/opt/zlib ..
 make install -j
 cd ../../
-rm -rf ./libpng/build # https://github.com/pypa/cibuildwheel/issues/139#issuecomment-495984087

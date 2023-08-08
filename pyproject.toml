@@ -36,21 +36,23 @@ install_components = ["python_module"]
 [tool.py-build-cmake.windows.cmake.options] # Windows-specific options
 CMAKE_POLICY_DEFAULT_CMP0074 = "NEW"
 CMAKE_POLICY_DEFAULT_CMP0144 = "NEW"
-ZLIB_ROOT = "C:\\usr"
-PNG_ROOT = "C:\\usr"
-BOOST_ROOT = "C:\\boost"
+ZLIB_ROOT = "C:\\opt\\zlib"
+PNG_ROOT = "C:\\opt\\libpng"
+BOOST_ROOT = "C:\\opt\\boost"
 Boost_COMPILER = "vc143"
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
 env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
 [tool.py-build-cmake.mac.cmake.options]
-ZLIB_ROOT = "/usr/local"
-PNG_ROOT = "/usr/local"
+ZLIB_ROOT = "/opt/zlib"
+PNG_ROOT = "/opt/libpng"
 
 [tool.py-build-cmake.linux.cmake.options] # Linux-specific options
 CMAKE_POLICY_DEFAULT_CMP0074 = "NEW"
-ZLIB_ROOT = "/usr/local"
-PNG_ROOT = "/usr/local"
+CMAKE_POLICY_DEFAULT_CMP0144 = "NEW"
+# ZLIB_ROOT = "/opt/zlib"
+PNG_ROOT = "/opt/libpng"
+BOOST_ROOT = "/opt/boost"
 
 # stubgen depends on mypy, which depends on typed-ast
 # typed-ast cannot run on pypy <3.8
