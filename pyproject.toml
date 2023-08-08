@@ -34,6 +34,8 @@ source_path = "."
 install_components = ["python_module"]
 [tool.py-build-cmake.cmake.options]
 BUILD_SHARED_LIBS = "OFF"
+CMAKE_POLICY_DEFAULT_CMP0074 = "NEW"
+CMAKE_POLICY_DEFAULT_CMP0144 = "NEW"
 
 [tool.py-build-cmake.windows.cmake.options] # Windows-specific options
 ZLIB_ROOT = "C:\\opt\\zlib"

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-brew install cmake boost icu4c
+brew install cmake icu4c
 
 APNGASM_BUILD_PATH=$PWD
 rm -rf /tmp/zlib
@@ -21,3 +21,13 @@ mkdir build
 cd ./build
 cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX:PATH=/tmp/libpng -DZLIB_ROOT=/tmp/zlib -DZLIB_USE_STATIC_LIBS=ON -DPNG_SHARED=OFF ..
 make install -j
+
+cd $APNGASM_BUILD_PATH
+curl -O -L https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.gz
+tar -xf ./boost_1_82_0.tar.gz -C /tmp
+cd /tmp
+mv ./boost_1_82_0 ./boost
+cd ./boost
+./bootstrap.sh
+# ./b2 install --build-dir=tmp --prefix=. --build-type=complete --with-program_options --with-regex --with-system -j2 --layout=tagged
+./b2 install --build-type=complete --with-program_options --with-regex --with-system -j2 --layout=tagged
