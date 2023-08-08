@@ -48,7 +48,7 @@ env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt
 [tool.py-build-cmake.mac.cmake.options]
 ZLIB_ROOT = "/tmp/zlib"
 PNG_ROOT = "/tmp/libpng"
-# BOOST_ROOT = "/tmp/boost"
+BOOST_ROOT = "/tmp/boost"
 
 [tool.py-build-cmake.linux.cmake.options] # Linux-specific options
 CMAKE_CXX_FLAGS="-fPIC"
