@@ -44,7 +44,6 @@ Boost_COMPILER = "vc142"
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
 env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
 [tool.py-build-cmake.mac.cmake.options]
-CMAKE_POLICY_DEFAULT_CMP0042 = "NEW"
 ZLIB_ROOT = "/tmp/zlib"
 PNG_ROOT = "/tmp/libpng"
 # BOOST_ROOT = "/tmp/boost"

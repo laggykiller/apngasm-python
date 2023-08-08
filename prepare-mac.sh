@@ -15,6 +15,7 @@ cd ./build
 cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX:PATH=/tmp/zlib ..
 make install -j
 
+cd $APNGASM_BUILD_PATH
 cd ./libpng
 mkdir build
 cd ./build
