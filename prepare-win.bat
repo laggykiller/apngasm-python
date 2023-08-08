@@ -25,5 +25,6 @@ del boost_1_82_0.zip
 move boost_1_82_0 boost
 cd boost
 call bootstrap.bat
+cd C:\opt\boost
 start /wait b2.exe install --build-dir='tmp' --prefix='.' --build-type=complete --with-program_options --with-regex --with-system -j4 msvc stage
 xcopy /E /I include\boost-1_82\boost\ include\boost
