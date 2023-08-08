@@ -51,7 +51,6 @@ PNG_ROOT = "/tmp/libpng"
 BOOST_ROOT = "/tmp/boost"
 
 [tool.py-build-cmake.linux.cmake.options] # Linux-specific options
-CMAKE_CXX_FLAGS="-fPIC"
 ZLIB_ROOT = "/tmp/zlib"
 PNG_ROOT = "/tmp/libpng"
 BOOST_ROOT = "/tmp/boost"
