@@ -19,6 +19,10 @@ cd ..\..\
 
 C:
 cd C:\opt
-curl -O -L https://github.com/MarkusJx/prebuilt-boost/releases/download/1.81.0/boost-1.81.0-windows-2022-msvc-static-x86.tar.gz
-tar -xf boost-1.81.0-windows-2022-msvc-static-x86.tar.gz
-del boost-1.81.0-windows-2022-msvc-static-x86.tar.gz
+curl -O -L https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.zip
+tar -xf boost_1_82_0.zip
+del boost_1_82_0.zip
+move boost_1_82_0 boost
+bootstrap.bat
+b2.exe install --build-dir='tmp' --prefix='.' variant='release,debug' address-model='32,64' link='static' --with-program_options --with-regex --with-system -j4 msvc stage
+xcopy /E /I include\boost-1_82\boost\ include\boost
