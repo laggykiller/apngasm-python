@@ -26,16 +26,19 @@ name = "apngasm_python"
 directory = "src-python"
 
 [tool.py-build-cmake.sdist] # What to include in source distributions
-include = ["CMakeLists.txt", "zlib/*", "libpng/*", "apngasm/*"]
+include = ["CMakeLists.txt", "apngasm/*", "deps/*"]
 
 [tool.py-build-cmake.cmake] # How to build the CMake project
 build_type = "Release"
 source_path = "."
 install_components = ["python_module"]
-
-[tool.py-build-cmake.windows.cmake.options] # Windows-specific options
+[tool.py-build-cmake.cmake.options]
 CMAKE_POLICY_DEFAULT_CMP0074 = "NEW"
 CMAKE_POLICY_DEFAULT_CMP0144 = "NEW"
+ZLIB_USE_STATIC_LIBS = "ON"
+
+[tool.py-build-cmake.windows.cmake.options] # Windows-specific options
+CMAKE_CXX_FLAGS_RELEASE = "/MT"
 ZLIB_ROOT = "C:\\opt\\zlib"
 PNG_ROOT = "C:\\opt\\libpng"
 BOOST_ROOT = "C:\\opt\\boost"
@@ -44,15 +47,15 @@ Boost_COMPILER = "vc142"
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
 env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" }
 [tool.py-build-cmake.mac.cmake.options]
-ZLIB_ROOT = "/opt/zlib"
-PNG_ROOT = "/opt/libpng"
+ZLIB_ROOT = "/tmp/zlib"
+PNG_ROOT = "/tmp/libpng"
+# BOOST_ROOT = "/tmp/boost"
 
 [tool.py-build-cmake.linux.cmake.options] # Linux-specific options
-CMAKE_POLICY_DEFAULT_CMP0074 = "NEW"
-CMAKE_POLICY_DEFAULT_CMP0144 = "NEW"
-# ZLIB_ROOT = "/opt/zlib"
-PNG_ROOT = "/opt/libpng"
-BOOST_ROOT = "/opt/boost"
+CMAKE_CXX_FLAGS="-fPIC"
+ZLIB_ROOT = "/tmp/zlib"
+PNG_ROOT = "/tmp/libpng"
+BOOST_ROOT = "/tmp/boost"
 
 # stubgen depends on mypy, which depends on typed-ast
 # typed-ast cannot run on pypy <3.8
