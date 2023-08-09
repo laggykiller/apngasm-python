@@ -1,9 +1,12 @@
+[submodule "zlib"]
+	path = zlib
+	url = https://github.com/madler/zlib.git
 [submodule "libpng"]
 	path = libpng
 	url = https://github.com/glennrp/libpng.git
-[submodule "zlib"]
-	path = zlib
-	url = https://github.com/laggykiller/zlib.git
+[submodule "boost"]
+	path = boost
+	url = https://github.com/boostorg/boost.git
 [submodule "apngasm"]
 	path = apngasm
 	url = https://github.com/laggykiller/apngasm.git

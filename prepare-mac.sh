@@ -1,33 +1,42 @@
 #!/bin/sh
 
-brew install cmake icu4c
-
 APNGASM_BUILD_PATH=$PWD
-rm -rf /tmp/zlib
-rm -rf /tmp/libpng
 
-mkdir -p /tmp/zlib
-mkdir -p /tmp/libpng
+which -s brew
+if [[ $? != 0 ]] ; then
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
 
-cd ./zlib
-mkdir build
-cd ./build
-cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX:PATH=/tmp/zlib ..
-make install -j
+which -s cmake
+if [[ $? != 0 ]] ; then
+    brew install cmake
+fi
+
+if [ ! -d /usr/local/opt/icu4c/include ]; then
+    brew install icu4c
+fi
+
+if [ ! -d ./zlib/build ]; then
+    cd ./zlib
+    mkdir build
+    cd ./build
+    cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX:PATH=${APNGASM_BUILD_PATH}/zlib ..
+    make install -j
+fi
 
 cd $APNGASM_BUILD_PATH
-cd ./libpng
-mkdir build
-cd ./build
-cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX:PATH=/tmp/libpng -DZLIB_ROOT=/tmp/zlib -DZLIB_USE_STATIC_LIBS=ON -DPNG_SHARED=OFF ..
-make install -j
+if [ ! -d ./libpng/build ]; then
+    cd ./libpng
+    mkdir build
+    cd ./build
+    cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX:PATH=${APNGASM_BUILD_PATH}/libpng -DZLIB_ROOT=${APNGASM_BUILD_PATH}/zlib -DZLIB_USE_STATIC_LIBS=ON -DPNG_SHARED=OFF ..
+    make install -j
+fi
 
 cd $APNGASM_BUILD_PATH
-curl -O -L https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.gz
-tar -xf ./boost_1_82_0.tar.gz -C /tmp
-cd /tmp
-mv ./boost_1_82_0 ./boost
-cd ./boost
-./bootstrap.sh
-# ./b2 install --build-dir=tmp --prefix=. --build-type=complete --with-program_options --with-regex --with-system -j2 --layout=tagged
-./b2 install --build-type=complete --with-program_options --with-regex --with-system -j2 --layout=tagged
+if [ ! -d ./boost/include ]; then
+    cd ./boost
+    ./bootstrap.sh
+    ./b2 install --build-dir=tmp --prefix=. --build-type=complete --with-program_options --with-regex --with-system -j2 --layout=tagged
+    # ./b2 install --build-type=complete --with-program_options --with-regex --with-system -j2 --layout=tagged
+fi
