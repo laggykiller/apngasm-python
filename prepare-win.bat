@@ -4,27 +4,27 @@ set APNGASM_BUILD_PATH=%cd%
 
 :: Cross compiling supported only through vcpkg
 if defined VCPKG_INSTALLATION_ROOT (
-    if defined APNGASM_CROSSCOMPILE_TARGET (
-        set VCPKG_DOWNLOAD_PLATFORM=%APNGASM_CROSSCOMPILE_TARGET%
-    ) else if %PROCESSOR_ARCHITECTURE%=="AMD64" (
-        set VCPKG_DOWNLOAD_PLATFORM=x64
-    ) else if %PROCESSOR_ARCHITECTURE%=="X86" (
-        set VCPKG_DOWNLOAD_PLATFORM=x86
-    ) else if %PROCESSOR_ARCHITECTURE%=="ARM64" (
-        set VCPKG_DOWNLOAD_PLATFORM=arm64
-    ) else if %PROCESSOR_ARCHITECTURE%=="ARM" (
-        set VCPKG_DOWNLOAD_PLATFORM=arm
-    ) else if %PROCESSOR_ARCHITECTURE%=="" (
-        set VCPKG_DOWNLOAD_PLATFORM=x64
-    else (
-        set VCPKG_DOWNLOAD_PLATFORM=%PROCESSOR_ARCHITECTURE%
+    if not defined APNGASM_COMPILE_TARGET (
+        if %PROCESSOR_ARCHITECTURE%=="AMD64" (
+            set APNGASM_COMPILE_TARGET=x64
+        ) else if %PROCESSOR_ARCHITECTURE%=="X86" (
+            set APNGASM_COMPILE_TARGET=x86
+        ) else if %PROCESSOR_ARCHITECTURE%=="ARM64" (
+            set APNGASM_COMPILE_TARGET=arm64
+        ) else if %PROCESSOR_ARCHITECTURE%=="ARM" (
+            set APNGASM_COMPILE_TARGET=arm
+        ) else if %PROCESSOR_ARCHITECTURE%=="" (
+            set APNGASM_COMPILE_TARGET=x64
+        ) else (
+            set APNGASM_COMPILE_TARGET=%PROCESSOR_ARCHITECTURE%
+        )
     )
     
-    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install zlib:%VCPKG_DOWNLOAD_PLATFORM%-windows-static
-    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install libpng:%VCPKG_DOWNLOAD_PLATFORM%-windows-static
-    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-program-options:%VCPKG_DOWNLOAD_PLATFORM%-windows-static
-    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-regex:%VCPKG_DOWNLOAD_PLATFORM%-windows-static
-    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-system:%VCPKG_DOWNLOAD_PLATFORM%-windows-static
+    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install zlib:%APNGASM_COMPILE_TARGET%-windows-static
+    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install libpng:%APNGASM_COMPILE_TARGET%-windows-static
+    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-program-options:%APNGASM_COMPILE_TARGET%-windows-static
+    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-regex:%APNGASM_COMPILE_TARGET%-windows-static
+    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-system:%APNGASM_COMPILE_TARGET%-windows-static
 
     exit 0
 )

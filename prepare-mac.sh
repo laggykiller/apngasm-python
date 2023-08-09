@@ -4,28 +4,26 @@ APNGASM_BUILD_PATH=$PWD
 
 # Cross compiling supported only through vcpkg
 if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
-    if [[ ! -z $APNGASM_CROSSCOMPILE_TARGET ]]; then
-        VCPKG_DOWNLOAD_PLATFORM=$APNGASM_CROSSCOMPILE_TARGET
-    else
+    if [[ -z $APNGASM_CROSSCOMPILE_TARGET ]]; then
         arch=$(arch)
         if [[ $arch == x86_64* ]]; then
-            VCPKG_DOWNLOAD_PLATFORM=x64
+            APNGASM_COMPILE_TARGET=x64
         elif [[ $arch == i*86 ]]; then
-            VCPKG_DOWNLOAD_PLATFORM=x86
+            APNGASM_COMPILE_TARGET=x86
         elif [[ $arch == arm64 ]]; then
-            VCPKG_DOWNLOAD_PLATFORM=arm64
+            APNGASM_COMPILE_TARGET=arm64
         elif [[ $arch == '' ]]; then
-            VCPKG_DOWNLOAD_PLATFORM=x64
+            APNGASM_COMPILE_TARGET=x64
         else
-            VCPKG_DOWNLOAD_PLATFORM=$arch
+            APNGASM_COMPILE_TARGET=$arch
         fi
     fi
     
-    $VCPKG_INSTALLATION_ROOT/vcpkg install zlib:${VCPKG_DOWNLOAD_PLATFORM}-osx-release
-    $VCPKG_INSTALLATION_ROOT/vcpkg install libpng:${VCPKG_DOWNLOAD_PLATFORM}-osx-release
-    $VCPKG_INSTALLATION_ROOT/vcpkg install boost-program-options:${VCPKG_DOWNLOAD_PLATFORM}-osx-release
-    $VCPKG_INSTALLATION_ROOT/vcpkg install boost-regex:${VCPKG_DOWNLOAD_PLATFORM}-osx-release
-    $VCPKG_INSTALLATION_ROOT/vcpkg install boost-system:${VCPKG_DOWNLOAD_PLATFORM}-osx-release
+    $VCPKG_INSTALLATION_ROOT/vcpkg install zlib:${APNGASM_COMPILE_TARGET}-osx-release
+    $VCPKG_INSTALLATION_ROOT/vcpkg install libpng:${APNGASM_COMPILE_TARGET}-osx-release
+    $VCPKG_INSTALLATION_ROOT/vcpkg install boost-program-options:${APNGASM_COMPILE_TARGET}-osx-release
+    $VCPKG_INSTALLATION_ROOT/vcpkg install boost-regex:${APNGASM_COMPILE_TARGET}-osx-release
+    $VCPKG_INSTALLATION_ROOT/vcpkg install boost-system:${APNGASM_COMPILE_TARGET}-osx-release
 
     exit
 fi
