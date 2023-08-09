@@ -9,7 +9,7 @@ on:
   #     - published
 
 jobs:
-  build_wheels_win_x86:
+  build_wheels_win_x64:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -31,6 +31,32 @@ jobs:
           CIBW_ARCHS_WINDOWS: AMD64
           CIBW_BEFORE_ALL: prepare-win.bat
 
+      - uses: actions/upload-artifact@v3
+        with:
+          path: ./wheelhouse/*.whl
+
+  build_wheels_win_x86:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-2019]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      
+      - name: Setup VS Dev Environment
+        uses: seanmiddleditch/gha-setup-vsdevenv@v3
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.14.1
+        env:
+          CIBW_BUILD_FRONTEND: build
+          CIBW_ARCHS_WINDOWS: x86
+          CIBW_BEFORE_ALL: prepare-win.bat
+          APNGASM_CROSSCOMPILE_TARGET: x86
       - uses: actions/upload-artifact@v3
         with:
           path: ./wheelhouse/*.whl
@@ -56,7 +82,7 @@ jobs:
           CIBW_BUILD_FRONTEND: build
           CIBW_ARCHS_WINDOWS: ARM64
           CIBW_BEFORE_ALL: prepare-win.bat
-          APNGASM_CROSSCOMPILE_TARGET: ARM64
+          APNGASM_CROSSCOMPILE_TARGET: arm64
 
       - uses: actions/upload-artifact@v3
         with:
@@ -106,9 +132,10 @@ jobs:
           CIBW_BUILD_FRONTEND: build
           CIBW_ARCHS_MACOS: arm64
           CIBW_ENVIRONMENT_MACOS: >
-            _PYTHON_HOST_PLATFORM=macosx-11-x86_64
+            _PYTHON_HOST_PLATFORM=macosx-11-arm64
           MACOSX_DEPLOYMENT_TARGET: 11
           CIBW_BEFORE_ALL: ./prepare-mac.sh
+          APNGASM_CROSSCOMPILE_TARGET: arm64
 
       - uses: actions/upload-artifact@v3
         with:

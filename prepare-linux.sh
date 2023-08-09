@@ -2,6 +2,23 @@
 
 APNGASM_BUILD_PATH=$PWD
 
+# Cross compiling supported only through vcpkg
+if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
+    if [[ ! -z $APNGASM_CROSSCOMPILE_TARGET ]]; then
+        VCPKG_DOWNLOAD_PLATFORM=$APNGASM_CROSSCOMPILE_TARGET
+    else
+        VCPKG_DOWNLOAD_PLATFORM=x64
+    fi
+    
+    $VCPKG_INSTALLATION_ROOT/vcpkg install zlib:${VCPKG_DOWNLOAD_PLATFORM}-linux-static
+    $VCPKG_INSTALLATION_ROOT/vcpkg install libpng:${VCPKG_DOWNLOAD_PLATFORM}-linux-static
+    $VCPKG_INSTALLATION_ROOT/vcpkg install boost-program-options:${VCPKG_DOWNLOAD_PLATFORM}-linux-static
+    $VCPKG_INSTALLATION_ROOT/vcpkg install boost-regex:${VCPKG_DOWNLOAD_PLATFORM}-linux-static
+    $VCPKG_INSTALLATION_ROOT/vcpkg install boost-system:${VCPKG_DOWNLOAD_PLATFORM}-linux-static
+
+    exit
+fi
+
 if [ ! -d ./zlib/build ]; then
     cd ./zlib
     mkdir build

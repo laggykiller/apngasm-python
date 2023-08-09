@@ -3,6 +3,11 @@ cmake_policy(SET CMP0074 NEW)
 
 project(apngasm-python)
 
+if (DEFINED VCPKG_INSTALLATION_ROOT)
+    set(CMAKE_TOOLCHAIN_FILE "${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake"
+    CACHE STRING "Vcpkg toolchain file")
+endif()
+
 # Set dependencies root
 if (NOT ZLIB_ROOT)
     set(ZLIB_ROOT ${CMAKE_SOURCE_DIR}/zlib)

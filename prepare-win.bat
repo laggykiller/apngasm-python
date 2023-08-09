@@ -2,6 +2,23 @@
 
 set APNGASM_BUILD_PATH=%cd%
 
+:: Cross compiling supported only through vcpkg
+if defined VCPKG_INSTALLATION_ROOT (
+    if defined APNGASM_CROSSCOMPILE_TARGET (
+        set VCPKG_DOWNLOAD_PLATFORM=%APNGASM_CROSSCOMPILE_TARGET%
+    ) else (
+        set VCPKG_DOWNLOAD_PLATFORM=x64
+    )
+    
+    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install zlib:%VCPKG_DOWNLOAD_PLATFORM%-windows-static
+    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install libpng:%VCPKG_DOWNLOAD_PLATFORM%-windows-static
+    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-program-options:%VCPKG_DOWNLOAD_PLATFORM%-windows-static
+    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-regex:%VCPKG_DOWNLOAD_PLATFORM%-windows-static
+    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-system:%VCPKG_DOWNLOAD_PLATFORM%-windows-static
+
+    exit 0
+)
+
 if not exist zlib\build (
     cd zlib
     mkdir build
