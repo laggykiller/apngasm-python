@@ -19,11 +19,11 @@ if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
         fi
     fi
     
-    $VCPKG_INSTALLATION_ROOT/vcpkg install zlib:${VCPKG_DOWNLOAD_PLATFORM}-osx-static
-    $VCPKG_INSTALLATION_ROOT/vcpkg install libpng:${VCPKG_DOWNLOAD_PLATFORM}-osx-static
-    $VCPKG_INSTALLATION_ROOT/vcpkg install boost-program-options:${VCPKG_DOWNLOAD_PLATFORM}-osx-static
-    $VCPKG_INSTALLATION_ROOT/vcpkg install boost-regex:${VCPKG_DOWNLOAD_PLATFORM}-osx-static
-    $VCPKG_INSTALLATION_ROOT/vcpkg install boost-system:${VCPKG_DOWNLOAD_PLATFORM}-osx-static
+    $VCPKG_INSTALLATION_ROOT/vcpkg install zlib:${VCPKG_DOWNLOAD_PLATFORM}-osx-release
+    $VCPKG_INSTALLATION_ROOT/vcpkg install libpng:${VCPKG_DOWNLOAD_PLATFORM}-osx-release
+    $VCPKG_INSTALLATION_ROOT/vcpkg install boost-program-options:${VCPKG_DOWNLOAD_PLATFORM}-osx-release
+    $VCPKG_INSTALLATION_ROOT/vcpkg install boost-regex:${VCPKG_DOWNLOAD_PLATFORM}-osx-release
+    $VCPKG_INSTALLATION_ROOT/vcpkg install boost-system:${VCPKG_DOWNLOAD_PLATFORM}-osx-release
 
     exit
 fi
