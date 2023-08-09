@@ -20,6 +20,8 @@ set(Boost_USE_STATIC_LIBS ON)
 set(BUILD_SHARED_LIBS OFF)
 if (WIN32)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
     set(Boost_COMPILER "vc${MSVC_TOOLSET_VERSION}")
 elseif (LINUX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
@@ -48,7 +50,7 @@ if (WIN32)
             RUNTIME DESTINATION ${PY_BUILD_CMAKE_MODULE_NAME}
             COMPONENT python_module)
 else()
-    install(TARGETS apngasm-dynamic
+    install(TARGETS apngasm
             EXCLUDE_FROM_ALL
             LIBRARY DESTINATION ${PY_BUILD_CMAKE_MODULE_NAME}
             COMPONENT python_module)

@@ -2,8 +2,6 @@
 
 APNGASM_BUILD_PATH=$PWD
 
-# zlib and libpng usually already exist in Linux system,
-# need to isolate own and system build!
 if [ ! -d ./zlib/build ]; then
     cd ./zlib
     mkdir build
