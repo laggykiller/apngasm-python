@@ -7,13 +7,15 @@ if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
     if [[ ! -z $APNGASM_CROSSCOMPILE_TARGET ]]; then
         VCPKG_DOWNLOAD_PLATFORM=$APNGASM_CROSSCOMPILE_TARGET
     else
-        arch=$(uname --machine)
+        arch=$(arch)
         if [[ $arch == x86_64* ]]; then
             VCPKG_DOWNLOAD_PLATFORM=x64
         elif [[ $arch == i*86 ]]; then
             VCPKG_DOWNLOAD_PLATFORM=x86
-        elif [[ $arch == aarch64 ]]; then
+        elif [[ $arch == arm64 ]]; then
             VCPKG_DOWNLOAD_PLATFORM=arm64
+        elif [[ $arch == '' ]]; then
+            VCPKG_DOWNLOAD_PLATFORM=x64
         else
             VCPKG_DOWNLOAD_PLATFORM=$arch
         fi

@@ -14,6 +14,8 @@ if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
             VCPKG_DOWNLOAD_PLATFORM=x86
         elif [[ $arch == aarch64 ]]; then
             VCPKG_DOWNLOAD_PLATFORM=arm64
+        elif [[ $arch == '' ]]; then
+            VCPKG_DOWNLOAD_PLATFORM=x64
         else
             VCPKG_DOWNLOAD_PLATFORM=$arch
         fi
