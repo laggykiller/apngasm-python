@@ -4,20 +4,20 @@ cmake_policy(SET CMP0074 NEW)
 if (DEFINED VCPKG_INSTALLATION_ROOT)
     set(CMAKE_TOOLCHAIN_FILE "${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake"
     CACHE STRING "Vcpkg toolchain file")
+else()
+    # Set dependencies root
+    if (NOT ZLIB_ROOT)
+        set(ZLIB_ROOT ${CMAKE_SOURCE_DIR}/zlib)
+    endif()
+    if (NOT PNG_ROOT)
+        set(PNG_ROOT ${CMAKE_SOURCE_DIR}/libpng)
+    endif()
+    if (NOT BOOST_ROOT)
+        set(BOOST_ROOT ${CMAKE_SOURCE_DIR}/boost)
+    endif()
 endif()
 
 project(apngasm-python)
-
-# Set dependencies root
-if (NOT ZLIB_ROOT)
-    set(ZLIB_ROOT ${CMAKE_SOURCE_DIR}/zlib)
-endif()
-if (NOT PNG_ROOT)
-    set(PNG_ROOT ${CMAKE_SOURCE_DIR}/libpng)
-endif()
-if (NOT BOOST_ROOT)
-    set(BOOST_ROOT ${CMAKE_SOURCE_DIR}/boost)
-endif()
 
 # Set static linking
 set(ZLIB_USE_STATIC_LIBS ON)
