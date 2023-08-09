@@ -4,7 +4,7 @@ APNGASM_BUILD_PATH=$PWD
 
 # Cross compiling supported only through vcpkg
 if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
-    if [[ -z $APNGASM_CROSSCOMPILE_TARGET ]]; then
+    if [[ -z $APNGASM_COMPILE_TARGET ]]; then
         arch=$(uname --machine)
         if [[ $arch == x86_64* ]]; then
             APNGASM_COMPILE_TARGET=x64
