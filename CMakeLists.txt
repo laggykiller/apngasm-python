@@ -27,6 +27,11 @@ else()
     set(PREPARE_CMD "${CMAKE_SOURCE_DIR}/prepare-linux.sh")
 endif()
 
+execute_process(
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    COMMAND ${PREPARE_CMD}
+)
+
 if (DEFINED ENV{VCPKG_INSTALLATION_ROOT})
     set(VCPKG_INSTALLATION_ROOT $ENV{VCPKG_INSTALLATION_ROOT})
 endif()
@@ -69,11 +74,6 @@ else()
         set(BOOST_ROOT ${CMAKE_SOURCE_DIR}/boost)
     endif()
 endif()
-
-execute_process(
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    COMMAND ${PREPARE_CMD}
-)
 
 project(apngasm-python)
 

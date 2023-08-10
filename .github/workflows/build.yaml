@@ -112,6 +112,7 @@ jobs:
           MACOSX_DEPLOYMENT_TARGET: 11
           # CIBW_BEFORE_ALL: ./prepare-mac.sh
           CIBW_ENVIRONMENT: APNGASM_COMPILE_TARGET="x64"
+          APNGASM_COMPILE_TARGET: arm64
 
       - uses: actions/upload-artifact@v3
         with:
@@ -139,6 +140,7 @@ jobs:
           MACOSX_DEPLOYMENT_TARGET: 11
           # CIBW_BEFORE_ALL: ./prepare-mac.sh
           CIBW_ENVIRONMENT: APNGASM_COMPILE_TARGET="arm64"
+          APNGASM_COMPILE_TARGET: arm64
 
       - uses: actions/upload-artifact@v3
         with:
