@@ -1,0 +1,19 @@
+@echo off
+
+if not defined APNGASM_COMPILE_TARGET (
+    if %PROCESSOR_ARCHITECTURE%=="AMD64" (
+        set APNGASM_COMPILE_TARGET=x64
+    ) else if %PROCESSOR_ARCHITECTURE%=="X86" (
+        set APNGASM_COMPILE_TARGET=x86
+    ) else if %PROCESSOR_ARCHITECTURE%=="ARM64" (
+        set APNGASM_COMPILE_TARGET=arm64
+    ) else if %PROCESSOR_ARCHITECTURE%=="ARM" (
+        set APNGASM_COMPILE_TARGET=arm
+    ) else if %PROCESSOR_ARCHITECTURE%=="" (
+        set APNGASM_COMPILE_TARGET=x64
+    ) else (
+        set APNGASM_COMPILE_TARGET=%PROCESSOR_ARCHITECTURE%
+    )
+)
+
+echo <nul set /p=%APNGASM_COMPILE_TARGET%

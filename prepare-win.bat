@@ -4,27 +4,16 @@ set APNGASM_BUILD_PATH=%cd%
 
 :: Cross compiling supported only through vcpkg
 if defined VCPKG_INSTALLATION_ROOT (
-    if not defined APNGASM_COMPILE_TARGET (
-        if %PROCESSOR_ARCHITECTURE%=="AMD64" (
-            set APNGASM_COMPILE_TARGET=x64
-        ) else if %PROCESSOR_ARCHITECTURE%=="X86" (
-            set APNGASM_COMPILE_TARGET=x86
-        ) else if %PROCESSOR_ARCHITECTURE%=="ARM64" (
-            set APNGASM_COMPILE_TARGET=arm64
-        ) else if %PROCESSOR_ARCHITECTURE%=="ARM" (
-            set APNGASM_COMPILE_TARGET=arm
-        ) else if %PROCESSOR_ARCHITECTURE%=="" (
-            set APNGASM_COMPILE_TARGET=x64
-        ) else (
-            set APNGASM_COMPILE_TARGET=%PROCESSOR_ARCHITECTURE%
-        )
-    )
+    call get-target-win.bat
     
     %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install zlib:%APNGASM_COMPILE_TARGET%-windows-static
     %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install libpng:%APNGASM_COMPILE_TARGET%-windows-static
     %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-program-options:%APNGASM_COMPILE_TARGET%-windows-static
     %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-regex:%APNGASM_COMPILE_TARGET%-windows-static
     %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-system:%APNGASM_COMPILE_TARGET%-windows-static
+    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-algorithm:%APNGASM_COMPILE_TARGET%-windows-static
+    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-property-tree:%APNGASM_COMPILE_TARGET%-windows-static
+    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-foreach:%APNGASM_COMPILE_TARGET%-windows-static
 
     exit 0
 )
