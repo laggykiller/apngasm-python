@@ -16,30 +16,40 @@ jobs:
       matrix:
         os: [windows-2019, macos-11, ubuntu-20.04]
         include:
-          - cibw_archs_windows: AMD64
+          - os: windows-2019
+            cibw_archs_windows: AMD64
             cibw_environment: APNGASM_COMPILE_TARGET=x64
             cibw_before_all: prepare-win.bat
-          - cibw_archs_windows: x86
+          - os: windows-2019
+            cibw_archs_windows: x86
             cibw_environment: APNGASM_COMPILE_TARGET=x86
             cibw_before_all: prepare-win.bat
-          - cibw_archs_windows: ARM64
+          - os: windows-2019
+            cibw_archs_windows: ARM64
             cibw_environment: APNGASM_COMPILE_TARGET=ARM64
             cibw_before_all: prepare-win.bat
-          - cibw_archs_macos: x86_64
+          - os: macos-11
+            cibw_archs_macos: x86_64
             cibw_environment: "_PYTHON_HOST_PLATFORM=macosx-11-arm64 APNGASM_COMPILE_TARGET=x86_64"
             cibw_before_all: prepare-mac.sh
-          - cibw_archs_macos: arm64
+          - os: macos-11
+            cibw_archs_macos: arm64
             cibw_environment: "_PYTHON_HOST_PLATFORM=macosx-11-arm64 APNGASM_COMPILE_TARGET=arm64"
             cibw_before_all: prepare-mac.sh
-          - cibw_archs_linux: x86_64
+          - os: ubuntu-20.04
+            cibw_archs_linux: x86_64
             cibw_before_all: prepare-linux.sh
-          - cibw_archs_linux: x86
+          - os: ubuntu-20.04
+            cibw_archs_linux: x86
             cibw_before_all: prepare-linux.sh
-          - cibw_archs_linux: aarch64
+          - os: ubuntu-20.04
+            cibw_archs_linux: aarch64
             cibw_before_all: prepare-linux.sh
-          - cibw_archs_linux: ppc64le
+          - os: ubuntu-20.04
+            cibw_archs_linux: ppc64le
             cibw_before_all: prepare-linux.sh
-          - cibw_archs_linux: s390x
+          - os: ubuntu-20.04
+            cibw_archs_linux: s390x
             cibw_before_all: prepare-linux.sh
 
     steps:
@@ -61,7 +71,7 @@ jobs:
           CIBW_ARCHS_MACOS: ${{ matrix.cibw_archs_macos }}
           CIBW_ARCHS_LINUX: ${{ matrix.cibw_archs_linux }}
           CIBW_BEFORE_ALL: ${{ matrix.cibw_before_all }}
-          CIBW_ENVIRONMENT: ${ matrix.cibw_environment }
+          CIBW_ENVIRONMENT: ${{ matrix.cibw_environment }}
 
       - uses: actions/upload-artifact@v3
         with:
