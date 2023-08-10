@@ -18,8 +18,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        # with:
-          # submodules: recursive
+        with:
+          submodules: true # Build with vcpkg, no need boost
       
       - name: Setup VS Dev Environment
         uses: seanmiddleditch/gha-setup-vsdevenv@v3
@@ -45,8 +45,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        # with:
-        #   submodules: recursive
+        with:
+          submodules: true # Build with vcpkg, no need boost
       
       - name: Setup VS Dev Environment
         uses: seanmiddleditch/gha-setup-vsdevenv@v3
@@ -72,8 +72,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        # with:
-        #   submodules: recursive
+        with:
+          submodules: true # Build with vcpkg, no need boost
 
       - name: Setup VS Dev Environment
         uses: seanmiddleditch/gha-setup-vsdevenv@v3
@@ -99,8 +99,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        # with:
-        #   submodules: recursive
+        with:
+          submodules: true # Build with vcpkg, no need boost
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.14.1
@@ -126,8 +126,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        # with:
-        #   submodules: recursive
+        with:
+          submodules: true # Build with vcpkg, no need boost
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.14.1
