@@ -53,7 +53,7 @@ jobs:
           - os: ubuntu-20.04
             arch: x86
             submodules_mode: recursive
-            cibw_archs_linux: x86
+            cibw_archs_linux: i686
             cibw_before_all: ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: arm64
