@@ -17,45 +17,55 @@ jobs:
         os: [windows-2019, macos-11, ubuntu-20.04]
         include:
           - os: windows-2019
+            submodules_mode: true
             cibw_archs_windows: AMD64
             cibw_environment: APNGASM_COMPILE_TARGET=x64
             cibw_before_all: prepare-win.bat
           - os: windows-2019
+            submodules_mode: true
             cibw_archs_windows: x86
             cibw_environment: APNGASM_COMPILE_TARGET=x86
             cibw_before_all: prepare-win.bat
           - os: windows-2019
+            submodules_mode: true
             cibw_archs_windows: ARM64
             cibw_environment: APNGASM_COMPILE_TARGET=ARM64
             cibw_before_all: prepare-win.bat
           - os: macos-11
+            submodules_mode: true
             cibw_archs_macos: x86_64
             cibw_environment: "_PYTHON_HOST_PLATFORM=macosx-11-arm64 APNGASM_COMPILE_TARGET=x86_64"
             cibw_before_all: prepare-mac.sh
           - os: macos-11
+            submodules_mode: true
             cibw_archs_macos: arm64
             cibw_environment: "_PYTHON_HOST_PLATFORM=macosx-11-arm64 APNGASM_COMPILE_TARGET=arm64"
             cibw_before_all: prepare-mac.sh
           - os: ubuntu-20.04
+            submodules_mode: recursive
             cibw_archs_linux: x86_64
             cibw_before_all: prepare-linux.sh
           - os: ubuntu-20.04
+            submodules_mode: recursive
             cibw_archs_linux: x86
             cibw_before_all: prepare-linux.sh
           - os: ubuntu-20.04
+            submodules_mode: recursive
             cibw_archs_linux: aarch64
             cibw_before_all: prepare-linux.sh
           - os: ubuntu-20.04
+            submodules_mode: recursive
             cibw_archs_linux: ppc64le
             cibw_before_all: prepare-linux.sh
           - os: ubuntu-20.04
+            submodules_mode: recursive
             cibw_archs_linux: s390x
             cibw_before_all: prepare-linux.sh
 
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: true # Build with vcpkg, no need boost
+          submodules: ${{ matrix.submodules_mode }} # If build with vcpkg, no need boost
       
       - name: Set up QEMU
         if: runner.os == 'Linux'
