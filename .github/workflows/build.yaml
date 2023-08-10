@@ -37,7 +37,7 @@ jobs:
             arch: x64
             submodules_mode: true
             cibw_archs_macos: x86_64
-            cibw_environment: "_PYTHON_HOST_PLATFORM=macosx-11-arm64 APNGASM_COMPILE_TARGET=x86_64"
+            cibw_environment: "_PYTHON_HOST_PLATFORM=macosx-11-arm64 APNGASM_COMPILE_TARGET=x64"
             cibw_before_all: ./prepare-mac.sh
           - os: macos-11
             arch: arm64
