@@ -19,7 +19,7 @@ if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
         fi
     fi
     
-    $VCPKG_INSTALLATION_ROOT/vcpkg install zlib:${APNGASM_COMPILE_TARGET}-osx-release
+    $VCPKG_INSTALLATION_ROOT/vcpkg install zlib:${APNGASM_COMPILE_TARGET}-osx
     $VCPKG_INSTALLATION_ROOT/vcpkg install libpng:${APNGASM_COMPILE_TARGET}-osx-release
     $VCPKG_INSTALLATION_ROOT/vcpkg install boost-program-options:${APNGASM_COMPILE_TARGET}-osx-release
     $VCPKG_INSTALLATION_ROOT/vcpkg install boost-regex:${APNGASM_COMPILE_TARGET}-osx-release

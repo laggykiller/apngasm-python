@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.17)
 cmake_policy(SET CMP0074 NEW)
 
 if (DEFINED VCPKG_INSTALLATION_ROOT)
+    set(CMAKE_TOOLCHAIN_FILE "${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake"
+    CACHE STRING "Vcpkg toolchain file")
     if (NOT DEFINED APNGASM_COMPILE_TARGET)
         set(APNGASM_COMPILE_TARGET x64)
     endif()
@@ -12,9 +14,6 @@ if (DEFINED VCPKG_INSTALLATION_ROOT)
     else()
         set(PLATFORM linux)
     endif()
-    set(VCPKG_TARGET_TRIPLET ${APNGASM_COMPILE_TARGET}-{PLATFORM}-static)
-    set(CMAKE_TOOLCHAIN_FILE "${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake"
-    CACHE STRING "Vcpkg toolchain file")
 else()
     # Set dependencies root
     if (NOT ZLIB_ROOT)
