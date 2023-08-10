@@ -1,14 +1,16 @@
-### apngasm-python
+# apngasm-python
 
-A nanobind API for apngasm (WIP)
+A nanobind API for apngasm, with prebuilt binary packaged.
 
+WORK IN PROGRESS
 
 ## Building from source
-# Method 1: Without vcpkg
+### Method 1: Without vcpkg
 Simply run:
 ```
 git clone https://github.com/laggykiller/apngasm-python.git
 cd apngasm-python
+git submodule update --init --recursive
 
 # To build wheel
 python3 -m build .
@@ -21,7 +23,7 @@ pip3 install .
 - If on Windows, you will need Visual Studio installed
 - Cross-compilation not supported using this method
 
-# Method 2: With vcpkg
+### Method 2: With vcpkg
 1. Install vcpkg: https://github.com/microsoft/vcpkg
 2. Set environment variable that points to the path of vcpkg root
 ```
@@ -36,6 +38,8 @@ export VCPKG_INSTALLATION_ROOT=/path/to/vcpkg
 ```
 git clone https://github.com/laggykiller/apngasm-python.git
 cd apngasm-python
+# --recursive flag not necessary here
+git submodule update --init
 
 # To build wheel
 python3 -m build .
@@ -65,3 +69,7 @@ export APNGASM_COMPILE_TARGET=x64
 export APNGASM_COMPILE_TARGET=x86
 export APNGASM_COMPILE_TARGET=arm64
 ```
+
+## Credits
+- apngasm: https://github.com/apngasm/apngasm
+- Packaging: https://github.com/tttapa/py-build-cmake
