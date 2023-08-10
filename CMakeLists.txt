@@ -1,19 +1,34 @@
 cmake_minimum_required(VERSION 3.17)
 cmake_policy(SET CMP0074 NEW)
 
+# Set static linking
+set(ZLIB_USE_STATIC_LIBS ON)
+set(Boost_USE_STATIC_LIBS ON)
+set(BUILD_SHARED_LIBS OFF)
+if (WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+    string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
+    string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+    set(Boost_COMPILER "vc${MSVC_TOOLSET_VERSION}")
+elseif (LINUX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif()
+
 if (DEFINED VCPKG_INSTALLATION_ROOT)
-    set(CMAKE_TOOLCHAIN_FILE "${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake"
-    CACHE STRING "Vcpkg toolchain file")
     if (NOT DEFINED APNGASM_COMPILE_TARGET)
         set(APNGASM_COMPILE_TARGET x64)
     endif()
     if (WIN32)
-        set(PLATFORM windows)
+        set(PLATFORM windows-static)
     elseif (APPLE)
-        set(PLATFORM osx)
+        set(PLATFORM osx-release)
     else()
-        set(PLATFORM linux)
+        set(PLATFORM linux-release)
     endif()
+    set(VCPKG_TARGET_TRIPLET ${APNGASM_COMPILE_TARGET}-${PLATFORM})
+    set(CMAKE_TOOLCHAIN_FILE "${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake"
+    CACHE STRING "Vcpkg toolchain file")
 else()
     # Set dependencies root
     if (NOT ZLIB_ROOT)
@@ -29,18 +44,7 @@ endif()
 
 project(apngasm-python)
 
-# Set static linking
-set(ZLIB_USE_STATIC_LIBS ON)
-set(Boost_USE_STATIC_LIBS ON)
-set(BUILD_SHARED_LIBS OFF)
-if (WIN32)
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
-    set(Boost_COMPILER "vc${MSVC_TOOLSET_VERSION}")
-elseif (LINUX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-endif()
+
 
 # Prepare dependencies
 if (WIN32)

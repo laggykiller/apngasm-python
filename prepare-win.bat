@@ -20,7 +20,7 @@ if defined VCPKG_INSTALLATION_ROOT (
         )
     )
     
-    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install zlib:%APNGASM_COMPILE_TARGET%-windows
+    %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install zlib:%APNGASM_COMPILE_TARGET%-windows-static
     %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install libpng:%APNGASM_COMPILE_TARGET%-windows-static
     %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-program-options:%APNGASM_COMPILE_TARGET%-windows-static
     %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-regex:%APNGASM_COMPILE_TARGET%-windows-static
