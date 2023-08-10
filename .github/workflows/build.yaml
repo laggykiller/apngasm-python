@@ -60,16 +60,37 @@ jobs:
             submodules_mode: recursive
             cibw_archs_linux: aarch64
             cibw_before_all: ./prepare-linux.sh
+            cibw_skip: cp310-* cp311-* cp312-* pp*
+          - os: ubuntu-20.04
+            arch: arm64
+            submodules_mode: recursive
+            cibw_archs_linux: aarch64
+            cibw_before_all: ./prepare-linux.sh
+            cibw_skip: cp36-* cp37-* cp38-* cp39-*
           - os: ubuntu-20.04
             arch: ppc64le
             submodules_mode: recursive
             cibw_archs_linux: ppc64le
             cibw_before_all: ./prepare-linux.sh
+            cibw_skip: cp310-* cp311-* cp312-* pp*
+          - os: ubuntu-20.04
+            arch: ppc64le
+            submodules_mode: recursive
+            cibw_archs_linux: ppc64le
+            cibw_before_all: ./prepare-linux.sh
+            cibw_skip: cp36-* cp37-* cp38-* cp39-*
           - os: ubuntu-20.04
             arch: s390x
             submodules_mode: recursive
             cibw_archs_linux: s390x
             cibw_before_all: ./prepare-linux.sh
+            cibw_skip: cp310-* cp311-* cp312-* pp*
+          - os: ubuntu-20.04
+            arch: s390x
+            submodules_mode: recursive
+            cibw_archs_linux: s390x
+            cibw_before_all: ./prepare-linux.sh
+            cibw_skip: cp36-* cp37-* cp38-* cp39-*
 
     steps:
       - uses: actions/checkout@v3
@@ -92,6 +113,7 @@ jobs:
           CIBW_ARCHS_LINUX: ${{ matrix.cibw_archs_linux }}
           CIBW_BEFORE_ALL: ${{ matrix.cibw_before_all }}
           CIBW_ENVIRONMENT: ${{ matrix.cibw_environment }}
+          CIBW_SKIP: ${{ matrix.cibw_skip }}
 
       - uses: actions/upload-artifact@v3
         with:
