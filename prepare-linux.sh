@@ -4,7 +4,7 @@ APNGASM_BUILD_PATH=$PWD
 
 # Cross compiling supported only through vcpkg
 if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
-    ./get-target-linux.sh
+    APNGASM_COMPILE_TARGET=$(./get-target-linux.sh)
     
     ${VCPKG_INSTALLATION_ROOT}/vcpkg install zlib:${APNGASM_COMPILE_TARGET}-linux
     ${VCPKG_INSTALLATION_ROOT}/vcpkg install libpng:${APNGASM_COMPILE_TARGET}-linux
