@@ -20,19 +20,19 @@ jobs:
             submodules_mode: true
             cibw_archs_windows: AMD64
             cibw_environment: APNGASM_COMPILE_TARGET=x64
-            cibw_before_all: ./prepare-win.bat
+            cibw_before_all: prepare-win.bat
           - os: windows-2019
             arch: x86
             submodules_mode: true
             cibw_archs_windows: x86
             cibw_environment: APNGASM_COMPILE_TARGET=x86
-            cibw_before_all: ./prepare-win.bat
+            cibw_before_all: prepare-win.bat
           - os: windows-2019
             arch: arm64
             submodules_mode: true
             cibw_archs_windows: ARM64
             cibw_environment: APNGASM_COMPILE_TARGET=ARM64
-            cibw_before_all: ./prepare-win.bat
+            cibw_before_all: prepare-win.bat
           - os: macos-11
             arch: x64
             submodules_mode: true
