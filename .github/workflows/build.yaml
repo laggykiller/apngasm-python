@@ -60,43 +60,43 @@ jobs:
             submodules_mode: recursive
             cibw_archs_linux: aarch64
             cibw_before_all: ./prepare-linux.sh
-            cibw_skip: *-muslinux_* pp*
+            cibw_skip: *-muslinux_aarch64 pp*
           - os: ubuntu-20.04
             arch: arm64
             submodules_mode: recursive
             cibw_archs_linux: aarch64
             cibw_before_all: ./prepare-linux.sh
-            cibw_skip: *-multilinux_* pp*
+            cibw_skip: *-multilinux_aarch64 pp*
           - os: ubuntu-20.04
             arch: arm64
             submodules_mode: recursive
             cibw_archs_linux: aarch64
             cibw_before_all: ./prepare-linux.sh
-            cibw_skip: *-muslinux_* *-multilinux_*
+            cibw_skip: *-muslinux_aarch64 *-multilinux_aarch64
           - os: ubuntu-20.04
             arch: ppc64le
             submodules_mode: recursive
             cibw_archs_linux: ppc64le
             cibw_before_all: ./prepare-linux.sh
-            cibw_skip: *-muslinux_*
+            cibw_skip: *-muslinux_ppc64le
           - os: ubuntu-20.04
             arch: ppc64le
             submodules_mode: recursive
             cibw_archs_linux: ppc64le
             cibw_before_all: ./prepare-linux.sh
-            cibw_skip: *-multilinux_*
+            cibw_skip: *-multilinux_ppc64le
           - os: ubuntu-20.04
             arch: s390x
             submodules_mode: recursive
             cibw_archs_linux: s390x
             cibw_before_all: ./prepare-linux.sh
-            cibw_skip: *-muslinux_*
+            cibw_skip: *-muslinux_s390x
           - os: ubuntu-20.04
             arch: s390x
             submodules_mode: recursive
             cibw_archs_linux: s390x
             cibw_before_all: ./prepare-linux.sh
-            cibw_skip: *-multilinux_*
+            cibw_skip: *-multilinux_s390x
 
     steps:
       - uses: actions/checkout@v3
