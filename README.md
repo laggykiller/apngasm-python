@@ -1,8 +1,20 @@
 # apngasm-python
 
-A nanobind API for apngasm, with prebuilt binary packaged.
+A nanobind API for apngasm, a tool/library for APNG assembly/disassembly. Prebuilt library packaged.
 
 WORK IN PROGRESS
+
+## Usage
+```
+from apngasm_python.apngasm import APNGAsm
+import os
+
+apng = APNGAsm()
+for f_path in sorted(os.listdir('test')):
+    apng.add_frame_from_file(os.path.join('test', f_path), 100, 1000)
+
+apng.assemble('out.apng')
+```
 
 ## Building from source
 ### Method 1: Without vcpkg
@@ -73,3 +85,6 @@ export APNGASM_COMPILE_TARGET=arm64
 ## Credits
 - apngasm: https://github.com/apngasm/apngasm
 - Packaging: https://github.com/tttapa/py-build-cmake
+- Examples:
+    - hhttps://apng.onevcat.com/demo/
+    - https://commons.wikimedia.org/wiki/File:Animated_PNG_example_bouncing_beach_ball.png

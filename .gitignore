@@ -1,3 +1,4 @@
 **/__pycache__
 dist/
 .py-build-cmake_cache/
+fakeroot/

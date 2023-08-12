@@ -18,7 +18,7 @@ Tracker = "https://github.com/laggykiller/apngasm-python/issues"
 repository = "https://github.com/laggykiller/apngasm-python"
 
 [build-system] # How pip and other frontends should build this project
-requires = ["py-build-cmake~=0.1.9a1"]
+requires = ["py-build-cmake~=0.2.0a1", "nanobind~=1.5.0", "nanobind-stubgen~=0.1.1"]
 build-backend = "py_build_cmake.build"
 
 [tool.py-build-cmake.module] # Where to find the Python module to package
@@ -26,29 +26,17 @@ name = "apngasm_python"
 directory = "src-python"
 
 [tool.py-build-cmake.sdist] # What to include in source distributions
-include = ["CMakeLists.txt", "*.bat", "*.sh", "apngasm/*", "libpng/*", "zlib/*", "boost/*"]
+include = ["CMakeLists.txt", "cmake/*.cmake", "src/*", "*.bat", "*.sh", "apngasm/*", "zlib/*", "libpng/*", "boost/*"]
 
 [tool.py-build-cmake.cmake] # How to build the CMake project
 build_type = "Release"
 source_path = "."
+options = { "WITH_PY_STUBS:BOOL" = "On" }
+build_args = ["-j"]
 install_components = ["python_module"]
-
-[tool.py-build-cmake.windows.cmake.options] # Windows-specific options
-# ZLIB_ROOT = "C:\\opt\\zlib"
-# PNG_ROOT = "C:\\opt\\libpng"
-# BOOST_ROOT = "C:\\opt\\boost"
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
 env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" } # Required for brew installed icu4c
-[tool.py-build-cmake.mac.cmake.options]
-# ZLIB_ROOT = "/tmp/zlib"
-# PNG_ROOT = "/tmp/libpng"
-# BOOST_ROOT = "/tmp/boost"
-
-[tool.py-build-cmake.linux.cmake.options] # Linux-specific options
-# ZLIB_ROOT = "/tmp/zlib"
-# PNG_ROOT = "/tmp/libpng"
-# BOOST_ROOT = "/tmp/boost"
 
 # stubgen depends on mypy, which depends on typed-ast
 # typed-ast cannot run on pypy <3.8

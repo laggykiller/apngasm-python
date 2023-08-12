@@ -1,21 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
 cmake_policy(SET CMP0074 NEW)
 
-# Set static linking
-set(ZLIB_USE_STATIC_LIBS ON)
-set(Boost_USE_STATIC_LIBS ON)
-set(BUILD_SHARED_LIBS OFF)
-if (WIN32)
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
-    if (DEFINED ENV{MSVC_TOOLSET_VERSION})
-        set(Boost_COMPILER "vc${MSVC_TOOLSET_VERSION}")
-    endif()
-elseif (LINUX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-endif()
-
 if (WIN32)
     set(GET_TARGET_CMD "cmd" "/c" "${CMAKE_SOURCE_DIR}/get-target-win.bat")
     set(PREPARE_CMD "cmd" "/c" "${CMAKE_SOURCE_DIR}/prepare-win.bat")
@@ -31,6 +16,30 @@ execute_process(
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMAND ${PREPARE_CMD}
 )
+
+project(apngasm-python VERSION 1.0.0)
+set(PY_VERSION_SUFFIX "")
+set(PY_FULL_VERSION ${PROJECT_VERSION}${PY_VERSION_SUFFIX})
+
+# Make sure that the Python and CMake versions match
+if (DEFINED PY_BUILD_CMAKE_PACKAGE_VERSION)
+    if (NOT "${PY_BUILD_CMAKE_PACKAGE_VERSION}" MATCHES "^${PY_FULL_VERSION}$")
+        message(FATAL_ERROR "Version number does not match "
+                             "(${PY_BUILD_CMAKE_PACKAGE_VERSION} - ${PY_FULL_VERSION}).")
+    endif()
+endif()
+
+# Find the nanobind package
+include(cmake/QueryPythonForNanobind.cmake)
+find_nanobind_python_first()
+
+# Compile the example Python module
+nanobind_add_module(_apngasm_python "src/apngasm_python.cpp")
+
+# Static linking
+add_library(zlibstatic STATIC IMPORTED)
+add_library(png_static STATIC IMPORTED)
+add_library(apngasm-static STATIC IMPORTED)
 
 if (DEFINED ENV{VCPKG_INSTALLATION_ROOT})
     set(VCPKG_INSTALLATION_ROOT $ENV{VCPKG_INSTALLATION_ROOT})
@@ -60,34 +69,55 @@ if (DEFINED VCPKG_INSTALLATION_ROOT)
     endif()
     
     set(VCPKG_TARGET_TRIPLET ${APNGASM_COMPILE_TARGET}-${PLATFORM})
-    set(CMAKE_TOOLCHAIN_FILE "${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake"
-    CACHE STRING "Vcpkg toolchain file")
+
+    include_directories(${VCPKG_INSTALLATION_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/include)
+    set(LIBZ_PATH ${VCPKG_INSTALLATION_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/lib/libz${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(LIBPNG_PATH ${VCPKG_INSTALLATION_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/lib/libpng${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(LIBAPNGASM_PATH ${VCPKG_INSTALLATION_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/lib/libapngasm${CMAKE_STATIC_LIBRARY_SUFFIX})
 else()
-    # Set dependencies root
-    if (NOT ZLIB_ROOT)
-        set(ZLIB_ROOT ${CMAKE_SOURCE_DIR}/zlib)
-    endif()
-    if (NOT PNG_ROOT)
-        set(PNG_ROOT ${CMAKE_SOURCE_DIR}/libpng)
-    endif()
-    if (NOT BOOST_ROOT)
-        set(BOOST_ROOT ${CMAKE_SOURCE_DIR}/boost)
-    endif()
+    set(LIBZ_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib/libz${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(LIBPNG_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib/libpng${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(LIBAPNGASM_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib/libapngasm${CMAKE_STATIC_LIBRARY_SUFFIX})
 endif()
 
-project(apngasm-python)
+include_directories(${CMAKE_SOURCE_DIR}/fakeroot/include)
 
-add_subdirectory(apngasm)
+set_target_properties(zlibstatic PROPERTIES IMPORTED_LOCATION ${LIBZ_PATH})
+set_target_properties(png_static PROPERTIES IMPORTED_LOCATION ${LIBPNG_PATH})
+set_target_properties(apngasm-static PROPERTIES IMPORTED_LOCATION ${LIBAPNGASM_PATH})
+
+target_link_libraries(_apngasm_python PRIVATE apngasm-static png_static zlibstatic)
+
+target_compile_definitions(_apngasm_python PRIVATE
+    MODULE_NAME=$<TARGET_FILE_BASE_NAME:_apngasm_python>
+    VERSION_INFO="${PY_FULL_VERSION}"
+)
+# Hide all symbols by default (including external libraries on Linux)
+set_target_properties(_apngasm_python PROPERTIES
+    CXX_VISIBILITY_PRESET "hidden"
+    VISIBILITY_INLINES_HIDDEN true)
+if (CMAKE_SYSTEM_NAME MATCHES "Linux")
+    target_link_options(_apngasm_python PRIVATE "LINKER:--exclude-libs,ALL")
+endif()
 
 # Install the module
 if (WIN32)
-    install(TARGETS apngasm
+    install(TARGETS _apngasm_python
             EXCLUDE_FROM_ALL
             RUNTIME DESTINATION ${PY_BUILD_CMAKE_MODULE_NAME}
             COMPONENT python_module)
 else()
-    install(TARGETS apngasm
+    install(TARGETS _apngasm_python
             EXCLUDE_FROM_ALL
             LIBRARY DESTINATION ${PY_BUILD_CMAKE_MODULE_NAME}
             COMPONENT python_module)
+endif()
+
+# Generate stubs for the Python module
+option(WITH_PY_STUBS
+    "Generate Python stub files (.pyi) for the Python module." On)
+if (WITH_PY_STUBS AND NOT CMAKE_CROSSCOMPILING)
+    include(cmake/NanobindStubgen.cmake)
+    nanobind_stubgen(_apngasm_python)
+    nanobind_stubgen_install(_apngasm_python ${PY_BUILD_CMAKE_MODULE_NAME})
 endif()
