@@ -7,7 +7,7 @@ license = { "file" = "LICENSE" }
 authors = [{ "name" = "chaudominic", "email" = "chaudominic2@gmail.com" }]
 keywords = ["apng", "png", "nanobind"]
 classifiers = ["Topic :: Multimedia :: Graphics"]
-dependencies = ["Pillow~=10.0.0", "numpy~=1.25.2"]
+dependencies = ["Pillow", "numpy"]
 dynamic = ["version"]
 
 [project.urls]
@@ -18,7 +18,7 @@ Tracker = "https://github.com/laggykiller/apngasm-python/issues"
 repository = "https://github.com/laggykiller/apngasm-python"
 
 [build-system] # How pip and other frontends should build this project
-requires = ["py-build-cmake~=0.2.0a1", "nanobind~=1.5.0", "nanobind-stubgen~=0.1.1"]
+requires = ["py-build-cmake>=0.1.9a1", "nanobind", "nanobind-stubgen"]
 build-backend = "py_build_cmake.build"
 
 [tool.py-build-cmake.module] # Where to find the Python module to package

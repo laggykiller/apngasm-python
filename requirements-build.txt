@@ -1,3 +1,2 @@
--r requirements.txt
-nanobind~=1.5.0
-nanobind-stubgen~=0.1.1
+nanobind
+nanobind-stubgen
