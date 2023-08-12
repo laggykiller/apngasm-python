@@ -10,6 +10,8 @@ if defined NUMBER_OF_PROCESSORS (
     set CORES=4
 )
 
+python -m pip install -r requirements-build.txt
+
 :: Cross compiling supported only through vcpkg
 if defined VCPKG_INSTALLATION_ROOT (
     call get-target-win.bat
@@ -23,7 +25,7 @@ if defined VCPKG_INSTALLATION_ROOT (
     %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-property-tree:%APNGASM_COMPILE_TARGET%-windows-static
     %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-foreach:%APNGASM_COMPILE_TARGET%-windows-static
 
-    set VCPKG_CMAKE_FLAGS="-DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET ${APNGASM_COMPILE_TARGET}-windows-static"
+    set VCPKG_CMAKE_FLAGS="-DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=${APNGASM_COMPILE_TARGET}-windows-static"
 ) else (
     if not exist %FAKEROOT%\include\zlib.h (
         cd %SOURCE_PATH%\zlib

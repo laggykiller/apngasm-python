@@ -9,6 +9,8 @@ if [[ $? -ne 0 ]]; then
   CORES=2
 fi
 
+python3 -m pip install -r requirements-build.txt
+
 # Cross compiling supported only through vcpkg
 if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
     APNGASM_COMPILE_TARGET=$(./get-target-linux.sh)
@@ -22,7 +24,7 @@ if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
     ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-property-tree:${APNGASM_COMPILE_TARGET}-linux
     ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-foreach:${APNGASM_COMPILE_TARGET}-linux
 
-    VCPKG_CMAKE_FLAGS="-DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET ${APNGASM_COMPILE_TARGET}-linux"
+    VCPKG_CMAKE_FLAGS="-DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=${APNGASM_COMPILE_TARGET}-linux"
 else
     if [ ! -f ${FAKEROOT}/include/zlib.h ]; then
         cd ${SOURCE_PATH}/zlib
