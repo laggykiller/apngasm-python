@@ -24,7 +24,7 @@ if defined VCPKG_INSTALLATION_ROOT (
     %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-foreach:%APNGASM_COMPILE_TARGET%-windows-static
 
     set VCPKG_CMAKE_FLAGS="-DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET ${APNGASM_COMPILE_TARGET}-windows-static"
-) else(
+) else (
     if not exist %FAKEROOT%\include\zlib.h (
         cd %SOURCE_PATH%\zlib
         mkdir build
