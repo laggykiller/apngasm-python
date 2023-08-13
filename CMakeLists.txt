@@ -25,38 +25,11 @@ execute_process(
     COMMAND ${PREPARE_CMD}
 )
 
-project(apngasm-python VERSION 1.0.0)
-set(PY_VERSION_SUFFIX "")
-set(PY_FULL_VERSION ${PROJECT_VERSION}${PY_VERSION_SUFFIX})
-
-# Make sure that the Python and CMake versions match
-if (DEFINED PY_BUILD_CMAKE_PACKAGE_VERSION)
-    if (NOT "${PY_BUILD_CMAKE_PACKAGE_VERSION}" MATCHES "^${PY_FULL_VERSION}$")
-        message(FATAL_ERROR "Version number does not match "
-                             "(${PY_BUILD_CMAKE_PACKAGE_VERSION} - ${PY_FULL_VERSION}).")
-    endif()
-endif()
-
-# Find the nanobind package
-find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
-add_subdirectory(nanobind)
-
-# Compile the example Python module
-nanobind_add_module(_apngasm_python "src/apngasm_python.cpp" NB_STATIC STABLE_ABI)
-if (WIN32)
-    nanobind_compile_options(_apngasm_python "/MT /MP /bigobj")
-endif()
-target_compile_definitions(_apngasm_python PRIVATE _apngasm_python_EXPORTS)
-target_compile_definitions(_apngasm_python PRIVATE apngasm_EXPORTS)
-
-# Static linkingset(Boost_USE_STATIC_LIBS ON)
+set(Boost_USE_STATIC_LIBS ON)
 if (WIN32)
     set(Boost_USE_MULTITHREADED ON)
     set(Boost_USE_STATIC_RUNTIME ON)
 endif()
-
-add_library(zlibstatic STATIC IMPORTED)
-add_library(png_static STATIC IMPORTED)
 
 if (DEFINED ENV{VCPKG_INSTALLATION_ROOT})
     set(VCPKG_INSTALLATION_ROOT $ENV{VCPKG_INSTALLATION_ROOT})
@@ -128,6 +101,34 @@ else()
     endif()
 endif()
 
+project(apngasm-python VERSION 1.0.0)
+set(PY_VERSION_SUFFIX "")
+set(PY_FULL_VERSION ${PROJECT_VERSION}${PY_VERSION_SUFFIX})
+
+# Make sure that the Python and CMake versions match
+if (DEFINED PY_BUILD_CMAKE_PACKAGE_VERSION)
+    if (NOT "${PY_BUILD_CMAKE_PACKAGE_VERSION}" MATCHES "^${PY_FULL_VERSION}$")
+        message(FATAL_ERROR "Version number does not match "
+                             "(${PY_BUILD_CMAKE_PACKAGE_VERSION} - ${PY_FULL_VERSION}).")
+    endif()
+endif()
+
+# Find the nanobind package
+find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
+add_subdirectory(nanobind)
+
+# Compile the example Python module
+nanobind_add_module(_apngasm_python "src/apngasm_python.cpp" NB_STATIC STABLE_ABI)
+if (WIN32)
+    nanobind_compile_options(_apngasm_python "/MT /MP /bigobj")
+endif()
+target_compile_definitions(_apngasm_python PRIVATE _apngasm_python_EXPORTS)
+target_compile_definitions(_apngasm_python PRIVATE apngasm_EXPORTS)
+
+# Static linking
+add_library(zlibstatic STATIC IMPORTED)
+add_library(png_static STATIC IMPORTED)
+
 add_subdirectory(apngasm)
 set_target_properties(apngasm-static PROPERTIES BUILD_SHARED_LIBS OFF)
 
@@ -145,6 +146,7 @@ target_compile_definitions(_apngasm_python PRIVATE
     MODULE_NAME=$<TARGET_FILE_BASE_NAME:_apngasm_python>
     VERSION_INFO="${PY_FULL_VERSION}"
 )
+
 # Hide all symbols by default (including external libraries on Linux)
 set_target_properties(_apngasm_python PROPERTIES
     CXX_VISIBILITY_PRESET "hidden"
