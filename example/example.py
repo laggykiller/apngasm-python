@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from apngasm_python.apngasm import APNGAsm, APNGFrame, create_frame_from_rgba
+from apngasm_python.apngasm import APNGAsm, APNGFrame, create_frame_from_rgb, create_frame_from_rgba
 import os
 import shutil
 from PIL import Image

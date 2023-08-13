@@ -10,3 +10,6 @@
 [submodule "libpng"]
 	path = libpng
 	url = https://github.com/glennrp/libpng.git
+[submodule "nanobind"]
+	path = nanobind
+	url = https://github.com/wjakob/nanobind.git

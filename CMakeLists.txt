@@ -40,6 +40,9 @@ endif()
 # Find the nanobind package
 
 # Somehow GitHub runner cannot find nanobind-config.cmake / nanobindConfig.cmake with this
+# include(cmake/QueryPythonForNanobind.cmake)
+# find_nanobind_python_first()
+
 include(cmake/QueryPythonForNanobind.cmake)
 find_nanobind_python_first()
 
@@ -66,7 +69,7 @@ if (WIN32)
     set(LIBAPNGASM_NAME apngasm)
 else()
     set(LIBZ_NAME libz)
-    set(LIBPNG_NAME libpng)
+    set(LIBPNG_NAME libpng16)
     set(LIBAPNGASM_NAME libapngasm)
 endif()
 

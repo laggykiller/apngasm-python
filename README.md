@@ -1,19 +1,33 @@
 # apngasm-python
 
-A nanobind API for apngasm, a tool/library for APNG assembly/disassembly. Prebuilt library packaged.
+A nanobind API for [apngasm](https://github.com/apngasm/apngasm), a tool/library for APNG assembly/disassembly.
 
-WORK IN PROGRESS
+apngasm is originally a CLI program for quickly assembling PNG images into animated PNG (APNG). It also supports creating compressed APNG.
 
-## Usage
+apngasm-python is a binding for apngasm using nanobind, allowing you to use apngasm without calling it using commands.
+
+With this module, you can even create APNG using images inside memory (No need to write them out as file and call apngasm!)
+
+For convenience, prebuilt library is packaged with this module, so you need not download apngasm.
+
+## Example usage
+For more examples, see [example/example.py](example/example.py)
 ```
-from apngasm_python.apngasm import APNGAsm
+from apngasm_python.apngasm import APNGAsm, APNGFrame, create_frame_from_rgb, create_frame_from_rgba
 import os
 
-apng = APNGAsm()
-for f_path in sorted(os.listdir('test')):
-    apng.add_frame_from_file(os.path.join('test', f_path), 100, 1000)
+# From file
+for file_name in sorted(os.listdir('frames')):
+    apngasm.add_frame_from_file(os.path.join('frames', file_name), 100, 1000)
+apng.assemble('result-from-file.apng')
 
-apng.assemble('out.apng')
+# From Pillow
+apngasm.reset()
+for file_name in sorted(os.listdir('frames')):
+    image = Image.open(os.path.join('frames', file_name)).convert('RGBA')
+    frame = create_frame_from_rgba(np.array(image).flatten(), image.width, image.height)
+    apngasm.add_frame(frame)
+apng.assemble('result-from-pillow.apng')
 ```
 
 ## Building from source
@@ -85,6 +99,7 @@ export APNGASM_COMPILE_TARGET=arm64
 ## Credits
 - apngasm: https://github.com/apngasm/apngasm
 - Packaging: https://github.com/tttapa/py-build-cmake
-- Examples:
-    - hhttps://apng.onevcat.com/demo/
+- Example files:
+    - https://apng.onevcat.com/demo/
     - https://commons.wikimedia.org/wiki/File:Animated_PNG_example_bouncing_beach_ball.png
+    - https://commons.wikimedia.org/wiki/File:Grayscale_8bits_palette_sample_image.png
