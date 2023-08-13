@@ -2,6 +2,14 @@ cmake_minimum_required(VERSION 3.17)
 cmake_policy(SET CMP0074 NEW)
 
 if (WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+elseif (LINUX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif()
+
+if (WIN32)
     set(GET_TARGET_CMD "cmd" "/c" "${CMAKE_SOURCE_DIR}/get-target-win.bat")
     set(PREPARE_CMD "cmd" "/c" "${CMAKE_SOURCE_DIR}/prepare-win.bat")
 elseif (APPLE)
@@ -34,7 +42,12 @@ include(cmake/QueryPythonForNanobind.cmake)
 find_nanobind_python_first()
 
 # Compile the example Python module
-nanobind_add_module(_apngasm_python "src/apngasm_python.cpp")
+nanobind_add_module(_apngasm_python "src/apngasm_python.cpp" NB_STATIC STABLE_ABI)
+if (WIN32)
+    nanobind_compile_options(_apngasm_python "/MT /MP /bigobj")
+endif()
+target_compile_definitions(_apngasm_python PRIVATE APNGASM_PY_BUILD)
+target_compile_definitions(_apngasm_python PRIVATE apngasm_EXPORTS)
 
 # Static linking
 add_library(zlibstatic STATIC IMPORTED)
@@ -43,6 +56,16 @@ add_library(apngasm-static STATIC IMPORTED)
 
 if (DEFINED ENV{VCPKG_INSTALLATION_ROOT})
     set(VCPKG_INSTALLATION_ROOT $ENV{VCPKG_INSTALLATION_ROOT})
+endif()
+
+if (WIN32)
+    set(LIBZ_NAME zlibstatic)
+    set(LIBPNG_NAME libpng16_static)
+    set(LIBAPNGASM_NAME apngasm)
+else()
+    set(LIBZ_NAME libz)
+    set(LIBPNG_NAME libpng)
+    set(LIBAPNGASM_NAME libapngasm)
 endif()
 
 if (DEFINED VCPKG_INSTALLATION_ROOT)
@@ -71,16 +94,17 @@ if (DEFINED VCPKG_INSTALLATION_ROOT)
     set(VCPKG_TARGET_TRIPLET ${APNGASM_COMPILE_TARGET}-${PLATFORM})
 
     include_directories(${VCPKG_INSTALLATION_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/include)
-    set(LIBZ_PATH ${VCPKG_INSTALLATION_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/lib/libz${CMAKE_STATIC_LIBRARY_SUFFIX})
-    set(LIBPNG_PATH ${VCPKG_INSTALLATION_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/lib/libpng${CMAKE_STATIC_LIBRARY_SUFFIX})
-    set(LIBAPNGASM_PATH ${VCPKG_INSTALLATION_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/lib/libapngasm${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(LIBZ_PATH ${VCPKG_INSTALLATION_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/lib/${LIBZ_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(LIBPNG_PATH ${VCPKG_INSTALLATION_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/lib/${LIBPNG_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(LIBAPNGASM_PATH ${VCPKG_INSTALLATION_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/lib/${LIBAPNGASM_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX})
 else()
-    set(LIBZ_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib/libz${CMAKE_STATIC_LIBRARY_SUFFIX})
-    set(LIBPNG_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib/libpng${CMAKE_STATIC_LIBRARY_SUFFIX})
-    set(LIBAPNGASM_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib/libapngasm${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(LIBZ_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib/${LIBZ_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(LIBPNG_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib/${LIBPNG_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX})
+    set(LIBAPNGASM_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib/${LIBAPNGASM_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX})
 endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/fakeroot/include)
+include_directories(${CMAKE_SOURCE_DIR}/fakeroot/include/listener)
 
 set_target_properties(zlibstatic PROPERTIES IMPORTED_LOCATION ${LIBZ_PATH})
 set_target_properties(png_static PROPERTIES IMPORTED_LOCATION ${LIBPNG_PATH})
@@ -95,23 +119,19 @@ target_compile_definitions(_apngasm_python PRIVATE
 # Hide all symbols by default (including external libraries on Linux)
 set_target_properties(_apngasm_python PROPERTIES
     CXX_VISIBILITY_PRESET "hidden"
-    VISIBILITY_INLINES_HIDDEN true)
-if (CMAKE_SYSTEM_NAME MATCHES "Linux")
+    VISIBILITY_INLINES_HIDDEN true
+    POSITION_INDEPENDENT_CODE true)
+if (WIN32)
+    set_target_properties(_apngasm_python PROPERTIES LINK_FALGS_RELEASE "/WHOLEARCHIVE:MNN")
+elseif (LINUX)
     target_link_options(_apngasm_python PRIVATE "LINKER:--exclude-libs,ALL")
 endif()
 
 # Install the module
-if (WIN32)
-    install(TARGETS _apngasm_python
-            EXCLUDE_FROM_ALL
-            RUNTIME DESTINATION ${PY_BUILD_CMAKE_MODULE_NAME}
-            COMPONENT python_module)
-else()
-    install(TARGETS _apngasm_python
-            EXCLUDE_FROM_ALL
-            LIBRARY DESTINATION ${PY_BUILD_CMAKE_MODULE_NAME}
-            COMPONENT python_module)
-endif()
+install(TARGETS _apngasm_python
+    EXCLUDE_FROM_ALL
+    DESTINATION ${PY_BUILD_CMAKE_MODULE_NAME}
+    COMPONENT python_module)
 
 # Generate stubs for the Python module
 option(WITH_PY_STUBS

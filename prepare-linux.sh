@@ -43,14 +43,16 @@ else
     if [ ! -d ${FAKEROOT}/include/boost ]; then
         cd ${SOURCE_PATH}/boost
         ./bootstrap.sh
-        ./b2 install --cxxflags="-fPIC" --cflags="-fPIC" --link=static --build-dir=tmp --prefix=${FAKEROOT} --with-program_options --with-regex --with-system -j${CORES} --layout=tagged
+        ./b2 install link=static --cxxflags="-fPIC" --cflags="-fPIC" --build-dir=tmp --prefix=${FAKEROOT} --with-program_options --with-regex --with-system -j${CORES} --layout=tagged
     fi
 fi
 
-if [ ! -d ${SOURCE_PATH}/apngasm/build ]; then
+if [ ! -d ${FAKEROOT}/lib/libapngasm.a ]; then
     cd ${SOURCE_PATH}/apngasm
     mkdir build
     cd ./build
     cmake -DCMAKE_POLICY_DEFAULT_CMP0074=NEW -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX:PATH=${FAKEROOT} -DZLIB_ROOT=${FAKEROOT} -DPNG_ROOT=${FAKEROOT} -DBoost_ROOT=${FAKEROOT} ${VCPKG_CMAKE_FLAGS} ..
     make install -j
+    mkdir ${FAKEROOT}/include/listener
+    copy ${SOURCE_PATH}/apngasm/lib/src/listener/apngasmlistener.h ${FAKEROOT}/include/listener
 fi

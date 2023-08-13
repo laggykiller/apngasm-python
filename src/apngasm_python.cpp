@@ -1,3 +1,17 @@
+#if defined(_WIN32)
+#  define APNGASM_PY_EXPORT __declspec(dllexport)
+#  define APNGASM_PY_IMPORT __declspec(dllimport)
+#else
+#  define APNGASM_PY_EXPORT __attribute__ ((visibility("default")))
+#  define APNGASM_PY_IMPORT __attribute__ ((visibility("default")))
+#endif
+
+#if defined(APNGASM_PY_BUILD)
+#  define APNGASM_PY_API APNGASM_PY_EXPORT
+#else
+#  define APNGASM_PY_API APNGASM_PY_IMPORT
+#endif
+
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
@@ -10,7 +24,7 @@
 #include "apngframe.h"
 #include "apngasm.h"
 // apngasmlistener.h not installed by apngasm
-// #include "apngasmlistener.h"
+#include "apngasmlistener.h"
 
 namespace nb = nanobind;
 using namespace nb::literals;
@@ -52,12 +66,12 @@ NB_MODULE(MODULE_NAME, m) {
         .def(nb::init<apngasm::rgba *, unsigned int, unsigned int, unsigned, unsigned>())
         .def("save", &apngasm::APNGFrame::save)
         .def_prop_rw("pixels", 
-                    [](apngasm::APNGFrame &t) {
+                    [](apngasm::APNGFrame &t) APNGASM_PY_API {
                         int rowbytes = rowbytesMap[t._colorType];
                         size_t shape[1] = { t._height * t._width * rowbytes };
                         return nb::ndarray<nb::numpy, unsigned char, nb::shape<nb::any>>(t._pixels, 1, shape);
                     },
-                    [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<nb::any>> *v) {
+                    [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<nb::any>> *v) APNGASM_PY_API {
                         int rowbytes = rowbytesMap[t._colorType];
                         unsigned char *pixelsNew = new unsigned char[v->shape(0)];
                         unsigned char *v_ptr = v->data();
@@ -65,33 +79,33 @@ NB_MODULE(MODULE_NAME, m) {
                             pixelsNew[i] = *v_ptr;
                             ++v_ptr;
                         }
-                        t.pixels(pixelsNew);
+                        t._pixels = pixelsNew;
 
                         t._rows = new png_bytep[t._height * sizeof(png_bytep)];
                         for (int j = 0; j < t._height; ++j)
                             t._rows[j] = t._pixels + j * rowbytes;
                     })
         .def_prop_rw("width", 
-                    [](apngasm::APNGFrame &t) { return t._width; },
-                    [](apngasm::APNGFrame &t, unsigned int v) { t.width(v); })
+                    [](apngasm::APNGFrame &t) APNGASM_PY_API { return t._width; },
+                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_API { t.width(v); })
         .def_prop_rw("height", 
-                    [](apngasm::APNGFrame &t) { return t._height; },
-                    [](apngasm::APNGFrame &t, unsigned int v) { t.height(v); })
+                    [](apngasm::APNGFrame &t) APNGASM_PY_API { return t._height; },
+                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_API { t.height(v); })
         .def_prop_rw("color_type", 
-                    [](apngasm::APNGFrame &t) { return t._colorType; },
-                    [](apngasm::APNGFrame &t, unsigned char v) { t.colorType(v); })
+                    [](apngasm::APNGFrame &t) APNGASM_PY_API { return t._colorType; },
+                    [](apngasm::APNGFrame &t, unsigned char v) APNGASM_PY_API { t.colorType(v); })
         .def_prop_rw("palette", 
-                    [](apngasm::APNGFrame &t) {
-                        unsigned char paletteView[t._paletteSize][3];
-                        for (int i = 0; i < t._paletteSize; ++i) {
+                    [](apngasm::APNGFrame &t) APNGASM_PY_API {
+                        unsigned char paletteView[256][3];
+                        for (int i = 0; i < 256; ++i) {
                             paletteView[i][0] = t._palette[i].r;
                             paletteView[i][1] = t._palette[i].g;
                             paletteView[i][2] = t._palette[i].b;
                         }
-                        size_t shape[2] = { t._paletteSize, 3 };
+                        size_t shape[2] = { 256, 3 };
                         return nb::ndarray<nb::numpy, unsigned char, nb::shape<nb::any, 3>>(paletteView, 2, shape); 
                     },
-                    [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<256, 3>> *v) {
+                    [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<256, 3>> *v) APNGASM_PY_API {
                         unsigned char *v_ptr = v->data();
                         for (int i = 0; i < v->shape(0); ++i) {
                             t._palette[i].r = v_ptr[0];
@@ -101,11 +115,11 @@ NB_MODULE(MODULE_NAME, m) {
                         }
                     })
         .def_prop_rw("transparency", 
-                    [](apngasm::APNGFrame &t) {
+                    [](apngasm::APNGFrame &t) APNGASM_PY_API {
                         size_t shape[1] = { t._transparencySize };
                         return nb::ndarray<nb::numpy, unsigned char, nb::shape<nb::any>>(t._transparency, 1, shape); 
                     },
-                    [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<nb::any>> *v) {
+                    [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<nb::any>> *v) APNGASM_PY_API {
                         unsigned char *v_ptr = v->data();
                         for (int i = 0; i < v->shape(0); ++i) {
                             t._transparency[i] = *v_ptr;
@@ -113,17 +127,17 @@ NB_MODULE(MODULE_NAME, m) {
                         }
                     })
         .def_prop_rw("palette_size", 
-                    [](apngasm::APNGFrame &t) { return t._paletteSize; },
-                    [](apngasm::APNGFrame &t, unsigned int v) { t.paletteSize(v); })
+                    [](apngasm::APNGFrame &t) APNGASM_PY_API { return t._paletteSize; },
+                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_API { t.paletteSize(v); })
         .def_prop_rw("transparency_size", 
-                    [](apngasm::APNGFrame &t) { return t._transparencySize; },
-                    [](apngasm::APNGFrame &t, unsigned int v) { t.transparencySize(v); })
+                    [](apngasm::APNGFrame &t) APNGASM_PY_API { return t._transparencySize; },
+                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_API { t.transparencySize(v); })
         .def_prop_rw("delay_num", 
-                    [](apngasm::APNGFrame &t) { return t._delayNum; },
-                    [](apngasm::APNGFrame &t, unsigned int v) { t.delayNum(v); })
+                    [](apngasm::APNGFrame &t) APNGASM_PY_API { return t._delayNum; },
+                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_API { t.delayNum(v); })
         .def_prop_rw("delay_den", 
-                    [](apngasm::APNGFrame &t) { return t._delayDen; },
-                    [](apngasm::APNGFrame &t, unsigned int v) { t.delayDen(v); });
+                    [](apngasm::APNGFrame &t) APNGASM_PY_API { return t._delayDen; },
+                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_API { t.delayDen(v); });
         // difficult to implement
         // rows is also set when pixels is set
         // .def_prop_rw("rows")

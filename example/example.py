@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from apngasm_python.apngasm import APNGAsm, APNGFrame
 import os
+import shutil
 from PIL import Image
 import numpy as np
 
@@ -28,8 +29,8 @@ color_type_dict = {
 color_type_dict = color_type_dict | dict((v, k) for k, v in color_type_dict.items())
 
 # Cleanup
-for i in os.listdir('output'):
-    os.remove(os.path.join('output', i))
+shutil.rmtree('output', ignore_errors=True)
+os.mkdir('output')
 
 # Initialize
 apngasm = APNGAsm()

@@ -4,7 +4,7 @@ SOURCE_PATH=$PWD
 FAKEROOT=${SOURCE_PATH}/fakeroot
 mkdir ${FAKEROOT}
 
-CORES=$(nproc --all)
+CORES=$(sysctl -n hw.logicalcpu)
 if [[ $? -ne 0 ]]; then
   CORES=2
 fi
@@ -57,14 +57,16 @@ else
     if [ ! -d ${FAKEROOT}/include/boost ]; then
         cd ${SOURCE_PATH}/boost
         ./bootstrap.sh --prefix=.
-        ./b2 install --link=static --build-dir=tmp --prefix=${FAKEROOT} --with-program_options --with-regex --with-system -j${CORES} --layout=tagged
+        ./b2 install link=static --build-dir=tmp --prefix=${FAKEROOT} --with-program_options --with-regex --with-system -j${CORES} --layout=tagged
     fi
 fi
 
-if [ ! -d ${SOURCE_PATH}/apngasm/build ]; then
+if [ ! -d ${FAKEROOT}/lib/libapngasm.a ]; then
     cd ${SOURCE_PATH}/apngasm
     mkdir build
     cd ./build
     cmake -DCMAKE_POLICY_DEFAULT_CMP0074=NEW -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX:PATH=${FAKEROOT} -DZLIB_ROOT=${FAKEROOT} -DPNG_ROOT=${FAKEROOT} -DBoost_ROOT=${FAKEROOT} ${VCPKG_CMAKE_FLAGS} ..
     make install -j
+    mkdir ${FAKEROOT}/include/listener
+    copy ${SOURCE_PATH}/apngasm/lib/src/listener/apngasmlistener.h ${FAKEROOT}/include/listener
 fi

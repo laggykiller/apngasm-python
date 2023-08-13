@@ -5,7 +5,7 @@ requires-python = ">=3.7"
 readme = "README.md"
 license = { "file" = "LICENSE" }
 authors = [{ "name" = "chaudominic", "email" = "chaudominic2@gmail.com" }]
-keywords = ["apng", "png", "nanobind"]
+keywords = ["apng", "png", "nanobind", "pybind11"]
 classifiers = ["Topic :: Multimedia :: Graphics"]
 dependencies = ["Pillow", "numpy"]
 dynamic = ["version"]
