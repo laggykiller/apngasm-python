@@ -20,7 +20,13 @@ import os
 
 # From file
 for file_name in sorted(os.listdir('frames')):
-    apngasm.add_frame_from_file(os.path.join('frames', file_name), 100, 1000)
+    # To adjust frame duration, set delay_num and delay_den
+    # The frame duration will be (delay_num / delay_den) seconds
+    apngasm.add_frame_from_file(file_path=os.path.join('frames', file_name), delay_num=100, delay_den=1000)
+    
+# Default value of loops is 0, which is infinite looping of APNG animation
+# This sets the APNG animation to loop for 3 times before stopping
+apngasm.set_loops(3)
 apng.assemble('result-from-file.apng')
 
 # From Pillow
@@ -28,6 +34,8 @@ apngasm.reset()
 for file_name in sorted(os.listdir('frames')):
     image = Image.open(os.path.join('frames', file_name)).convert('RGBA')
     frame = create_frame_from_rgba(np.array(image).flatten(), image.width, image.height)
+    frame.delay_num = 50
+    frame.delay_den = 1000
     apngasm.add_frame(frame)
 apng.assemble('result-from-pillow.apng')
 ```

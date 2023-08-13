@@ -1,15 +1,11 @@
-#if defined(_WIN32)
-#  define APNGASM_PY_EXPORT __declspec(dllexport)
-#  define APNGASM_PY_IMPORT __declspec(dllimport)
+#ifdef _WINDOWS
+#  ifdef _apngasm_python_EXPORTS
+#    define APNGASM_PY_DECLSPEC __declspec(dllexport)
+#  else
+#    define APNGASM_PY_DECLSPEC __declspec(dllimport)
+#  endif
 #else
-#  define APNGASM_PY_EXPORT __attribute__ ((visibility("default")))
-#  define APNGASM_PY_IMPORT __attribute__ ((visibility("default")))
-#endif
-
-#if defined(APNGASM_PY_BUILD)
-#  define APNGASM_PY_API APNGASM_PY_EXPORT
-#else
-#  define APNGASM_PY_API APNGASM_PY_IMPORT
+#  define APNGASM_PY_DECLSPEC
 #endif
 
 #include <nanobind/nanobind.h>
@@ -185,12 +181,12 @@ NB_MODULE(MODULE_NAME, m) {
             "Returns: true if save was successful.")
 
         .def_prop_rw("pixels", 
-                    [](apngasm::APNGFrame &t) APNGASM_PY_API {
+                    [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC {
                         int rowbytes = rowbytesMap[t._colorType];
                         size_t shape[1] = { t._height * t._width * rowbytes };
                         return nb::cast(nb::ndarray<nb::numpy, unsigned char, nb::shape<nb::any>>(t._pixels, 1, shape));
                     },
-                    [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<nb::any>> *v) APNGASM_PY_API {
+                    [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<nb::any>> *v) APNGASM_PY_DECLSPEC {
                         int rowbytes = rowbytesMap[t._colorType];
                         unsigned char *pixelsNew = new unsigned char[v->shape(0)];
                         unsigned char *v_ptr = v->data();
@@ -209,18 +205,18 @@ NB_MODULE(MODULE_NAME, m) {
                     "This should be set AFTER you set the width, height and color_type.")
 
         .def_prop_rw("width", 
-                    [](apngasm::APNGFrame &t) APNGASM_PY_API { return t._width; },
-                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_API { t.width(v); },
+                    [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC { return t._width; },
+                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_DECLSPEC { t.width(v); },
                     "The width of frame.")
 
         .def_prop_rw("height", 
-                    [](apngasm::APNGFrame &t) APNGASM_PY_API { return t._height; },
-                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_API { t.height(v); },
+                    [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC { return t._height; },
+                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_DECLSPEC { t.height(v); },
                     "The height of frame.")
 
         .def_prop_rw("color_type", 
-                    [](apngasm::APNGFrame &t) APNGASM_PY_API { return t._colorType; },
-                    [](apngasm::APNGFrame &t, unsigned char v) APNGASM_PY_API { t.colorType(v); },
+                    [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC { return t._colorType; },
+                    [](apngasm::APNGFrame &t, unsigned char v) APNGASM_PY_DECLSPEC { t.colorType(v); },
                     "The color_type of the frame.\n"
                     "===\n"
                     "0: Grayscale (Pillow mode='L')\n"
@@ -230,7 +226,7 @@ NB_MODULE(MODULE_NAME, m) {
                     "6: RGBA (Pillow mode='RGBA')")
 
         .def_prop_rw("palette", 
-                    [](apngasm::APNGFrame &t) APNGASM_PY_API {
+                    [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC {
                         unsigned char paletteView[256][3];
                         for (int i = 0; i < 256; ++i) {
                             paletteView[i][0] = t._palette[i].r;
@@ -240,7 +236,7 @@ NB_MODULE(MODULE_NAME, m) {
                         size_t shape[2] = { 256, 3 };
                         return nb::cast(nb::ndarray<nb::numpy, unsigned char, nb::shape<256, 3>>(paletteView, 2, shape)); 
                     },
-                    [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<256, 3>> *v) APNGASM_PY_API {
+                    [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<256, 3>> *v) APNGASM_PY_DECLSPEC {
                         unsigned char *v_ptr = v->data();
                         for (int i = 0; i < 256; ++i) {
                             t._palette[i].r = v_ptr[0];
@@ -253,11 +249,11 @@ NB_MODULE(MODULE_NAME, m) {
                     "Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]] in Python")
 
         .def_prop_rw("transparency", 
-                    [](apngasm::APNGFrame &t) APNGASM_PY_API {
+                    [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC {
                         size_t shape[1] = { static_cast<size_t>(t._transparencySize) };
                         return nb::cast(nb::ndarray<nb::numpy, unsigned char, nb::shape<nb::any>>(t._transparency, 1, shape)); 
                     },
-                    [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<nb::any>> *v) APNGASM_PY_API {
+                    [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<nb::any>> *v) APNGASM_PY_DECLSPEC {
                         unsigned char *v_ptr = v->data();
                         for (int i = 0; i < v->shape(0); ++i) {
                             t._transparency[i] = *v_ptr;
@@ -267,22 +263,22 @@ NB_MODULE(MODULE_NAME, m) {
                     "The transparency data of frame. Expressed as 1D numpy array.")
 
         .def_prop_rw("palette_size", 
-                    [](apngasm::APNGFrame &t) APNGASM_PY_API { return t._paletteSize; },
-                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_API { t.paletteSize(v); },
+                    [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC { return t._paletteSize; },
+                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_DECLSPEC { t.paletteSize(v); },
                     "The palette data size of frame.")
 
         .def_prop_rw("transparency_size", 
-                    [](apngasm::APNGFrame &t) APNGASM_PY_API { return t._transparencySize; },
-                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_API { t.transparencySize(v); },
+                    [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC { return t._transparencySize; },
+                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_DECLSPEC { t.transparencySize(v); },
                     "The transparency data size of frame.")
 
         .def_prop_rw("delay_num", 
-                    [](apngasm::APNGFrame &t) APNGASM_PY_API { return t._delayNum; },
-                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_API { t.delayNum(v); },
+                    [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC { return t._delayNum; },
+                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_DECLSPEC { t.delayNum(v); },
                     "The nominator of the duration of frame. Duration of time is delay_num / delay_den seconds.")
         .def_prop_rw("delay_den", 
-                    [](apngasm::APNGFrame &t) APNGASM_PY_API { return t._delayDen; },
-                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_API { t.delayDen(v); },
+                    [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC { return t._delayDen; },
+                    [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_DECLSPEC { t.delayDen(v); },
                     "The denominator of the duration of frame. Duration of time is delay_num / delay_den seconds.");
         // difficult to implement
         // rows is also set when pixels is set
@@ -309,7 +305,7 @@ NB_MODULE(MODULE_NAME, m) {
         "file_path"_a, "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
         "Adds a frame from a PNG file or frames from a APNG file to the frame vector.\n"
         "===\n"
-        "filePath: The relative or absolute path to an image file.\n"
+        "file_path: The relative or absolute path to an image file.\n"
         "delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).\n"
         "delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).\n"
         "Returns: The [new] number of frames/the number of this frame on the frame vector.")
