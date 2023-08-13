@@ -124,7 +124,6 @@ else()
 
     set(LIBPNG_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib/${LIBPNG_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX})
     if(NOT EXISTS ${LIBPNG_PATH})
-        message(FATAL_ERROR LIBPNG_PATH)
         set(LIBPNG_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib64/${LIBPNG_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX})
     endif()
 endif()
