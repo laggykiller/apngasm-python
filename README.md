@@ -8,6 +8,8 @@ apngasm-python is a binding for apngasm using nanobind, allowing you to use apng
 
 With this module, you can even create APNG using images inside memory (No need to write them out as file and call apngasm!)
 
+A similar python module is https://github.com/eight04/pyAPNG , which handles APNG files with python natively and does not support compression.
+
 For convenience, prebuilt library is packaged with this module, so you need not download apngasm.
 
 ## Example usage
@@ -103,3 +105,4 @@ export APNGASM_COMPILE_TARGET=arm64
     - https://apng.onevcat.com/demo/
     - https://commons.wikimedia.org/wiki/File:Animated_PNG_example_bouncing_beach_ball.png
     - https://commons.wikimedia.org/wiki/File:Grayscale_8bits_palette_sample_image.png
+    - https://commons.wikimedia.org/wiki/File:RG_16bits_palette_sample_image.png

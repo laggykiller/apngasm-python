@@ -43,8 +43,8 @@ endif()
 # include(cmake/QueryPythonForNanobind.cmake)
 # find_nanobind_python_first()
 
-include(cmake/QueryPythonForNanobind.cmake)
-find_nanobind_python_first()
+find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
+add_subdirectory(nanobind)
 
 # Compile the example Python module
 nanobind_add_module(_apngasm_python "src/apngasm_python.cpp" NB_STATIC STABLE_ABI)
