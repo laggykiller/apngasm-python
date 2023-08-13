@@ -1,7 +1,7 @@
 [project] # Project metadata
 name = "apngasm-python"
 description = "A nanobind API for apngasm, a tool/library for APNG assembly/disassembly."
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 readme = "README.md"
 license = { "file" = "LICENSE" }
 authors = [{ "name" = "chaudominic", "email" = "chaudominic2@gmail.com" }]

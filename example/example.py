@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from apngasm_python.apngasm import APNGAsm, APNGFrame
+from apngasm_python.apngasm import APNGAsm, APNGFrame, create_frame_from_rgba
 import os
 import shutil
 from PIL import Image
@@ -28,7 +28,7 @@ color_type_dict = {
 
 color_type_dict = color_type_dict | dict((v, k) for k, v in color_type_dict.items())
 
-# Cleanup
+# # Cleanup
 shutil.rmtree('output', ignore_errors=True)
 os.mkdir('output')
 
@@ -81,14 +81,7 @@ angle_step = 360 / len(os.listdir('frames'))
 for file_name in sorted(os.listdir('frames')):
     image = Image.open(os.path.join('frames', file_name))
     image = image.rotate(angle)
-    frame = APNGFrame()
-    frame.pixels = np.array(image).flatten()
-    frame.width = image.width
-    frame.height = image.height
-    frame.color_type = color_type_dict[image.mode]
-    frame.delay_num = 10
-    frame.delay_den = 1000
-
+    frame = create_frame_from_rgba(np.array(image).flatten(), image.width, image.height)
     apngasm.add_frame(frame)
     
     angle += angle_step
@@ -113,31 +106,23 @@ print(f'{success = }')
 del apngasm
 
 # Assemble palette and grey PNGs, but with Pillow
-image0 = Image.open('input/grey.png')
-frame0 = APNGFrame()
-frame0.delay_num = 100
-frame0.delay_den = 1000
-frame0.color_type = color_type_dict[image0.mode]
-frame0.width = image0.width
-frame0.height = image0.height
-frame0.pixels = np.array(image0).flatten()
+image0 = Image.open('input/grey.png').convert('RGBA')
+frame0 = create_frame_from_rgba(np.array(image0).flatten(), image0.width, image0.height)
 frame_info(frame0)
 
-image1 = Image.open('input/palette.png')
+# You may even set the variables manually
+image1 = Image.open('input/palette.png').convert('RGBA')
 frame1 = APNGFrame()
-frame1.width = image1.width
-frame1.height = image1.height
-frame1.color_type = color_type_dict[image1.mode]
-frame1.pixels = np.array(image1).flatten()
 frame1.delay_num = 100
 frame1.delay_den = 1000
+frame1.color_type = color_type_dict[image1.mode]
+frame1.width = image1.width
+frame1.height = image1.height
+frame1.pixels = np.array(image1).flatten()
 frame_info(frame1)
 
-# Another way of creating APNGAsm object
+# # Another way of creating APNGAsm object
 apngasm = APNGAsm([frame0, frame1])
-
-print(f'{apngasm.get_frames()[0].color_type = }')
-print(f'{apngasm.get_frames()[1].color_type = }')
 
 success = apngasm.assemble('output/birds-pillow.apng')
 print(f'{success = }')

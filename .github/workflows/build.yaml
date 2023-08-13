@@ -120,7 +120,7 @@ jobs:
           CIBW_ARCHS_LINUX: ${{ matrix.cibw_archs_linux }}
           CIBW_BEFORE_ALL: ${{ matrix.cibw_before_all }}
           CIBW_ENVIRONMENT: ${{ matrix.cibw_environment }}
-          CIBW_SKIP: ${{ matrix.cibw_skip }}
+          CIBW_SKIP: cp36* cp37* ${{ matrix.cibw_skip }}
 
       - uses: actions/upload-artifact@v3
         with:
