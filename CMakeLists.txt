@@ -38,8 +38,13 @@ if (DEFINED PY_BUILD_CMAKE_PACKAGE_VERSION)
 endif()
 
 # Find the nanobind package
-include(cmake/QueryPythonForNanobind.cmake)
-find_nanobind_python_first()
+
+# Somehow GitHub runner cannot find nanobind-config.cmake / nanobindConfig.cmake with this
+# include(cmake/QueryPythonForNanobind.cmake)
+# find_nanobind_python_first()
+
+find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
+add_subdirectory(nanobind)
 
 # Compile the example Python module
 nanobind_add_module(_apngasm_python "src/apngasm_python.cpp" NB_STATIC STABLE_ABI)
