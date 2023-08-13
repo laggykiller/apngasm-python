@@ -54,5 +54,5 @@ if [ ! -d ${FAKEROOT}/lib/libapngasm.a ]; then
     cmake -DCMAKE_POLICY_DEFAULT_CMP0074=NEW -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX:PATH=${FAKEROOT} -DZLIB_ROOT=${FAKEROOT} -DPNG_ROOT=${FAKEROOT} -DBoost_ROOT=${FAKEROOT} ${VCPKG_CMAKE_FLAGS} ..
     make install -j
     mkdir ${FAKEROOT}/include/listener
-    copy ${SOURCE_PATH}/apngasm/lib/src/listener/apngasmlistener.h ${FAKEROOT}/include/listener
+    cp ${SOURCE_PATH}/apngasm/lib/src/listener/apngasmlistener.h ${FAKEROOT}/include/listener
 fi
