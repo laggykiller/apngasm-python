@@ -37,8 +37,3 @@ install_components = ["python_module"]
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
 env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" } # Required for brew installed icu4c
-
-# stubgen depends on mypy, which depends on typed-ast
-# typed-ast cannot run on pypy <3.8
-# https://mypy.readthedocs.io/en/stable/faq.html
-# [tool.py-build-cmake.stubgen] # Whether and how to generate typed stub files

@@ -121,6 +121,7 @@ jobs:
           CIBW_ARCHS_MACOS: ${{ matrix.cibw_archs_macos }}
           CIBW_ARCHS_LINUX: ${{ matrix.cibw_archs_linux }}
           CIBW_BEFORE_ALL: ${{ matrix.cibw_before_all }}
+          CIBW_BEFORE_BUILD: pip install -r requirements-build.txt
           CIBW_ENVIRONMENT: ${{ matrix.cibw_environment }}
           CIBW_SKIP: cp36* cp37* pp37* ${{ matrix.cibw_skip }}
 
