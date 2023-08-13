@@ -51,6 +51,7 @@ jobs:
             submodules_mode: recursive
             cibw_archs_linux: x86_64
             cibw_before_all: ./prepare-linux.sh
+            cibw_skip: pp310*
           - os: ubuntu-20.04
             arch: x86
             submodules_mode: recursive
@@ -74,13 +75,13 @@ jobs:
             submodules_mode: recursive
             cibw_archs_linux: aarch64
             cibw_before_all: ./prepare-linux.sh
-            cibw_skip: "*-muslinux_* *-multilinux_*"
+            cibw_skip: "*-muslinux_* *-multilinux_* pp310*"
           - os: ubuntu-20.04
             arch: ppc64le
             submodules_mode: recursive
             cibw_archs_linux: ppc64le
             cibw_before_all: ./prepare-linux.sh
-            cibw_skip: "*-muslinux_ppc64le"
+            cibw_skip: "*-muslinux_*"
           - os: ubuntu-20.04
             arch: ppc64le
             submodules_mode: recursive
