@@ -26,7 +26,7 @@ name = "apngasm_python"
 directory = "src-python"
 
 [tool.py-build-cmake.sdist] # What to include in source distributions
-include = ["CMakeLists.txt", "cmake/*.cmake", "src/*", "*.bat", "*.sh", "apngasm/*", "zlib/*", "libpng/*", "boost/*", "nanobind/*", "vcpkg/*"]
+include = ["CMakeLists.txt", "cmake/*.cmake", "src/*", "*.bat", "*.sh", "apngasm/*", "zlib/*", "libpng/*", "boost/*", "nanobind/*"]
 
 [tool.py-build-cmake.cmake] # How to build the CMake project
 build_type = "Release"
