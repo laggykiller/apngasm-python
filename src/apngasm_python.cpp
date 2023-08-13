@@ -5,7 +5,7 @@
 #    define APNGASM_PY_DECLSPEC __declspec(dllimport)
 #  endif
 #else
-#  define APNGASM_PY_DECLSPEC
+#  define APNGASM_PY_DECLSPEC __attribute__ ((visibility("default")))
 #endif
 
 #include <nanobind/nanobind.h>
