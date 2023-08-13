@@ -22,74 +22,83 @@ jobs:
             cibw_archs_windows: AMD64
             cibw_environment: APNGASM_COMPILE_TARGET=x64
             cibw_before_all: prepare-win.bat
-          # - os: windows-2019
-          #   arch: x86
-          #   submodules_mode: recursive
-          #   cibw_archs_windows: x86
-          #   cibw_environment: APNGASM_COMPILE_TARGET=x86
-          #   cibw_before_all: prepare-win.bat
-          # - os: windows-2019
-          #   arch: arm64
-          #   submodules_mode: recursive
-          #   cibw_archs_windows: ARM64
-          #   cibw_environment: APNGASM_COMPILE_TARGET=ARM64
-          #   cibw_before_all: prepare-win.bat
+          - os: windows-2019
+            arch: x86
+            submodules_mode: recursive
+            cibw_archs_windows: x86
+            cibw_environment: APNGASM_COMPILE_TARGET=x86
+            cibw_before_all: prepare-win.bat
+          - os: windows-2019
+            arch: arm64
+            submodules_mode: recursive
+            cibw_archs_windows: ARM64
+            cibw_environment: APNGASM_COMPILE_TARGET=ARM64
+            cibw_before_all: prepare-win.bat
           - os: macos-11
             arch: x64
             submodules_mode: recursive
             cibw_archs_macos: x86_64
             cibw_environment: _PYTHON_HOST_PLATFORM=macosx-11-x86_64 APNGASM_COMPILE_TARGET=x64
             cibw_before_all: ./prepare-mac.sh
-          # - os: macos-11
-          #   arch: arm64
-          #   submodules_mode: recursive
-          #   cibw_archs_macos: arm64
-          #   cibw_environment: _PYTHON_HOST_PLATFORM=macosx-11-arm64 APNGASM_COMPILE_TARGET=arm64
-          #   cibw_before_all: ./prepare-mac.sh
+          - os: macos-11
+            arch: arm64
+            submodules_mode: recursive
+            cibw_archs_macos: arm64
+            cibw_environment: _PYTHON_HOST_PLATFORM=macosx-11-arm64 APNGASM_COMPILE_TARGET=arm64
+            cibw_before_all: ./prepare-mac.sh
           - os: ubuntu-20.04
             arch: x64
             submodules_mode: recursive
             cibw_archs_linux: x86_64
-            cibw_skip: pp310*
+            cibw_before_all: ./prepare-linux.sh
+            cibw_skip: "*-muslinux_* pp310*"
           - os: ubuntu-20.04
             arch: x86
             submodules_mode: recursive
             cibw_archs_linux: i686
-            cibw_skip: pp310*
+            cibw_before_all: ./prepare-linux.sh
+            cibw_skip: "*-muslinux_* pp310*"
           - os: ubuntu-20.04
             arch: arm64
             submodules_mode: recursive
             cibw_archs_linux: aarch64
+            cibw_before_all: ./prepare-linux.sh
             cibw_skip: "*-muslinux_* pp*"
           - os: ubuntu-20.04
             arch: arm64
             submodules_mode: recursive
             cibw_archs_linux: aarch64
+            cibw_before_all: ./prepare-linux.sh
             cibw_skip: "*-multilinux_* pp*"
           - os: ubuntu-20.04
             arch: arm64
             submodules_mode: recursive
             cibw_archs_linux: aarch64
+            cibw_before_all: ./prepare-linux.sh
             cibw_skip: "*-muslinux_* *-multilinux_* pp310*"
           - os: ubuntu-20.04
             arch: ppc64le
             submodules_mode: recursive
             cibw_archs_linux: ppc64le
+            cibw_before_all: ./prepare-linux.sh
             cibw_skip: "*-muslinux_*"
           - os: ubuntu-20.04
             arch: ppc64le
             submodules_mode: recursive
             cibw_archs_linux: ppc64le
+            cibw_before_all: ./prepare-linux.sh
             cibw_skip: "*-multilinux_*"
           - os: ubuntu-20.04
             arch: s390x
             submodules_mode: recursive
             cibw_archs_linux: s390x
+            cibw_before_all: ./prepare-linux.sh
             cibw_skip: "*-muslinux_*"
           - os: ubuntu-20.04
             arch: s390x
             submodules_mode: recursive
             cibw_archs_linux: s390x
+            cibw_before_all: ./prepare-linux.sh
             cibw_skip: "*-multilinux_*"
 
     steps:

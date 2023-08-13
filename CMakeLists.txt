@@ -38,11 +38,6 @@ if (DEFINED PY_BUILD_CMAKE_PACKAGE_VERSION)
 endif()
 
 # Find the nanobind package
-
-# Somehow GitHub runner cannot find nanobind-config.cmake / nanobindConfig.cmake with this
-# include(cmake/QueryPythonForNanobind.cmake)
-# find_nanobind_python_first()
-
 find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
 add_subdirectory(nanobind)
 
@@ -51,13 +46,17 @@ nanobind_add_module(_apngasm_python "src/apngasm_python.cpp" NB_STATIC STABLE_AB
 if (WIN32)
     nanobind_compile_options(_apngasm_python "/MT /MP /bigobj")
 endif()
-target_compile_definitions(_apngasm_python PRIVATE APNGASM_PY_BUILD)
+target_compile_definitions(_apngasm_python PRIVATE _apngasm_python_EXPORTS)
 target_compile_definitions(_apngasm_python PRIVATE apngasm_EXPORTS)
 
-# Static linking
+# Static linkingset(Boost_USE_STATIC_LIBS ON)
+if (WIN32)
+    set(Boost_USE_MULTITHREADED ON)
+    set(Boost_USE_STATIC_RUNTIME ON)
+endif()
+
 add_library(zlibstatic STATIC IMPORTED)
 add_library(png_static STATIC IMPORTED)
-add_library(apngasm-static STATIC IMPORTED)
 
 if (DEFINED ENV{VCPKG_INSTALLATION_ROOT})
     set(VCPKG_INSTALLATION_ROOT $ENV{VCPKG_INSTALLATION_ROOT})
@@ -89,12 +88,16 @@ if (DEFINED VCPKG_INSTALLATION_ROOT)
     if (WIN32)
         set(LIBZ_NAME zlib)
         set(LIBPNG_NAME libpng16)
-        set(LIBAPNGASM_NAME apngasm)
+        # set(LIBAPNGASM_NAME apngasm)
     else()
         set(LIBZ_NAME libz)
         set(LIBPNG_NAME libpng16)
-        set(LIBAPNGASM_NAME libapngasm)
+        # set(LIBAPNGASM_NAME libapngasm)
     endif()
+
+    set(ZLIB_ROOT ${VCPKG_INSTALLATION_ROOT}/installed)
+    set(PNG_ROOT ${VCPKG_INSTALLATION_ROOT}/installed)
+    set(Boost_ROOT ${VCPKG_INSTALLATION_ROOT}/installed)
     
     set(VCPKG_TARGET_TRIPLET ${APNGASM_COMPILE_TARGET}-${PLATFORM})
 
@@ -105,31 +108,37 @@ else()
     if (WIN32)
         set(LIBZ_NAME zlibstatic)
         set(LIBPNG_NAME libpng16_static)
-        set(LIBAPNGASM_NAME apngasm)
     else()
         set(LIBZ_NAME libz)
         set(LIBPNG_NAME libpng16)
-        set(LIBAPNGASM_NAME libapngasm)
     endif()
 
+    set(ZLIB_ROOT ${CMAKE_SOURCE_DIR}/fakeroot)
+    set(PNG_ROOT ${CMAKE_SOURCE_DIR}/fakeroot)
+    set(Boost_ROOT ${CMAKE_SOURCE_DIR}/fakeroot)
+
     set(LIBZ_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib/${LIBZ_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX})
-    if(NOT EXISTS LIBZ_PATH)
-        set(LIBPNG_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib64/${LIBZ_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX})
+    if(NOT EXISTS ${LIBZ_PATH})
+        set(LIBZ_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib64/${LIBZ_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX})
     endif()
+
     set(LIBPNG_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib/${LIBPNG_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX})
-    if(NOT EXISTS LIBPNG_PATH)
+    if(NOT EXISTS ${LIBPNG_PATH})
+        message(FATAL_ERROR LIBPNG_PATH)
         set(LIBPNG_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib64/${LIBPNG_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX})
     endif()
 endif()
 
-set(LIBAPNGASM_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib/${LIBAPNGASM_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX})
+add_subdirectory(apngasm)
+set_target_properties(apngasm-static PROPERTIES BUILD_SHARED_LIBS OFF)
 
 include_directories(${CMAKE_SOURCE_DIR}/fakeroot/include)
-include_directories(${CMAKE_SOURCE_DIR}/fakeroot/include/listener)
+include_directories(${CMAKE_BINARY_DIR}/apngasm/lib/src)
+include_directories(${CMAKE_SOURCE_DIR}/apngasm/lib/src)
+include_directories(${CMAKE_SOURCE_DIR}/apngasm/lib/src/listener)
 
 set_target_properties(zlibstatic PROPERTIES IMPORTED_LOCATION ${LIBZ_PATH})
 set_target_properties(png_static PROPERTIES IMPORTED_LOCATION ${LIBPNG_PATH})
-set_target_properties(apngasm-static PROPERTIES IMPORTED_LOCATION ${LIBAPNGASM_PATH})
 
 target_link_libraries(_apngasm_python PRIVATE apngasm-static png_static zlibstatic)
 

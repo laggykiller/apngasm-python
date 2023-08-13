@@ -15,5 +15,3 @@ if not defined APNGASM_COMPILE_TARGET (
         set APNGASM_COMPILE_TARGET=%PROCESSOR_ARCHITECTURE%
     )
 )
-
-echo <nul set /p=%APNGASM_COMPILE_TARGET%

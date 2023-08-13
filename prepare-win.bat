@@ -22,9 +22,7 @@ if defined VCPKG_INSTALLATION_ROOT (
     %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-algorithm:%APNGASM_COMPILE_TARGET%-windows-static
     %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-property-tree:%APNGASM_COMPILE_TARGET%-windows-static
     %VCPKG_INSTALLATION_ROOT%\vcpkg.exe install boost-foreach:%APNGASM_COMPILE_TARGET%-windows-static
-
-    set VCPKG_CMAKE_FLAGS0="-DCMAKE_TOOLCHAIN_FILE=%VCPKG_INSTALLATION_ROOT%\scripts\buildsystems\vcpkg.cmake"
-    set VCPKG_CMAKE_FLAGS1="-DVCPKG_TARGET_TRIPLET=%APNGASM_COMPILE_TARGET%-windows-static"
+    
 ) else (
     if not exist %FAKEROOT%\include\zlib.h (
         cd %SOURCE_PATH%\zlib
@@ -48,16 +46,6 @@ if defined VCPKG_INSTALLATION_ROOT (
         b2.exe install link=static runtime-link=static threading=multi --prefix=%FAKEROOT% --build-dir=tmp --with-program_options --with-regex --with-system -j%CORES% msvc stage
         robocopy %FAKEROOT%\include\boost-1_82\boost %FAKEROOT%\include\boost /E
     )
-)
-
-if not exist %FAKEROOT%\lib\apngasm.lib (
-    cd %SOURCE_PATH%\apngasm
-    mkdir build
-    cd build
-    cmake -DCMake_CXXFLAGS_RELEASE="/MT /MP" -DBUILD_SHARED_LIBS=OFF -DZLIB_ROOT=%FAKEROOT% -DPNG_ROOT=%FAKEROOT% -DBoost_ROOT=%FAKEROOT% -DCMAKE_INSTALL_PREFIX:PATH=%FAKEROOT% %VCPKG_CMAKE_FLAGS0% %VCPKG_CMAKE_FLAGS1% ..
-    cmake --build . --target INSTALL --config Release
-    mkdir %FAKEROOT%\include\listener
-    copy %SOURCE_PATH%\apngasm\lib\src\listener\apngasmlistener.h %FAKEROOT%\include\listener
 )
 
 exit 0

@@ -21,8 +21,6 @@ if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
     ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-algorithm:${APNGASM_COMPILE_TARGET}-osx
     ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-property-tree:${APNGASM_COMPILE_TARGET}-osx
     ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-foreach:${APNGASM_COMPILE_TARGET}-osx
-
-    VCPKG_CMAKE_FLAGS="-DCMAKE_TOOLCHAIN_FILE=${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=${APNGASM_COMPILE_TARGET}-osx"
 else
     which -s brew
     if [[ $? != 0 ]] ; then
@@ -59,14 +57,4 @@ else
         ./bootstrap.sh --prefix=.
         ./b2 install link=static --build-dir=tmp --prefix=${FAKEROOT} --with-program_options --with-regex --with-system -j${CORES} --layout=tagged
     fi
-fi
-
-if [ ! -d ${FAKEROOT}/lib/libapngasm.a ]; then
-    cd ${SOURCE_PATH}/apngasm
-    mkdir build
-    cd ./build
-    cmake -DCMAKE_POLICY_DEFAULT_CMP0074=NEW -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX:PATH=${FAKEROOT} -DZLIB_ROOT=${FAKEROOT} -DPNG_ROOT=${FAKEROOT} -DBoost_ROOT=${FAKEROOT} ${VCPKG_CMAKE_FLAGS} ..
-    make install -j
-    mkdir ${FAKEROOT}/include/listener
-    cp ${SOURCE_PATH}/apngasm/lib/src/listener/apngasmlistener.h ${FAKEROOT}/include/listener
 fi
