@@ -1,5 +1,5 @@
 option(USE_GLOBAL_NANOBIND "Don't query Python to find nanobind" Off)
-set(SUBMODULE_NANOBIND ${CMAKE_SOURCE_DIR}/nanobind)
+# set(SUBMODULE_NANOBIND ${CMAKE_SOURCE_DIR}/nanobind)
 mark_as_advanced(USE_GLOBAL_NANOBIND)
 
 # First tries to find Python 3, then tries to import the nanobind module to
@@ -16,6 +16,13 @@ macro(find_nanobind_python_first)
     if (SUBMODULE_NANOBIND)
         add_subdirectory(${SUBMODULE_NANOBIND})
     elseif (NOT USE_GLOBAL_NANOBIND)
+
+        if (EXISTS ${CMAKE_SOURCE_DIR}/bin/python3)
+            set(Python_EXECUTABLE ${CMAKE_SOURCE_DIR}/bin/python3)
+        elseif (EXISTS ${CMAKE_SOURCE_DIR}/bin/python3.exe)
+            set(Python_EXECUTABLE ${CMAKE_SOURCE_DIR}/bin/python3.exe)
+        endif()
+        
         # Query Python to see if it knows where the headers are
         if (NOT nanobind_ROOT OR NOT EXISTS ${nanobind_ROOT})
             message(STATUS "Detecting nanobind CMake location")
