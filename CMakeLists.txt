@@ -35,11 +35,11 @@ else()
 endif()
 
 # Find the nanobind package
-find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
-add_subdirectory(nanobind)
+# find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
+# add_subdirectory(nanobind)
 # Wait for https://github.com/wjakob/nanobind/issues/262
-# include(cmake/QueryPythonForNanobind.cmake)
-# find_nanobind_python_first()
+include(cmake/QueryPythonForNanobind.cmake)
+find_nanobind_python_first()
 
 if (DEFINED ENV{VCPKG_INSTALLATION_ROOT})
     set(VCPKG_INSTALLATION_ROOT $ENV{VCPKG_INSTALLATION_ROOT})

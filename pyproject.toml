@@ -33,10 +33,14 @@ build_type = "Release"
 source_path = "."
 options = { "WITH_PY_STUBS:BOOL" = "On" }
 # Wait for https://github.com/wjakob/nanobind/issues/262
-# find_python3 = false
-# find_python = true
-build_args = ["-j"]
+find_python3 = false
+find_python = true
+build_args = ["-j", "--verbose"]
 install_components = ["python_module"]
+
+[tool.cibuildwheel]
+build-verbosity = 1
+environment = { PY_BUILD_CMAKE_VERBOSE="1" }
 
 [tool.py-build-cmake.mac.cmake] # macOS-specific options
 env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" } # Required for brew installed icu4c
