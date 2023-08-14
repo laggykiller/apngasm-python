@@ -21,19 +21,21 @@ jobs:
             submodules_mode: recursive
             cibw_archs_windows: AMD64
             cibw_environment: APNGASM_COMPILE_TARGET=x64
-            cibw_before_all: "pip install -r requirements-build.txt && prepare-win.bat"
+            # Need to install nanobind-stubgen beforehand
+            # Or else somehow cannot find it
+            cibw_before_all: prepare-win.bat
           - os: windows-2019
             arch: x86
             submodules_mode: recursive
             cibw_archs_windows: x86
             cibw_environment: APNGASM_COMPILE_TARGET=x86
-            cibw_before_all: "pip install -r requirements-build.txt && prepare-win.bat"
+            cibw_before_all: prepare-win.bat
           - os: windows-2019
             arch: arm64
             submodules_mode: recursive
             cibw_archs_windows: ARM64
             cibw_environment: APNGASM_COMPILE_TARGET=ARM64
-            cibw_before_all: "pip install -r requirements-build.txt && prepare-win.bat"
+            cibw_before_all: prepare-win.bat
           - os: macos-11
             arch: x64
             submodules_mode: recursive
@@ -47,7 +49,7 @@ jobs:
             cibw_environment: _PYTHON_HOST_PLATFORM=macosx-11-arm64 APNGASM_COMPILE_TARGET=arm64
             cibw_before_all: ./prepare-mac.sh
             # https://cibuildwheel.readthedocs.io/en/stable/faq/#macos-building-cpython-38-wheels-on-arm64
-            cibw_skip: cp38*
+            # cibw_skip: cp38*
           - os: ubuntu-20.04
             arch: x64
             submodules_mode: recursive

@@ -1,2 +1,2 @@
-git+https://github.com/tttapa/nanobind.git
+git+https://github.com/tttapa/nanobind.git@pypy-am-send
 nanobind-stubgen

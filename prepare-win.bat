@@ -10,6 +10,8 @@ if defined NUMBER_OF_PROCESSORS (
     set CORES=4
 )
 
+pip install -r requirements-build.txt
+
 :: Cross compiling supported only through vcpkg
 if defined VCPKG_INSTALLATION_ROOT (
     call get-target-win.bat
