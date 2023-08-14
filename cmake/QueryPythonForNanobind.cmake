@@ -1,5 +1,5 @@
 option(USE_GLOBAL_NANOBIND "Don't query Python to find nanobind" Off)
-# set(SUBMODULE_NANOBIND ${CMAKE_SOURCE_DIR}/nanobind)
+set(SUBMODULE_NANOBIND ${CMAKE_SOURCE_DIR}/nanobind)
 mark_as_advanced(USE_GLOBAL_NANOBIND)
 
 # First tries to find Python 3, then tries to import the nanobind module to
