@@ -1,4 +1,5 @@
 option(USE_GLOBAL_NANOBIND "Don't query Python to find nanobind" Off)
+set(SUBMODULE_NANOBIND ${CMAKE_SOURCE_DIR}/nanobind)
 mark_as_advanced(USE_GLOBAL_NANOBIND)
 
 # First tries to find Python 3, then tries to import the nanobind module to
@@ -12,7 +13,9 @@ mark_as_advanced(USE_GLOBAL_NANOBIND)
 macro(find_nanobind_python_first)
 
     find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development.Module)
-    if (NOT USE_GLOBAL_NANOBIND)
+    if (SUBMODULE_NANOBIND)
+        add_subdirectory(${SUBMODULE_NANOBIND})
+    elseif (NOT USE_GLOBAL_NANOBIND)
         # Query Python to see if it knows where the headers are
         if (NOT nanobind_ROOT OR NOT EXISTS ${nanobind_ROOT})
             message(STATUS "Detecting nanobind CMake location")
@@ -30,11 +33,10 @@ macro(find_nanobind_python_first)
                 unset(nanobind_ROOT CACHE)
             endif()
         endif()
+        # nanobind consists of just sources and a CMake config file, so finding a
+        # native version is fine
+        find_package(nanobind ${ARGN} REQUIRED CONFIG CMAKE_FIND_ROOT_PATH_BOTH)
     endif()
-
-    # nanobind consists of just sources and a CMake config file, so finding a
-    # native version is fine
-    find_package(nanobind ${ARGN} REQUIRED CONFIG CMAKE_FIND_ROOT_PATH_BOTH)
 
     # Tweak extension suffix when cross-compiling
     if (CMAKE_CROSSCOMPILING)
