@@ -21,19 +21,19 @@ jobs:
             submodules_mode: recursive
             cibw_archs_windows: AMD64
             cibw_environment: APNGASM_COMPILE_TARGET=x64
-            cibw_before_all: prepare-win.bat
+            cibw_before_all: "pip install -r requirements-build.txt && prepare-win.bat"
           - os: windows-2019
             arch: x86
             submodules_mode: recursive
             cibw_archs_windows: x86
             cibw_environment: APNGASM_COMPILE_TARGET=x86
-            cibw_before_all: prepare-win.bat
+            cibw_before_all: "pip install -r requirements-build.txt && prepare-win.bat"
           - os: windows-2019
             arch: arm64
             submodules_mode: recursive
             cibw_archs_windows: ARM64
             cibw_environment: APNGASM_COMPILE_TARGET=ARM64
-            cibw_before_all: prepare-win.bat
+            cibw_before_all: "pip install -r requirements-build.txt && prepare-win.bat"
           - os: macos-11
             arch: x64
             submodules_mode: recursive
@@ -46,18 +46,20 @@ jobs:
             cibw_archs_macos: arm64
             cibw_environment: _PYTHON_HOST_PLATFORM=macosx-11-arm64 APNGASM_COMPILE_TARGET=arm64
             cibw_before_all: ./prepare-mac.sh
+            # https://cibuildwheel.readthedocs.io/en/stable/faq/#macos-building-cpython-38-wheels-on-arm64
+            cibw_skip: cp38*
           - os: ubuntu-20.04
             arch: x64
             submodules_mode: recursive
             cibw_archs_linux: x86_64
             cibw_before_all: ./prepare-linux.sh
-            cibw_skip: "*-muslinux_* pp310*"
+            cibw_skip: "*-muslinux_*"
           - os: ubuntu-20.04
             arch: x86
             submodules_mode: recursive
             cibw_archs_linux: i686
             cibw_before_all: ./prepare-linux.sh
-            cibw_skip: "*-muslinux_* pp310*"
+            cibw_skip: "*-muslinux_*"
           - os: ubuntu-20.04
             arch: arm64
             submodules_mode: recursive
@@ -75,7 +77,7 @@ jobs:
             submodules_mode: recursive
             cibw_archs_linux: aarch64
             cibw_before_all: ./prepare-linux.sh
-            cibw_skip: "*-muslinux_* *-multilinux_* pp310*"
+            cibw_skip: "*-muslinux_* *-multilinux_*"
           - os: ubuntu-20.04
             arch: ppc64le
             submodules_mode: recursive

@@ -1,2 +1,2 @@
-nanobind
+git+https://github.com/tttapa/nanobind.git
 nanobind-stubgen

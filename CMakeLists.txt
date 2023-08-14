@@ -170,7 +170,7 @@ install(TARGETS _apngasm_python
 # Generate stubs for the Python module
 option(WITH_PY_STUBS
     "Generate Python stub files (.pyi) for the Python module." On)
-if (WITH_PY_STUBS AND NOT CMAKE_CROSSCOMPILING)
+if (WITH_PY_STUBS AND NOT (CMAKE_CROSSCOMPILING OR DIST_EXTRA_CONFIG))
     include(cmake/NanobindStubgen.cmake)
     nanobind_stubgen(_apngasm_python)
     nanobind_stubgen_install(_apngasm_python ${PY_BUILD_CMAKE_MODULE_NAME})
