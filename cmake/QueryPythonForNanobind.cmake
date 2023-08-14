@@ -46,7 +46,7 @@ macro(find_nanobind_python_first)
     endif()
 
     # Tweak extension suffix when cross-compiling
-    if (CMAKE_CROSSCOMPILING)
+    if (CMAKE_CROSSCOMPILING OR ENV{CMAKE_CROSSCOMPILING})
         if (NOT PY_BUILD_EXT_SUFFIX)
             message(STATUS "Determining Python extension suffix")
             # Find the python3.x-config script in the sysroot instead of on the
