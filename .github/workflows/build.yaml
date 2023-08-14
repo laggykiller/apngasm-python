@@ -46,7 +46,8 @@ jobs:
             arch: arm64
             submodules_mode: true
             cibw_archs_macos: arm64
-            cibw_environment: _PYTHON_HOST_PLATFORM=macosx-11-arm64 APNGASM_COMPILE_TARGET=arm64
+            # https://cmake.org/cmake/help/latest/variable/CMAKE_CROSSCOMPILING.html
+            cibw_environment: _PYTHON_HOST_PLATFORM=macosx-11-arm64 APNGASM_COMPILE_TARGET=arm64 CMAKE_CROSSCOMPILING=ON
             cibw_before_all: ./prepare-mac.sh
             # https://cibuildwheel.readthedocs.io/en/stable/faq/#macos-building-cpython-38-wheels-on-arm64
             # cibw_skip: cp38*
