@@ -32,6 +32,8 @@ include = ["CMakeLists.txt", "cmake/*.cmake", "src/*", "*.bat", "*.sh", "apngasm
 build_type = "Release"
 source_path = "."
 options = { "WITH_PY_STUBS:BOOL" = "On" }
+find_python3 = false
+find_python = true
 build_args = ["-j"]
 install_components = ["python_module"]
 

@@ -1,12 +1,12 @@
 function(nanobind_stubgen target)
 
     find_package(Python REQUIRED COMPONENTS Interpreter)
-    
-    if (EXISTS ${CMAKE_SOURCE_DIR}/bin/python3)
-        set(Python_EXECUTABLE ${CMAKE_SOURCE_DIR}/bin/python3)
-    elseif (EXISTS ${CMAKE_SOURCE_DIR}/bin/python3.exe)
-        set(Python_EXECUTABLE ${CMAKE_SOURCE_DIR}/bin/python3.exe)
-    endif()
+
+    # if (EXISTS ${CMAKE_SOURCE_DIR}/bin/python3)
+    #     set(Python_EXECUTABLE ${CMAKE_SOURCE_DIR}/bin/python3)
+    # elseif (EXISTS ${CMAKE_SOURCE_DIR}/bin/python3.exe)
+    #     set(Python_EXECUTABLE ${CMAKE_SOURCE_DIR}/bin/python3.exe)
+    # endif()
     
     add_custom_command(TARGET ${target} POST_BUILD
         COMMAND ${Python_EXECUTABLE} -m nanobind_stubgen
