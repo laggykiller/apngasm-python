@@ -34,6 +34,12 @@ else()
     set(STATIC_LIBRARY_SUFFIX ".a")
 endif()
 
+# Find the nanobind package
+# find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
+# add_subdirectory(nanobind)
+include(cmake/QueryPythonForNanobind.cmake)
+find_nanobind_python_first()
+
 if (DEFINED ENV{VCPKG_INSTALLATION_ROOT})
     set(VCPKG_INSTALLATION_ROOT $ENV{VCPKG_INSTALLATION_ROOT})
 endif()
@@ -116,12 +122,6 @@ if (DEFINED PY_BUILD_CMAKE_PACKAGE_VERSION)
     endif()
 endif()
 
-# Find the nanobind package
-# find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
-# add_subdirectory(nanobind)
-include(cmake/QueryPythonForNanobind.cmake)
-find_nanobind_python_first()
-
 # Compile the example Python module
 nanobind_add_module(_apngasm_python "src/apngasm_python.cpp" NB_STATIC STABLE_ABI)
 if (WIN32)
@@ -172,7 +172,7 @@ install(TARGETS _apngasm_python
 # Generate stubs for the Python module
 option(WITH_PY_STUBS
     "Generate Python stub files (.pyi) for the Python module." On)
-if (WITH_PY_STUBS AND NOT CMAKE_CROSSCOMPILING)
+if (WITH_PY_STUBS AND NOT (CMAKE_CROSSCOMPILING OR DIST_EXTRA_CONFIG))
     include(cmake/NanobindStubgen.cmake)
     nanobind_stubgen(_apngasm_python)
     nanobind_stubgen_install(_apngasm_python ${PY_BUILD_CMAKE_MODULE_NAME})

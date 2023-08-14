@@ -9,8 +9,6 @@ if [[ $? -ne 0 ]]; then
   CORES=2
 fi
 
-python3 -m pip install -r requirements-build.txt
-
 # Cross compiling supported only through vcpkg
 if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
     APNGASM_COMPILE_TARGET=$(./get-target-mac.sh)
