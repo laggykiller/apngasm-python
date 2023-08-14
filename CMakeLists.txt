@@ -34,13 +34,6 @@ else()
     set(STATIC_LIBRARY_SUFFIX ".a")
 endif()
 
-# Find the nanobind package
-# find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
-# add_subdirectory(nanobind)
-# Wait for https://github.com/wjakob/nanobind/issues/262
-include(cmake/QueryPythonForNanobind.cmake)
-find_nanobind_python_first()
-
 if (DEFINED ENV{VCPKG_INSTALLATION_ROOT})
     set(VCPKG_INSTALLATION_ROOT $ENV{VCPKG_INSTALLATION_ROOT})
 endif()
@@ -123,7 +116,11 @@ if (DEFINED PY_BUILD_CMAKE_PACKAGE_VERSION)
     endif()
 endif()
 
-# Compile the example Python module
+# Find the nanobind package
+include(cmake/QueryPythonForNanobind.cmake)
+find_nanobind_python_first()
+
+# Compile the Python module
 nanobind_add_module(_apngasm_python "src/apngasm_python.cpp" NB_STATIC STABLE_ABI)
 if (WIN32)
     nanobind_compile_options(_apngasm_python "/MT /MP /bigobj")

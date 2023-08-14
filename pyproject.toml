@@ -18,7 +18,7 @@ Tracker = "https://github.com/laggykiller/apngasm-python/issues"
 repository = "https://github.com/laggykiller/apngasm-python"
 
 [build-system] # How pip and other frontends should build this project
-requires = ["py-build-cmake>=0.1.9a1", "nanobind @ git+https://github.com/tttapa/nanobind.git@pypy-am-send", "nanobind-stubgen"]
+requires = ["py-build-cmake>=0.2.0a2", "nanobind @ git+https://github.com/wjakob/nanobind.git", "nanobind-stubgen"]
 build-backend = "py_build_cmake.build"
 
 [tool.py-build-cmake.module] # Where to find the Python module to package

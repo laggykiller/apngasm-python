@@ -76,7 +76,7 @@ macro(find_nanobind_python_first)
         set(NB_SUFFIX ${PY_BUILD_EXT_SUFFIX} CACHE INTERNAL "" FORCE)
     endif()
 
-    # Query Python to see if it knows where the pybind11 root is
+    # Query Python to see if it knows where the nanobind root is
     if (NOT USE_GLOBAL_NANOBIND AND Python_EXECUTABLE)
         if (NOT nanobind_ROOT OR NOT EXISTS ${nanobind_ROOT})
             message(STATUS "Detecting nanobind CMake location")

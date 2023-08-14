@@ -45,7 +45,7 @@ jobs:
             submodules_mode: recursive
             cibw_archs_macos: arm64
             # https://cmake.org/cmake/help/latest/variable/CMAKE_CROSSCOMPILING.html
-            cibw_environment: _PYTHON_HOST_PLATFORM=macosx-11-arm64 APNGASM_COMPILE_TARGET=arm64 CMAKE_CROSSCOMPILING=ON
+            cibw_environment: _PYTHON_HOST_PLATFORM=macosx-11-arm64 APNGASM_COMPILE_TARGET=arm64
             cibw_before_all: ./prepare-mac.sh
             # https://cibuildwheel.readthedocs.io/en/stable/faq/#macos-building-cpython-38-wheels-on-arm64
             # cibw_skip: cp38*
@@ -124,11 +124,10 @@ jobs:
           CIBW_ARCHS_MACOS: ${{ matrix.cibw_archs_macos }}
           CIBW_ARCHS_LINUX: ${{ matrix.cibw_archs_linux }}
           CIBW_BEFORE_ALL: ${{ matrix.cibw_before_all }}
-          CIBW_BEFORE_BUILD: pip install -r requirements-build.txt
           CIBW_ENVIRONMENT: ${{ matrix.cibw_environment }}
           # Wait for https://github.com/wjakob/nanobind/issues/259
           # Wait for https://foss.heptapod.net/pypy/pypy/-/issues/3990
-          CIBW_SKIP: cp36* cp37* pp37* pp310* ${{ matrix.cibw_skip }}
+          CIBW_SKIP: cp36* cp37* pp37* ${{ matrix.cibw_skip }}
 
       - uses: actions/upload-artifact@v3
         with:
