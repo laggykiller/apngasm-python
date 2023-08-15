@@ -168,11 +168,10 @@ install(TARGETS _apngasm_python
     COMPONENT python_module)
 
 # Generate stubs for the Python module
-# Wait for https://github.com/wjakob/nanobind/issues/262
-# option(WITH_PY_STUBS
-#     "Generate Python stub files (.pyi) for the Python module." On)
-# if (WITH_PY_STUBS AND NOT (CMAKE_CROSSCOMPILING OR ENV{CMAKE_CROSSCOMPILING}))
-#     include(cmake/NanobindStubgen.cmake)
-#     nanobind_stubgen(_apngasm_python)
-#     nanobind_stubgen_install(_apngasm_python ${PY_BUILD_CMAKE_MODULE_NAME})
-# endif()
+option(WITH_PY_STUBS
+    "Generate Python stub files (.pyi) for the Python module." On)
+if (WITH_PY_STUBS AND NOT CMAKE_CROSSCOMPILING)
+    include(cmake/NanobindStubgen.cmake)
+    nanobind_stubgen(_apngasm_python)
+    nanobind_stubgen_install(_apngasm_python ${PY_BUILD_CMAKE_MODULE_NAME})
+endif()

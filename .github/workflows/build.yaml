@@ -124,9 +124,7 @@ jobs:
           CIBW_ARCHS_MACOS: ${{ matrix.cibw_archs_macos }}
           CIBW_ARCHS_LINUX: ${{ matrix.cibw_archs_linux }}
           CIBW_BEFORE_ALL: ${{ matrix.cibw_before_all }}
-          CIBW_ENVIRONMENT: ${{ matrix.cibw_environment }}
-          # Wait for https://github.com/wjakob/nanobind/issues/259
-          # Wait for https://foss.heptapod.net/pypy/pypy/-/issues/3990
+          CIBW_ENVIRONMENT: PY_BUILD_CMAKE_VERBOSE=1 ${{ matrix.cibw_environment }}
           CIBW_SKIP: cp36* cp37* pp37* ${{ matrix.cibw_skip }}
 
       - uses: actions/upload-artifact@v3
