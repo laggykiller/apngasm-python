@@ -11,7 +11,10 @@ fi
 
 # Cross compiling supported only through vcpkg
 if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
-    APNGASM_COMPILE_TARGET=$(./get-target-mac.sh)
+    export VCPKG_OSX_DEPLOYMENT_TARGET=10.15
+    export VCPKG_C_FLAGS="-mmacosx-version-min=10.15"
+    export VCPKG_CXX_FLAGS="-mmacosx-version-min=10.15"
+    export APNGASM_COMPILE_TARGET=$(./get-target-mac.sh)
     
     ${VCPKG_INSTALLATION_ROOT}/vcpkg install zlib:${APNGASM_COMPILE_TARGET}-osx
     ${VCPKG_INSTALLATION_ROOT}/vcpkg install libpng:${APNGASM_COMPILE_TARGET}-osx
@@ -40,7 +43,7 @@ else
         cd ${SOURCE_PATH}/zlib
         mkdir build
         cd ./build
-        cmake -DCMAKE_INSTALL_PREFIX:PATH=${FAKEROOT} ..
+        cmake -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 -DCMAKE_INSTALL_PREFIX:PATH=${FAKEROOT} ..
         make install -j
     fi
 
@@ -48,13 +51,13 @@ else
         cd ${SOURCE_PATH}/libpng
         mkdir build
         cd ./build
-        cmake -DCMAKE_POLICY_DEFAULT_CMP0074=NEW -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX:PATH=${FAKEROOT} -DPNG_SHARED=OFF -DZLIB_ROOT=${FAKEROOT} -DZLIB_USE_STATIC_LIBS=ON ..
+        cmake -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 -DCMAKE_POLICY_DEFAULT_CMP0074=NEW -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX:PATH=${FAKEROOT} -DPNG_SHARED=OFF -DZLIB_ROOT=${FAKEROOT} -DZLIB_USE_STATIC_LIBS=ON ..
         make install -j
     fi
 
     if [ ! -d ${FAKEROOT}/include/boost ]; then
         cd ${SOURCE_PATH}/boost
         ./bootstrap.sh --prefix=.
-        ./b2 install link=static --build-dir=tmp --prefix=${FAKEROOT} --with-program_options --with-regex --with-system -j${CORES} --layout=tagged
+        ./b2 install link=static macosx-version-min=10.15 --build-dir=tmp --prefix=${FAKEROOT} --with-program_options --with-regex --with-system -j${CORES} --layout=tagged
     fi
 fi

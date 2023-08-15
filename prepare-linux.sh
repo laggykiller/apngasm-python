@@ -11,7 +11,7 @@ fi
 
 # Cross compiling supported only through vcpkg
 if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
-    APNGASM_COMPILE_TARGET=$(./get-target-linux.sh)
+    export APNGASM_COMPILE_TARGET=$(./get-target-linux.sh)
     
     ${VCPKG_INSTALLATION_ROOT}/vcpkg install zlib:${APNGASM_COMPILE_TARGET}-linux
     ${VCPKG_INSTALLATION_ROOT}/vcpkg install libpng:${APNGASM_COMPILE_TARGET}-linux

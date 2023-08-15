@@ -7,6 +7,8 @@ if (WIN32)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 elseif (LINUX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+elseif (APPLE)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
 endif()
 
 if (WIN32)

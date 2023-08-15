@@ -38,13 +38,27 @@ jobs:
             arch: x64
             submodules_mode: true
             cibw_archs_macos: x86_64
-            cibw_environment: _PYTHON_HOST_PLATFORM=macosx-11-x86_64 APNGASM_COMPILE_TARGET=x64
+            cibw_environment: >
+              APNGASM_COMPILE_TARGET=x64
+              _PYTHON_HOST_PLATFORM=macosx-10.15-x86_64
+              VCPKG_OSX_DEPLOYMENT_TARGET=10.15
+              MACOSX_DEPLOYMENT_TARGET=10.15
+              CMAKE_OSX_DEPLOYMENT_TARGET=10.15
+              VCPKG_C_FLAGS="-mmacosx-version-min=10.15"
+              VCPKG_CXX_FLAGS="-mmacosx-version-min=10.15"
             cibw_before_all: ./prepare-mac.sh
           - os: macos-11
             arch: arm64
             submodules_mode: recursive
             cibw_archs_macos: arm64
-            cibw_environment: _PYTHON_HOST_PLATFORM=macosx-11-arm64 APNGASM_COMPILE_TARGET=arm64
+            cibw_environment: >
+              APNGASM_COMPILE_TARGET=arm64
+              _PYTHON_HOST_PLATFORM=macosx-10.15-arm64
+              VCPKG_OSX_DEPLOYMENT_TARGET=10.15
+              MACOSX_DEPLOYMENT_TARGET=10.15
+              CMAKE_OSX_DEPLOYMENT_TARGET=10.15
+              VCPKG_C_FLAGS="-mmacosx-version-min=10.15"
+              VCPKG_CXX_FLAGS="-mmacosx-version-min=10.15"
             cibw_before_all: ./prepare-mac.sh
           - os: ubuntu-20.04
             arch: x64
@@ -115,7 +129,6 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.14.1
         env:
-          MACOSX_DEPLOYMENT_TARGET: 11
           CIBW_BUILD_FRONTEND: build
           CIBW_ARCHS_WINDOWS: ${{ matrix.cibw_archs_windows }}
           CIBW_ARCHS_MACOS: ${{ matrix.cibw_archs_macos }}
