@@ -6,11 +6,16 @@ apngasm is originally a CLI program for quickly assembling PNG images into anima
 
 apngasm-python is a binding for apngasm using nanobind, allowing you to use apngasm without calling it using commands.
 
-With this module, you can even create APNG using images inside memory (No need to write them out as file and call apngasm!)
+With this module, you can even create APNG using images inside memory (No need to write them out as file and call apngasm! This is about 2 times faster from testing.)
 
 A similar python module is https://github.com/eight04/pyAPNG , which handles APNG files with python natively and does not support compression.
 
 For convenience, prebuilt library is packaged with this module, so you need not download apngasm.
+
+## Install
+```
+pip install apngasm-python
+```
 
 ## Example usage
 The recommended usage is to `from apngasm_python import APNGAsmBinder`, see [example/example_binder.py](example/example_binder.py)
