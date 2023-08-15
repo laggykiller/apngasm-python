@@ -66,11 +66,16 @@ print(f'{success = }')
 # Clear images loaded in apngasm object
 apngasm.reset()
 
-# Load apng for disassemble
+# Disassemble and get pillow image of one frame
 frames = apngasm.disassemble('input/ball.apng')
 print(f'{len(frames) = }')
 frame = frames[0]
 frame_info(frame)
+mode = color_type_dict[frame.color_type]
+im = Image.frombytes(mode, (frame.width, frame.height), frame.pixels)
+im.save('output/ball0.png')
+
+# Disassemble all APNG into PNGs
 apngasm.save_pngs('output')
 
 # Assemble from pillow images

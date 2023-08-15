@@ -396,12 +396,14 @@ NB_MODULE(MODULE_NAME, m) {
         .def("set_loops", &apngasm::APNGAsm::setLoops,
         "loops"_a = 0,
         "Set loop count of animation.\n"
+        "===\n"
         "loops: Loop count of animation. If the argument is 0 a loop count is infinity.")
 
         .def("set_skip_first", &apngasm::APNGAsm::setSkipFirst,
         "skip_first"_a,
         "Set flag of skip first frame.\n"
-        "skipfirst_ Flag of skip first frame.")
+        "===\n"
+        "skip_first: Flag of skip first frame.")
 
         .def("get_frames", &apngasm::APNGAsm::getFrames,
         "Returns the frame vector.")
@@ -416,7 +418,7 @@ NB_MODULE(MODULE_NAME, m) {
         "Returns the number of frames.")
 
         .def("reset", &apngasm::APNGAsm::reset,
-        "Destroy all frames in memory/dispose of the frame vector. Leaves the apngasm object in a clean state.\n\n"
+        "Destroy all frames in memory/dispose of the frame vector. Leaves the apngasm object in a clean state.\n"
         "Retruns number of frames disposed of.")
 
         .def("version", &apngasm::APNGAsm::version,
