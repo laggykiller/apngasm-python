@@ -109,7 +109,7 @@ else()
     endif()
 endif()
 
-project(apngasm-python VERSION 1.0.0)
+project(apngasm-python VERSION 1.0.1)
 set(PY_VERSION_SUFFIX "")
 set(PY_FULL_VERSION ${PROJECT_VERSION}${PY_VERSION_SUFFIX})
 
