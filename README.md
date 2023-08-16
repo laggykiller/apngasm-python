@@ -89,7 +89,6 @@ apngasm.assemble('result-from-pillow.apng')
 apngasm.reset()
 frames = apngasm.disassemble('input/ball.apng')
 frame = frames[0]
-mode = color_type_dict[frame.color_type]
 im = Image.frombytes(mode, (frame.width, frame.height), frame.pixels)
 im.save('output/ball0.png')
 
