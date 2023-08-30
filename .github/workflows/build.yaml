@@ -51,14 +51,14 @@ jobs:
             arch: arm64
             submodules_mode: true
             cibw_archs_macos: arm64
-            cibw_environment: >
-              APNGASM_COMPILE_TARGET=arm64
-              _PYTHON_HOST_PLATFORM=macosx-11.0-arm64
-              VCPKG_OSX_DEPLOYMENT_TARGET=11.0
-              MACOSX_DEPLOYMENT_TARGET=11.0
-              CMAKE_OSX_DEPLOYMENT_TARGET=11.0
-              VCPKG_C_FLAGS="-mmacosx-version-min=11.0"
-              VCPKG_CXX_FLAGS="-mmacosx-version-min=11.0"
+            # cibw_environment: >
+            #   APNGASM_COMPILE_TARGET=arm64
+            #   _PYTHON_HOST_PLATFORM=macosx-11.0-arm64
+            #   VCPKG_OSX_DEPLOYMENT_TARGET=11.0
+            #   MACOSX_DEPLOYMENT_TARGET=11.0
+            #   CMAKE_OSX_DEPLOYMENT_TARGET=11.0
+            #   VCPKG_C_FLAGS="-mmacosx-version-min=11.0"
+            #   VCPKG_CXX_FLAGS="-mmacosx-version-min=11.0"
             cibw_before_all: ./prepare-mac.sh
           - os: ubuntu-20.04
             arch: x64
