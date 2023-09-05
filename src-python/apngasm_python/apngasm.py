@@ -15,10 +15,12 @@ class APNGAsmBinder:
 
     def __init__(self):
         self.apngasm = APNGAsm()
-
-    def __del__(self):
+    
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self.apngasm.reset()
-        del self.apngasm
     
     def frame_pixels_as_pillow(self, frame, new_value=None):
         '''

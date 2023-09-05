@@ -62,16 +62,17 @@ for file_name in sorted(os.listdir('frames')):
 
 success = apngasm.assemble('output/elephant-spinning-pillow.apng')
 print(f'{success = }')
+apngasm.reset()
 
 # Assemble palette and grey PNGs
-apngasm.reset()
-apngasm.add_frame_from_file('input/palette.png')
-apngasm.add_frame_from_file('input/grey.png')
-success = apngasm.assemble('output/birds.apng')
-print(f'{success = }')
+# You can use with statement to avoid calling reset()
+with APNGAsmBinder() as apng:
+    apng.add_frame_from_file('input/palette.png')
+    apng.add_frame_from_file('input/grey.png')
+    success = apng.assemble('output/birds.apng')
+    print(f'{success = }')
 
 # Assemble palette and grey PNGs, but with Pillow
-apngasm.reset()
 image0 = Image.open('input/grey.png')
 frame0 = apngasm.add_frame_from_pillow(image0)
 image1 = Image.open('input/palette.png')
