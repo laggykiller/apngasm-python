@@ -64,57 +64,109 @@ jobs:
             arch: x64
             submodules_mode: true
             cibw_archs_linux: x86_64
-            cibw_before_all: ./prepare-linux.sh
-            cibw_skip: "*-muslinux_*"
+            cibw_environment: >
+              VCPKG_INSTALLATION_ROOT=/.
+              APNGASM_COMPILE_TARGET=x64
+            cibw_before_all: |
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
+              ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: x86
             submodules_mode: true
             cibw_archs_linux: i686
-            cibw_before_all: ./prepare-linux.sh
-            cibw_skip: "*-muslinux_*"
+            cibw_environment: >
+              VCPKG_INSTALLATION_ROOT=/.
+              APNGASM_COMPILE_TARGET=i686
+            cibw_before_all: |
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
+              ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: arm64
             submodules_mode: true
             cibw_archs_linux: aarch64
-            cibw_before_all: ./prepare-linux.sh
             cibw_skip: "*-muslinux_* pp*"
+            cibw_environment: >
+              VCPKG_INSTALLATION_ROOT=/.
+              APNGASM_COMPILE_TARGET=aarch64
+            cibw_before_all: |
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
+              ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: arm64
             submodules_mode: true
             cibw_archs_linux: aarch64
-            cibw_before_all: ./prepare-linux.sh
             cibw_skip: "*-multilinux_* pp*"
+            cibw_environment: >
+              VCPKG_INSTALLATION_ROOT=/.
+              APNGASM_COMPILE_TARGET=aarch64
+            cibw_before_all: |
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
+              ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: arm64
             submodules_mode: true
             cibw_archs_linux: aarch64
-            cibw_before_all: ./prepare-linux.sh
             cibw_skip: "*-muslinux_* *-multilinux_*"
+            cibw_environment: >
+              VCPKG_INSTALLATION_ROOT=/.
+              APNGASM_COMPILE_TARGET=aarch64
+            cibw_before_all: |
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
+              ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: ppc64le
             submodules_mode: true
             cibw_archs_linux: ppc64le
-            cibw_before_all: ./prepare-linux.sh
             cibw_skip: "*-muslinux_*"
+            cibw_environment: >
+              VCPKG_INSTALLATION_ROOT=/.
+              APNGASM_COMPILE_TARGET=ppc64le
+            cibw_before_all: |
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
+              ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: ppc64le
             submodules_mode: true
             cibw_archs_linux: ppc64le
-            cibw_before_all: ./prepare-linux.sh
             cibw_skip: "*-multilinux_*"
+            cibw_environment: >
+              VCPKG_INSTALLATION_ROOT=/.
+              APNGASM_COMPILE_TARGET=ppc64le
+            cibw_before_all: |
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
+              ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: s390x
             submodules_mode: true
             cibw_archs_linux: s390x
-            cibw_before_all: ./prepare-linux.sh
             cibw_skip: "*-muslinux_*"
+            cibw_environment: >
+              VCPKG_INSTALLATION_ROOT=/.
+              APNGASM_COMPILE_TARGET=s390x
+            cibw_before_all: |
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
+              ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: s390x
             submodules_mode: true
             cibw_archs_linux: s390x
-            cibw_before_all: ./prepare-linux.sh
             cibw_skip: "*-multilinux_*"
-
+            cibw_environment: >
+              VCPKG_INSTALLATION_ROOT=/.
+              APNGASM_COMPILE_TARGET=s390x
+            cibw_before_all: |
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
+              ./prepare-linux.sh
+            
     steps:
       - uses: actions/checkout@v3
         with:
