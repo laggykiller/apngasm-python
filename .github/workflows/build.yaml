@@ -68,7 +68,7 @@ jobs:
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=x64
             cibw_before_all: |
-              yum install devtoolset-7 centos-release-scl -y
+              yum install tar curl zip unzip ninja-build -y
               git clone https://github.com/microsoft/vcpkg.git /vcpkg
               /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
@@ -80,7 +80,7 @@ jobs:
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=i686
             cibw_before_all: |
-              yum install devtoolset-7 centos-release-scl -y
+              yum install tar curl zip unzip ninja-build -y
               git clone https://github.com/microsoft/vcpkg.git /vcpkg
               /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
@@ -93,7 +93,7 @@ jobs:
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=aarch64
             cibw_before_all: |
-              yum install devtoolset-7 centos-release-scl -y
+              yum install tar curl zip unzip ninja-build -y
               git clone https://github.com/microsoft/vcpkg.git /vcpkg
               /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
@@ -106,7 +106,7 @@ jobs:
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=aarch64
             cibw_before_all: |
-              yum install devtoolset-7 centos-release-scl -y
+              yum install tar curl zip unzip ninja-build -y
               git clone https://github.com/microsoft/vcpkg.git /vcpkg
               /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
@@ -119,7 +119,7 @@ jobs:
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=aarch64
             cibw_before_all: |
-              yum install devtoolset-7 centos-release-scl -y
+              yum install tar curl zip unzip ninja-build -y
               git clone https://github.com/microsoft/vcpkg.git /vcpkg
               /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
@@ -132,7 +132,7 @@ jobs:
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=ppc64le
             cibw_before_all: |
-              yum install devtoolset-7 centos-release-scl -y
+              yum install tar curl zip unzip ninja-build -y
               git clone https://github.com/microsoft/vcpkg.git /vcpkg
               /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
@@ -145,7 +145,7 @@ jobs:
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=ppc64le
             cibw_before_all: |
-              yum install devtoolset-7 centos-release-scl -y
+              yum install tar curl zip unzip ninja-build -y
               git clone https://github.com/microsoft/vcpkg.git /vcpkg
               /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
@@ -158,7 +158,7 @@ jobs:
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=s390x
             cibw_before_all: |
-              yum install devtoolset-7 centos-release-scl -y
+              yum install tar curl zip unzip ninja-build -y
               git clone https://github.com/microsoft/vcpkg.git /vcpkg
               /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
@@ -171,7 +171,7 @@ jobs:
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=s390x
             cibw_before_all: |
-              yum install devtoolset-7 centos-release-scl -y
+              yum install tar curl zip unzip ninja-build -y
               git clone https://github.com/microsoft/vcpkg.git /vcpkg
               /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
