@@ -67,9 +67,10 @@ jobs:
             cibw_environment: >
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=x64
-            cibw_before_all: >
-              git clone https://github.com/microsoft/vcpkg.git /vcpkg &&
-              /vcpkg/bootstrap-vcpkg.sh &&
+            cibw_before_all: |
+              yum install devtoolset-7 centos-release-scl -y
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: x86
@@ -78,9 +79,10 @@ jobs:
             cibw_environment: >
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=i686
-            cibw_before_all: >
-              git clone https://github.com/microsoft/vcpkg.git /vcpkg &&
-              /vcpkg/bootstrap-vcpkg.sh &&
+            cibw_before_all: |
+              yum install devtoolset-7 centos-release-scl -y
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: arm64
@@ -90,9 +92,10 @@ jobs:
             cibw_environment: >
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=aarch64
-            cibw_before_all: >
-              git clone https://github.com/microsoft/vcpkg.git /vcpkg &&
-              /vcpkg/bootstrap-vcpkg.sh &&
+            cibw_before_all: |
+              yum install devtoolset-7 centos-release-scl -y
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: arm64
@@ -102,9 +105,10 @@ jobs:
             cibw_environment: >
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=aarch64
-            cibw_before_all: >
-              git clone https://github.com/microsoft/vcpkg.git /vcpkg &&
-              /vcpkg/bootstrap-vcpkg.sh &&
+            cibw_before_all: |
+              yum install devtoolset-7 centos-release-scl -y
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: arm64
@@ -114,9 +118,10 @@ jobs:
             cibw_environment: >
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=aarch64
-            cibw_before_all: >
-              git clone https://github.com/microsoft/vcpkg.git /vcpkg &&
-              /vcpkg/bootstrap-vcpkg.sh &&
+            cibw_before_all: |
+              yum install devtoolset-7 centos-release-scl -y
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: ppc64le
@@ -126,9 +131,10 @@ jobs:
             cibw_environment: >
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=ppc64le
-            cibw_before_all: >
-              git clone https://github.com/microsoft/vcpkg.git /vcpkg &&
-              /vcpkg/bootstrap-vcpkg.sh &&
+            cibw_before_all: |
+              yum install devtoolset-7 centos-release-scl -y
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: ppc64le
@@ -138,9 +144,10 @@ jobs:
             cibw_environment: >
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=ppc64le
-            cibw_before_all: >
-              git clone https://github.com/microsoft/vcpkg.git /vcpkg &&
-              /vcpkg/bootstrap-vcpkg.sh &&
+            cibw_before_all: |
+              yum install devtoolset-7 centos-release-scl -y
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: s390x
@@ -150,9 +157,10 @@ jobs:
             cibw_environment: >
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=s390x
-            cibw_before_all: >
-              git clone https://github.com/microsoft/vcpkg.git /vcpkg &&
-              /vcpkg/bootstrap-vcpkg.sh &&
+            cibw_before_all: |
+              yum install devtoolset-7 centos-release-scl -y
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
           - os: ubuntu-20.04
             arch: s390x
@@ -162,9 +170,10 @@ jobs:
             cibw_environment: >
               VCPKG_INSTALLATION_ROOT=/vcpkg
               APNGASM_COMPILE_TARGET=s390x
-            cibw_before_all: >
-              git clone https://github.com/microsoft/vcpkg.git /vcpkg &&
-              /vcpkg/bootstrap-vcpkg.sh &&
+            cibw_before_all: |
+              yum install devtoolset-7 centos-release-scl -y
+              git clone https://github.com/microsoft/vcpkg.git /vcpkg
+              /vcpkg/bootstrap-vcpkg.sh
               ./prepare-linux.sh
             
     steps:
