@@ -32,7 +32,7 @@ if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
     else
         vcpkg_install x64
         vcpkg_install arm64
-        python3 lipo-dir-merge.py \
+        python3 ./lipo-dir-merge/lipo-dir-merge.py \
             ${VCPKG_INSTALLATION_ROOT}/installed/arm64-osx \
             ${VCPKG_INSTALLATION_ROOT}/installed/x64-osx \
             ${VCPKG_INSTALLATION_ROOT}/installed/universal2-osx
