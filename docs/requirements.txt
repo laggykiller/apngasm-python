@@ -1,1 +1,1 @@
-./
+apngasm-python==1.0.6
