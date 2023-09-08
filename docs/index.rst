@@ -27,11 +27,3 @@ To install: `pip install apngasm-python`
    build
    credits
    modules
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
