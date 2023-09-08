@@ -20,7 +20,8 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.mathjax',
     'sphinx.ext.napoleon',
-    'myst_parser'
+    'myst_parser',
+    'sphinx_immaterial'
 ]
 
 autosummary_generate = True
@@ -37,8 +38,5 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'alabaster'
+html_theme = 'sphinx_immaterial'
 html_static_path = ['_static']
-html_css_files = [
-    'css/rtd_dark.css',
-]
