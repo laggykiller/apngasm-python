@@ -11,11 +11,9 @@ dependencies = ["Pillow", "numpy"]
 dynamic = ["version"]
 
 [project.urls]
-homepage = "https://github.com/laggykiller/apngasm-python"
-Source = "https://github.com/laggykiller/apngasm-python"
-Documentation = "https://github.com/laggykiller/apngasm-python"
+Repository = "https://github.com/laggykiller/apngasm-python"
+Documentation = "https://apngasm-python.readthedocs.io/en/latest/"
 Tracker = "https://github.com/laggykiller/apngasm-python/issues"
-repository = "https://github.com/laggykiller/apngasm-python"
 
 [build-system] # How pip and other frontends should build this project
 requires = ["py-build-cmake==0.2.0a7", "nanobind>=1.5.2", "nanobind-stubgen"]

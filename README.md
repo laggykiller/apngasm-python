@@ -12,6 +12,8 @@ A similar python module is https://github.com/eight04/pyAPNG , which handles APN
 
 For convenience, prebuilt library is packaged with this module, so you need not download apngasm.
 
+Documentations: https://apngasm-python.readthedocs.io/en/latest/
+
 ## Install
 ```
 pip install apngasm-python
