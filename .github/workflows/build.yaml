@@ -60,6 +60,18 @@ jobs:
               VCPKG_C_FLAGS="-mmacosx-version-min=11.0"
               VCPKG_CXX_FLAGS="-mmacosx-version-min=11.0"
             cibw_before_all: ./prepare-mac.sh
+          - os: macos-11
+            arch: universal2
+            submodules_mode: true
+            cibw_archs_macos: universal2
+            cibw_environment: >
+              APNGASM_COMPILE_TARGET=universal2
+              _PYTHON_HOST_PLATFORM=macosx-11.0-universal2
+              VCPKG_OSX_DEPLOYMENT_TARGET=11.0
+              MACOSX_DEPLOYMENT_TARGET=11.0
+              CMAKE_OSX_DEPLOYMENT_TARGET=11.0
+              VCPKG_C_FLAGS="-mmacosx-version-min=11.0"
+              VCPKG_CXX_FLAGS="-mmacosx-version-min=11.0"
           - os: ubuntu-20.04
             arch: x64
             submodules_mode: true
@@ -171,18 +183,18 @@ jobs:
   #         password: ${{ secrets.TEST_PYPI_API_TOKEN }}
   #         repository_url: https://test.pypi.org/legacy/
 
-  upload_pypi:
-    needs: [build_wheels, build_sdist]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/download-artifact@v3
-        with:
-          # unpacks default artifact into dist/
-          # if `name: artifact` is omitted, the action will create extra parent dir
-          name: artifact
-          path: dist
+  # upload_pypi:
+  #   needs: [build_wheels, build_sdist]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/download-artifact@v3
+  #       with:
+  #         # unpacks default artifact into dist/
+  #         # if `name: artifact` is omitted, the action will create extra parent dir
+  #         name: artifact
+  #         path: dist
 
-      - uses: pypa/gh-action-pypi-publish@v1.5.0
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
+  #     - uses: pypa/gh-action-pypi-publish@v1.5.0
+  #       with:
+  #         user: __token__
+  #         password: ${{ secrets.PYPI_API_TOKEN }}
