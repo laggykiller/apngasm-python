@@ -9,6 +9,17 @@ if [[ $? -ne 0 ]]; then
   CORES=2
 fi
 
+function vcpkg_install() {
+    ${VCPKG_INSTALLATION_ROOT}/vcpkg install zlib:$1-osx
+    ${VCPKG_INSTALLATION_ROOT}/vcpkg install libpng:$1-osx
+    ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-program-options:$1-osx
+    ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-regex:$1-osx
+    ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-system:$1-osx
+    ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-algorithm:$1-osx
+    ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-property-tree:$1-osx
+    ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-foreach:$1-osx
+}
+
 # Cross compiling supported only through vcpkg
 if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
     export VCPKG_OSX_DEPLOYMENT_TARGET=10.15
@@ -16,14 +27,16 @@ if [[ ! -z $VCPKG_INSTALLATION_ROOT ]]; then
     export VCPKG_CXX_FLAGS="-mmacosx-version-min=10.15"
     export APNGASM_COMPILE_TARGET=$(./get-target-mac.sh)
     
-    ${VCPKG_INSTALLATION_ROOT}/vcpkg install zlib:${APNGASM_COMPILE_TARGET}-osx
-    ${VCPKG_INSTALLATION_ROOT}/vcpkg install libpng:${APNGASM_COMPILE_TARGET}-osx
-    ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-program-options:${APNGASM_COMPILE_TARGET}-osx
-    ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-regex:${APNGASM_COMPILE_TARGET}-osx
-    ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-system:${APNGASM_COMPILE_TARGET}-osx
-    ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-algorithm:${APNGASM_COMPILE_TARGET}-osx
-    ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-property-tree:${APNGASM_COMPILE_TARGET}-osx
-    ${VCPKG_INSTALLATION_ROOT}/vcpkg install boost-foreach:${APNGASM_COMPILE_TARGET}-osx
+    if [[ $APNGASM_COMPILE_TARGET != 'universal2' ]]; then
+        vcpkg_install ${APNGASM_COMPILE_TARGET}
+    else
+        vcpkg_install x64
+        vcpkg_install arm64
+        python3 lipo-dir-merge.py \
+            ${VCPKG_INSTALLATION_ROOT}/installed/arm64-osx \
+            ${VCPKG_INSTALLATION_ROOT}/installed/x64-osx \
+            ${VCPKG_INSTALLATION_ROOT}/installed/universal2-osx
+    fi
 else
     which -s brew
     if [[ $? != 0 ]] ; then
