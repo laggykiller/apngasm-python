@@ -2,8 +2,8 @@ name: Build and upload to PyPI
 
 on:
   push:
-    tags:
-        - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+    # tags:
+    #     - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
     # release:
     #   types:
     #     - [published]
@@ -16,24 +16,24 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: windows-2019
-            arch: x64
-            submodules_mode: true
-            cibw_archs_windows: AMD64
-            cibw_environment: APNGASM_COMPILE_TARGET=x64
-            cibw_before_all: prepare-win.bat
-          - os: windows-2019
-            arch: x86
-            submodules_mode: true
-            cibw_archs_windows: x86
-            cibw_environment: APNGASM_COMPILE_TARGET=x86
-            cibw_before_all: prepare-win.bat
-          - os: windows-2019
-            arch: arm64
-            submodules_mode: true
-            cibw_archs_windows: ARM64
-            cibw_environment: APNGASM_COMPILE_TARGET=ARM64
-            cibw_before_all: prepare-win.bat
+          # - os: windows-2019
+          #   arch: x64
+          #   submodules_mode: true
+          #   cibw_archs_windows: AMD64
+          #   cibw_environment: APNGASM_COMPILE_TARGET=x64
+          #   cibw_before_all: prepare-win.bat
+          # - os: windows-2019
+          #   arch: x86
+          #   submodules_mode: true
+          #   cibw_archs_windows: x86
+          #   cibw_environment: APNGASM_COMPILE_TARGET=x86
+          #   cibw_before_all: prepare-win.bat
+          # - os: windows-2019
+          #   arch: arm64
+          #   submodules_mode: true
+          #   cibw_archs_windows: ARM64
+          #   cibw_environment: APNGASM_COMPILE_TARGET=ARM64
+          #   cibw_before_all: prepare-win.bat
           - os: macos-11
             arch: x64
             submodules_mode: true
@@ -72,58 +72,58 @@ jobs:
               CMAKE_OSX_DEPLOYMENT_TARGET=11.0
               VCPKG_C_FLAGS="-mmacosx-version-min=11.0"
               VCPKG_CXX_FLAGS="-mmacosx-version-min=11.0"
-          - os: ubuntu-20.04
-            arch: x64
-            submodules_mode: true
-            cibw_archs_linux: x86_64
-            cibw_before_all: ./prepare-linux.sh
-          - os: ubuntu-20.04
-            arch: x86
-            submodules_mode: true
-            cibw_archs_linux: i686
-            cibw_before_all: ./prepare-linux.sh
-          - os: ubuntu-20.04
-            arch: arm64
-            submodules_mode: true
-            cibw_archs_linux: aarch64
-            cibw_skip: "*-muslinux_* pp*"
-            cibw_before_all: ./prepare-linux.sh
-          - os: ubuntu-20.04
-            arch: arm64
-            submodules_mode: true
-            cibw_archs_linux: aarch64
-            cibw_skip: "*-multilinux_* pp*"
-            cibw_before_all: ./prepare-linux.sh
-          - os: ubuntu-20.04
-            arch: arm64
-            submodules_mode: true
-            cibw_archs_linux: aarch64
-            cibw_skip: "*-muslinux_* *-multilinux_*"
-            cibw_before_all: ./prepare-linux.sh
-          - os: ubuntu-20.04
-            arch: ppc64le
-            submodules_mode: true
-            cibw_archs_linux: ppc64le
-            cibw_skip: "*-muslinux_*"
-            cibw_before_all: ./prepare-linux.sh
-          - os: ubuntu-20.04
-            arch: ppc64le
-            submodules_mode: true
-            cibw_archs_linux: ppc64le
-            cibw_skip: "*-multilinux_*"
-            cibw_before_all: ./prepare-linux.sh
-          - os: ubuntu-20.04
-            arch: s390x
-            submodules_mode: true
-            cibw_archs_linux: s390x
-            cibw_skip: "*-muslinux_*"
-            cibw_before_all: ./prepare-linux.sh
-          - os: ubuntu-20.04
-            arch: s390x
-            submodules_mode: true
-            cibw_archs_linux: s390x
-            cibw_skip: "*-multilinux_*"
-            cibw_before_all: ./prepare-linux.sh
+          # - os: ubuntu-20.04
+          #   arch: x64
+          #   submodules_mode: true
+          #   cibw_archs_linux: x86_64
+          #   cibw_before_all: ./prepare-linux.sh
+          # - os: ubuntu-20.04
+          #   arch: x86
+          #   submodules_mode: true
+          #   cibw_archs_linux: i686
+          #   cibw_before_all: ./prepare-linux.sh
+          # - os: ubuntu-20.04
+          #   arch: arm64
+          #   submodules_mode: true
+          #   cibw_archs_linux: aarch64
+          #   cibw_skip: "*-muslinux_* pp*"
+          #   cibw_before_all: ./prepare-linux.sh
+          # - os: ubuntu-20.04
+          #   arch: arm64
+          #   submodules_mode: true
+          #   cibw_archs_linux: aarch64
+          #   cibw_skip: "*-multilinux_* pp*"
+          #   cibw_before_all: ./prepare-linux.sh
+          # - os: ubuntu-20.04
+          #   arch: arm64
+          #   submodules_mode: true
+          #   cibw_archs_linux: aarch64
+          #   cibw_skip: "*-muslinux_* *-multilinux_*"
+          #   cibw_before_all: ./prepare-linux.sh
+          # - os: ubuntu-20.04
+          #   arch: ppc64le
+          #   submodules_mode: true
+          #   cibw_archs_linux: ppc64le
+          #   cibw_skip: "*-muslinux_*"
+          #   cibw_before_all: ./prepare-linux.sh
+          # - os: ubuntu-20.04
+          #   arch: ppc64le
+          #   submodules_mode: true
+          #   cibw_archs_linux: ppc64le
+          #   cibw_skip: "*-multilinux_*"
+          #   cibw_before_all: ./prepare-linux.sh
+          # - os: ubuntu-20.04
+          #   arch: s390x
+          #   submodules_mode: true
+          #   cibw_archs_linux: s390x
+          #   cibw_skip: "*-muslinux_*"
+          #   cibw_before_all: ./prepare-linux.sh
+          # - os: ubuntu-20.04
+          #   arch: s390x
+          #   submodules_mode: true
+          #   cibw_archs_linux: s390x
+          #   cibw_skip: "*-multilinux_*"
+          #   cibw_before_all: ./prepare-linux.sh
             
     steps:
       - uses: actions/checkout@v3
