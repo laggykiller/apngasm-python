@@ -52,52 +52,52 @@ jobs:
             cibw_archs_linux: x86_64
             cibw_build: "*-manylinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86_64
-            cibw_before_build: yum install -y zlib-devel libpng-devel boost-devel
+            cibw_before_all: yum install -y zlib-devel libpng-devel boost-devel
           - os: ubuntu-20.04
             cibw_archs_linux: x86_64
             cibw_build: "*-musllinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86_64
-            cibw_before_build: apk install zlib-dev libpng-dev boost-dev
+            cibw_before_all: apk add zlib-dev libpng-dev boost-dev
           - os: ubuntu-20.04
             cibw_archs_linux: i686
             cibw_build: "*-manylinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86
-            cibw_before_build: yum install -y zlib-devel libpng-devel boost-devel
+            cibw_before_all: yum install -y zlib-devel libpng-devel boost-devel
           - os: ubuntu-20.04
             cibw_archs_linux: i686
             cibw_build: "*-musllinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86
-            cibw_before_build: apk install zlib-dev libpng-dev boost-dev
+            cibw_before_all: apk add zlib-dev libpng-dev boost-dev
           - os: ubuntu-20.04
             cibw_archs_linux: aarch64
             cibw_build: "*-manylinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=armv8
-            cibw_before_build: yum install -y zlib-devel libpng-devel boost-devel
+            cibw_before_all: yum install -y zlib-devel libpng-devel boost-devel
           - os: ubuntu-20.04
             cibw_archs_linux: aarch64
             cibw_build: "*-musllinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=armv8
-            cibw_before_build: apk install zlib-dev libpng-dev boost-dev
+            cibw_before_all: apk add zlib-dev libpng-dev boost-dev
           - os: ubuntu-20.04
             cibw_archs_linux: ppc64le
             cibw_build: "*-manylinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
-            cibw_before_build: yum install -y zlib-devel libpng-devel boost-devel
+            cibw_before_all: yum install -y zlib-devel libpng-devel boost-devel
           - os: ubuntu-20.04
             cibw_archs_linux: ppc64le
             cibw_build: "*-musllinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
-            cibw_before_build: apk install zlib-dev libpng-dev boost-dev
+            cibw_before_all: apk add zlib-dev libpng-dev boost-dev
           - os: ubuntu-20.04
             cibw_archs_linux: s390x
             cibw_build: "*-manylinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=s390x
-            cibw_before_build: yum install -y zlib-devel libpng-devel boost-devel
+            cibw_before_all: yum install -y zlib-devel libpng-devel boost-devel
           - os: ubuntu-20.04
             cibw_archs_linux: s390x
             cibw_build: "*-musllinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=s390x
-            cibw_before_build: apk install zlib-dev libpng-dev boost-dev
+            cibw_before_all: apk add zlib-dev libpng-dev boost-dev
             
     steps:
       - uses: actions/checkout@v3
