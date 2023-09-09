@@ -1,10 +1,8 @@
 cmake_minimum_required(VERSION 3.17)
 cmake_policy(SET CMP0074 NEW)
 
-find_package(PythonInterp 3 REQUIRED)
-
-set(GET_ARCH_CMD ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/get_arch.py")
-set(GET_DEPS_CMD ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/get_deps.py")
+set(GET_ARCH_CMD "${CMAKE_SOURCE_DIR}/get_arch.py")
+set(GET_DEPS_CMD "${CMAKE_SOURCE_DIR}/get_deps.py")
 
 message(STATUS "Executing get_arch.py")
 execute_process(
@@ -42,7 +40,12 @@ if (WIN32)
     set(Boost_USE_STATIC_RUNTIME ON)
 endif()
 
-include(${CMAKE_SOURCE_DIR}/conan_output/${APNGASM_COMPILE_TARGET}/conan_toolchain.cmake)
+set(CONAN_TOOLCHAIN ${CMAKE_SOURCE_DIR}/conan_output/${APNGASM_COMPILE_TARGET}/conan_toolchain.cmake)
+if (EXISTS)
+    include(${CMAKE_SOURCE_DIR}/conan_output/${APNGASM_COMPILE_TARGET}/conan_toolchain.cmake)
+else()
+    message(WARNING "The conan_toolchain file could not be found: ${CONAN_TOOLCHAIN}")
+endif()
 
 project(apngasm-python VERSION 1.0.6)
 set(PY_VERSION_SUFFIX "")

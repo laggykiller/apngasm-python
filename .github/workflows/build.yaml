@@ -17,78 +17,63 @@ jobs:
       matrix:
         include:
           - os: windows-2019
-            submodules_mode: true
             cibw_archs_windows: AMD64
             cibw_environment: APNGASM_COMPILE_TARGET=x86_64
           - os: windows-2019
-            submodules_mode: true
             cibw_archs_windows: x86
             cibw_environment: APNGASM_COMPILE_TARGET=x86
           - os: windows-2019
-            submodules_mode: true
             cibw_archs_windows: ARM64
             cibw_environment: APNGASM_COMPILE_TARGET=armv8
           - os: macos-11
-            submodules_mode: true
             cibw_archs_macos: x86_64
             cibw_environment: >
               APNGASM_COMPILE_TARGET=x86_64
               _PYTHON_HOST_PLATFORM=macosx-10.15-x86_64
               MACOSX_DEPLOYMENT_TARGET=10.15
           - os: macos-11
-            submodules_mode: true
             cibw_archs_macos: arm64
             cibw_environment: >
               APNGASM_COMPILE_TARGET=armv8
               _PYTHON_HOST_PLATFORM=macosx-11.0-arm64
               MACOSX_DEPLOYMENT_TARGET=11.0
           - os: macos-11
-            submodules_mode: true
             cibw_archs_macos: universal2
             cibw_environment: >
               APNGASM_COMPILE_TARGET=universal2
               _PYTHON_HOST_PLATFORM=macosx-11.0-universal2
               MACOSX_DEPLOYMENT_TARGET=11.0
           - os: ubuntu-20.04
-            submodules_mode: true
             cibw_archs_linux: x86_64
             cibw_environment: APNGASM_COMPILE_TARGET=x86_64
           - os: ubuntu-20.04
-            submodules_mode: true
             cibw_archs_linux: i686
             cibw_environment: APNGASM_COMPILE_TARGET=x86
           - os: ubuntu-20.04
-            submodules_mode: true
             cibw_archs_linux: aarch64
             cibw_skip: "*-muslinux_* pp*"
             cibw_environment: APNGASM_COMPILE_TARGET=armv8
           # - os: ubuntu-20.04
-          #   submodules_mode: true
           #   cibw_archs_linux: aarch64
           #   cibw_skip: "*-multilinux_* pp*"
           #   cibw_environment: APNGASM_COMPILE_TARGET=armv8
           # - os: ubuntu-20.04
-          #   submodules_mode: true
           #   cibw_archs_linux: aarch64
           #   cibw_skip: "*-muslinux_* *-multilinux_*"
           #   cibw_environment: APNGASM_COMPILE_TARGET=armv8
           # - os: ubuntu-20.04
-          #   submodules_mode: true
           #   cibw_archs_linux: ppc64le
           #   cibw_skip: "*-muslinux_*"
           #   cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
           # - os: ubuntu-20.04
-          #   submodules_mode: true
           #   cibw_archs_linux: ppc64le
           #   cibw_skip: "*-multilinux_*"
           #   cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
           # - os: ubuntu-20.04
-          #   submodules_mode: true
           #   cibw_archs_linux: s390x
           #   cibw_skip: "*-muslinux_*"
           #   cibw_environment: APNGASM_COMPILE_TARGET=s390x
           # - os: ubuntu-20.04
-          #   submodules_mode: true
           #   cibw_archs_linux: s390x
           #   cibw_skip: "*-multilinux_*"
           #   cibw_environment: APNGASM_COMPILE_TARGET=s390x
@@ -96,7 +81,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: ${{ matrix.submodules_mode }} # If build with vcpkg, no need boost
+          submodules: true
       
       - name: Set up QEMU
         if: runner.os == 'Linux'
