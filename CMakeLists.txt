@@ -1,8 +1,18 @@
 cmake_minimum_required(VERSION 3.17)
 cmake_policy(SET CMP0074 NEW)
 
-set(GET_ARCH_CMD "${CMAKE_SOURCE_DIR}/get_arch.py")
-set(GET_DEPS_CMD "${CMAKE_SOURCE_DIR}/get_deps.py")
+find_program(PYTHON3_BIN_PRESENT "python3")
+find_program(PYTHON_BIN_PRESENT "python")
+if (PYTHON3_BIN)
+    set(PYTHON_BIN "python3")
+elseif(PYTHON_BIN_PRESENT)
+    set(PYTHON_BIN "python")
+else()
+    message(FATAL_ERROR "Python not found, required for executing build scripts")
+endif()
+
+set(GET_ARCH_CMD ${PYTHON_BIN} "${CMAKE_SOURCE_DIR}/get_arch.py")
+set(GET_DEPS_CMD ${PYTHON_BIN} "${CMAKE_SOURCE_DIR}/get_deps.py")
 
 message(STATUS "Executing get_arch.py")
 execute_process(
