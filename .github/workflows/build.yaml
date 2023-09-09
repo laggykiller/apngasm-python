@@ -17,25 +17,21 @@ jobs:
       matrix:
         include:
           - os: windows-2019
-            arch: x64
             submodules_mode: true
             cibw_archs_windows: AMD64
-            cibw_environment: APNGASM_COMPILE_TARGET=x64
+            cibw_environment: APNGASM_COMPILE_TARGET=x86_64
             cibw_before_all: prepare-win.bat
           - os: windows-2019
-            arch: x86
             submodules_mode: true
             cibw_archs_windows: x86
             cibw_environment: APNGASM_COMPILE_TARGET=x86
             cibw_before_all: prepare-win.bat
           - os: windows-2019
-            arch: arm64
             submodules_mode: true
             cibw_archs_windows: ARM64
-            cibw_environment: APNGASM_COMPILE_TARGET=ARM64
+            cibw_environment: APNGASM_COMPILE_TARGET=armv8
             cibw_before_all: prepare-win.bat
           - os: macos-11
-            arch: x64
             submodules_mode: true
             cibw_archs_macos: x86_64
             cibw_environment: >
@@ -48,11 +44,10 @@ jobs:
               VCPKG_CXX_FLAGS="-mmacosx-version-min=10.15"
             cibw_before_all: ./prepare-mac.sh
           - os: macos-11
-            arch: arm64
             submodules_mode: true
             cibw_archs_macos: arm64
             cibw_environment: >
-              APNGASM_COMPILE_TARGET=arm64
+              APNGASM_COMPILE_TARGET=armv8
               _PYTHON_HOST_PLATFORM=macosx-11.0-arm64
               VCPKG_OSX_DEPLOYMENT_TARGET=11.0
               MACOSX_DEPLOYMENT_TARGET=11.0
@@ -61,7 +56,6 @@ jobs:
               VCPKG_CXX_FLAGS="-mmacosx-version-min=11.0"
             cibw_before_all: ./prepare-mac.sh
           - os: macos-11
-            arch: universal2
             submodules_mode: true
             cibw_archs_macos: universal2
             cibw_environment: >
@@ -73,57 +67,57 @@ jobs:
               VCPKG_C_FLAGS="-mmacosx-version-min=11.0"
               VCPKG_CXX_FLAGS="-mmacosx-version-min=11.0"
           - os: ubuntu-20.04
-            arch: x64
             submodules_mode: true
             cibw_archs_linux: x86_64
             cibw_before_all: ./prepare-linux.sh
+            cibw_environment: APNGASM_COMPILE_TARGET=x86_64
           - os: ubuntu-20.04
-            arch: x86
             submodules_mode: true
             cibw_archs_linux: i686
             cibw_before_all: ./prepare-linux.sh
+            cibw_environment: APNGASM_COMPILE_TARGET=x86
           - os: ubuntu-20.04
-            arch: arm64
             submodules_mode: true
             cibw_archs_linux: aarch64
             cibw_skip: "*-muslinux_* pp*"
             cibw_before_all: ./prepare-linux.sh
+            cibw_environment: APNGASM_COMPILE_TARGET=armv8
           - os: ubuntu-20.04
-            arch: arm64
             submodules_mode: true
             cibw_archs_linux: aarch64
             cibw_skip: "*-multilinux_* pp*"
             cibw_before_all: ./prepare-linux.sh
+            cibw_environment: APNGASM_COMPILE_TARGET=armv8
           - os: ubuntu-20.04
-            arch: arm64
             submodules_mode: true
             cibw_archs_linux: aarch64
             cibw_skip: "*-muslinux_* *-multilinux_*"
             cibw_before_all: ./prepare-linux.sh
+            cibw_environment: APNGASM_COMPILE_TARGET=armv8
           - os: ubuntu-20.04
-            arch: ppc64le
             submodules_mode: true
             cibw_archs_linux: ppc64le
             cibw_skip: "*-muslinux_*"
             cibw_before_all: ./prepare-linux.sh
+            cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
           - os: ubuntu-20.04
-            arch: ppc64le
             submodules_mode: true
             cibw_archs_linux: ppc64le
             cibw_skip: "*-multilinux_*"
             cibw_before_all: ./prepare-linux.sh
+            cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
           - os: ubuntu-20.04
-            arch: s390x
             submodules_mode: true
             cibw_archs_linux: s390x
             cibw_skip: "*-muslinux_*"
             cibw_before_all: ./prepare-linux.sh
+            cibw_environment: APNGASM_COMPILE_TARGET=s390x
           - os: ubuntu-20.04
-            arch: s390x
             submodules_mode: true
             cibw_archs_linux: s390x
             cibw_skip: "*-multilinux_*"
             cibw_before_all: ./prepare-linux.sh
+            cibw_environment: APNGASM_COMPILE_TARGET=s390x
             
     steps:
       - uses: actions/checkout@v3
