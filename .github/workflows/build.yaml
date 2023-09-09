@@ -45,18 +45,28 @@ jobs:
               MACOSX_DEPLOYMENT_TARGET=11.0
           - os: ubuntu-20.04
             cibw_archs_linux: x86_64
+            cibw_skip: "*-manylinux_*"
+            cibw_environment: APNGASM_COMPILE_TARGET=x86_64
+          - os: ubuntu-20.04
+            cibw_archs_linux: x86_64
+            cibw_skip: "*-muslinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86_64
           - os: ubuntu-20.04
             cibw_archs_linux: i686
+            cibw_skip: "*-manylinux_*"
+            cibw_environment: APNGASM_COMPILE_TARGET=x86
+          - os: ubuntu-20.04
+            cibw_archs_linux: i686
+            cibw_skip: "*-muslinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86
           - os: ubuntu-20.04
             cibw_archs_linux: aarch64
-            cibw_skip: "*-muslinux_* pp*"
+            cibw_skip: "*-manylinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=armv8
-          # - os: ubuntu-20.04
-          #   cibw_archs_linux: aarch64
-          #   cibw_skip: "*-multilinux_* pp*"
-          #   cibw_environment: APNGASM_COMPILE_TARGET=armv8
+          - os: ubuntu-20.04
+            cibw_archs_linux: aarch64
+            cibw_skip: "*-musllinux_*"
+            cibw_environment: APNGASM_COMPILE_TARGET=armv8
           # - os: ubuntu-20.04
           #   cibw_archs_linux: aarch64
           #   cibw_skip: "*-muslinux_* *-multilinux_*"
