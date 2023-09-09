@@ -52,52 +52,42 @@ jobs:
             cibw_archs_linux: x86_64
             cibw_build: "*-manylinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86_64
-            cibw_before_all: yum install -y zlib-static zlib-devel libpng-static libpng-devel boost-static boost-devel
           - os: ubuntu-20.04
             cibw_archs_linux: x86_64
             cibw_build: "*-musllinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86_64
-            cibw_before_all: apk add zlib-static zlib-dev libpng-static libpng-dev boost-static boost-dev
           - os: ubuntu-20.04
             cibw_archs_linux: i686
             cibw_build: "*-manylinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86
-            cibw_before_all: yum install -y zlib-static zlib-devel libpng-static libpng-devel boost-static boost-devel
           - os: ubuntu-20.04
             cibw_archs_linux: i686
             cibw_build: "*-musllinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86
-            cibw_before_all: apk add zlib-static zlib-dev libpng-static libpng-dev boost-static boost-dev
           - os: ubuntu-20.04
             cibw_archs_linux: aarch64
             cibw_build: "*-manylinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=armv8
-            cibw_before_all: yum install -y zlib-static zlib-devel libpng-static libpng-devel boost-static boost-devel
           - os: ubuntu-20.04
             cibw_archs_linux: aarch64
             cibw_build: "*-musllinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=armv8
-            cibw_before_all: apk add zlib-static zlib-dev libpng-static libpng-dev boost-static boost-dev
           - os: ubuntu-20.04
             cibw_archs_linux: ppc64le
             cibw_build: "*-manylinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
-            cibw_before_all: yum install -y zlib-static zlib-devel libpng-static libpng-devel boost-static boost-devel
           - os: ubuntu-20.04
             cibw_archs_linux: ppc64le
             cibw_build: "*-musllinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
-            cibw_before_all: apk add zlib-static zlib-dev libpng-static libpng-dev boost-static boost-dev
           - os: ubuntu-20.04
             cibw_archs_linux: s390x
             cibw_build: "*-manylinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=s390x
-            cibw_before_all: yum install -y zlib-static zlib-devel libpng-static libpng-devel boost-static boost-devel
           - os: ubuntu-20.04
             cibw_archs_linux: s390x
             cibw_build: "*-musllinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=s390x
-            cibw_before_all: apk add zlib-static zlib-dev libpng-static libpng-dev boost-static boost-dev
             
     steps:
       - uses: actions/checkout@v3
@@ -117,7 +107,6 @@ jobs:
           CIBW_ARCHS_WINDOWS: ${{ matrix.cibw_archs_windows }}
           CIBW_ARCHS_MACOS: ${{ matrix.cibw_archs_macos }}
           CIBW_ARCHS_LINUX: ${{ matrix.cibw_archs_linux }}
-          CIBW_BEFORE_ALL: ${{ matrix.cibw_before_all }}
           # CIBW_ENVIRONMENT: PY_BUILD_CMAKE_VERBOSE=1 ${{ matrix.cibw_environment }}
           CIBW_ENVIRONMENT: ${{ matrix.cibw_environment }}
           CIBW_BUILD: ${{ matrix.cibw_build }}
