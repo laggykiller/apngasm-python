@@ -50,6 +50,9 @@ set(CONAN_ROOT ${CMAKE_SOURCE_DIR}/conan_output/${APNGASM_COMPILE_TARGET}/direct
 set(ZLIB_ROOT ${CONAN_ROOT}/zlib)
 set(PNG_ROOT ${CONAN_ROOT}/libpng)
 set(Boost_ROOT ${CONAN_ROOT}/boost)
+include_directories(${ZLIB_ROOT}/include)
+include_directories(${PNG_ROOT}/include)
+include_directories(${Boost_ROOT}/include)
 
 project(apngasm-python VERSION 1.0.6)
 set(PY_VERSION_SUFFIX "")
