@@ -6,7 +6,7 @@ import platform
 import shutil
 from get_arch import conan_archs, get_arch
 
-def install_deps(arch=None):
+def install_deps(arch):
     # Use Conan to install dependencies
     settings = []
 
@@ -59,6 +59,12 @@ def install_deps(arch=None):
 
 def main():
     arch = get_arch()
+    conan_output = os.path.join('conan_output', arch)
+    if os.path.isdir(conan_output):
+        print('Dependencies found at:' + conan_output)
+        print('Skip conan install...')
+        return
+
     conan_output = install_deps(arch)
 
     if os.getenv('APNGASM_COMPILE_TARGET') == 'universal2':
@@ -66,7 +72,6 @@ def main():
         conan_output_x64 = install_deps('x86_64')
         conan_output_universal2 = conan_output.replace('armv8', 'universal2')
         shutil.rmtree(conan_output_universal2, ignore_errors=True)
-        os.makedirs(conan_output_universal2)
         subprocess.run([
                         'python3', 'lipo-dir-merge/lipo-dir-merge.py', 
                         conan_output, conan_output_x64, conan_output_universal2
