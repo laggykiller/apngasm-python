@@ -52,15 +52,15 @@ def install_deps(arch):
                     'conan', 'install', 
                     *[x for s in settings for x in ('-s', s)],
                     *[x for b in build for x in ('-b', b)], 
-                    '-of', conan_output, '--deployer=full_deploy', '.'
+                    '-of', conan_output, '--deployer=direct_deploy', '.'
                     ])
     
     return conan_output
 
 def main():
     arch = get_arch()
-    if arch != 'universal2':
-        conan_output = os.path.join('conan_output', arch)
+    if arch == 'universal2':
+        conan_output = os.path.join('conan_output/x86_64')
         if os.path.isdir(conan_output):
             print('Dependencies found at:' + conan_output)
             print('Skip conan install...')
@@ -79,24 +79,15 @@ def main():
     if os.getenv('APNGASM_COMPILE_TARGET') == 'universal2':
         # Repeat to install the other architecture version of libwebp
         conan_output_x64 = install_deps('x86_64')
-        # conan_output_universal2 = conan_output.replace('armv8', 'universal2')
-        # shutil.rmtree(conan_output_universal2, ignore_errors=True)
-        # subprocess.run([
-        #                 'python3', 'lipo-dir-merge/lipo-dir-merge.py', 
-        #                 conan_output_x64, conan_output, conan_output_universal2
-        #                 ])
+        conan_output_universal2 = conan_output.replace('armv8', 'universal2')
+        shutil.rmtree(conan_output_universal2, ignore_errors=True)
+        subprocess.run([
+                        'python3', 'lipo-dir-merge/lipo-dir-merge.py', 
+                        conan_output_x64, conan_output, conan_output_universal2
+                        ])
 
-        # with open(os.path.join(conan_output_universal2, 'CMakePresets.json')) as f:
-        #     cmake_presets = f.read()
-        # cmake_presets = cmake_presets.replace('x86_64', 'universal2')
-        # with open(os.path.join(conan_output_universal2, 'CMakePresets.json'), 'w+') as f:
-        #     f.write(cmake_presets)
-
-        # with open(os.path.join(conan_output_universal2, 'conan_toolchain.cmake')) as f:
-        #     conan_toolchain = f.read()
-        # conan_toolchain = conan_toolchain.replace('x86_64', 'universal2')
-        # with open(os.path.join(conan_output_universal2, 'conan_toolchain.cmake'), 'w+') as f:
-        #     f.write(conan_toolchain)
+        shutil.rmtree(conan_output_x64)
+        shutil.move(conan_output_universal2, conan_output_x64)
 
 if __name__ == '__main__':
     main()
