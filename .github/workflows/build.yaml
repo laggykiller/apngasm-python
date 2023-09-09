@@ -51,32 +51,28 @@ jobs:
             cibw_environment: APNGASM_COMPILE_TARGET=x86
           - os: ubuntu-20.04
             cibw_archs_linux: aarch64
-            cibw_skip: "*-muslinux_* pp*"
+            cibw_skip: "*-muslinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=armv8
-          # - os: ubuntu-20.04
-          #   cibw_archs_linux: aarch64
-          #   cibw_skip: "*-multilinux_* pp*"
-          #   cibw_environment: APNGASM_COMPILE_TARGET=armv8
-          # - os: ubuntu-20.04
-          #   cibw_archs_linux: aarch64
-          #   cibw_skip: "*-muslinux_* *-multilinux_*"
-          #   cibw_environment: APNGASM_COMPILE_TARGET=armv8
-          # - os: ubuntu-20.04
-          #   cibw_archs_linux: ppc64le
-          #   cibw_skip: "*-muslinux_*"
-          #   cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
-          # - os: ubuntu-20.04
-          #   cibw_archs_linux: ppc64le
-          #   cibw_skip: "*-multilinux_*"
-          #   cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
-          # - os: ubuntu-20.04
-          #   cibw_archs_linux: s390x
-          #   cibw_skip: "*-muslinux_*"
-          #   cibw_environment: APNGASM_COMPILE_TARGET=s390x
-          # - os: ubuntu-20.04
-          #   cibw_archs_linux: s390x
-          #   cibw_skip: "*-multilinux_*"
-          #   cibw_environment: APNGASM_COMPILE_TARGET=s390x
+          - os: ubuntu-20.04
+            cibw_archs_linux: aarch64
+            cibw_skip: "*-manylinux_*"
+            cibw_environment: APNGASM_COMPILE_TARGET=armv8
+          - os: ubuntu-20.04
+            cibw_archs_linux: ppc64le
+            cibw_skip: "*-muslinux_*"
+            cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
+          - os: ubuntu-20.04
+            cibw_archs_linux: ppc64le
+            cibw_skip: "*-manylinux_*"
+            cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
+          - os: ubuntu-20.04
+            cibw_archs_linux: s390x
+            cibw_skip: "*-muslinux_*"
+            cibw_environment: APNGASM_COMPILE_TARGET=s390x
+          - os: ubuntu-20.04
+            cibw_archs_linux: s390x
+            cibw_skip: "*-manylinux_*"
+            cibw_environment: APNGASM_COMPILE_TARGET=s390x
             
     steps:
       - uses: actions/checkout@v3
