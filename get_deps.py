@@ -27,7 +27,7 @@ def install_deps(arch=None):
     if arch:
         settings.append(f'arch={arch}')
 
-    build = []
+    build = ['missing']
     if os.path.isdir('/lib') and len([i for i in os.listdir('/lib') if i.startswith('libc.musl')]) != 0:
         # Need to compile dependencies if musllinux
         build.append('zlib*')
@@ -35,8 +35,6 @@ def install_deps(arch=None):
         build.append('boost*')
     if platform.architecture()[0] == '32bit' or platform.machine().lower() not in (conan_archs['armv8'] + conan_archs['x86']):
         build.append('cmake*')
-    if build == []:
-        build.append('missing')
     
     subprocess.run(['conan', 'profile', 'detect'])
 
