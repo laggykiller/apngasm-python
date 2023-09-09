@@ -32,7 +32,7 @@ jobs:
             submodules_mode: true
             cibw_archs_macos: x86_64
             cibw_environment: >
-              APNGASM_COMPILE_TARGET=x64
+              APNGASM_COMPILE_TARGET=x86_64
               _PYTHON_HOST_PLATFORM=macosx-10.15-x86_64
               MACOSX_DEPLOYMENT_TARGET=10.15
           - os: macos-11

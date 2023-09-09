@@ -3,16 +3,24 @@ cmake_policy(SET CMP0074 NEW)
 
 find_package(PythonInterp 3 REQUIRED)
 
-set(PREPARE_CMD ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/get-deps.py")
+set(GET_ARCH_CMD ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/get_deps.py")
+set(GET_DEPS_CMD ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/get_deps.py")
 
-message(STATUS "Executing get-deps.py")
+message(STATUS "Executing get_arch.py")
 execute_process(
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    COMMAND ${PREPARE_CMD}
+    COMMAND ${GET_ARCH_CMD}
     OUTPUT_VARIABLE APNGASM_COMPILE_TARGET
 )
-message(STATUS "Finished get-deps.py")
+message(STATUS "Finished get_arch.py")
 message(STATUS "APNGASM_COMPILE_TARGET is ${APNGASM_COMPILE_TARGET}")
+
+message(STATUS "Executing get_deps.py")
+execute_process(
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    COMMAND ${GET_DEPS_CMD}
+)
+message(STATUS "Finished get_deps.py")
 
 if (WIN32)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
