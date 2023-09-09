@@ -15,7 +15,7 @@ def install_deps(arch=None):
     elif platform.system() == 'Darwin':
         settings.append('os=Macos')
         settings.append('compiler=apple-clang')
-        # if arch == 'armv8':s
+        # if arch == 'armv8':
         settings.append('compiler.version=11.0')
         # else:
         #     settings.append('compiler.version=10.15')
@@ -23,20 +23,23 @@ def install_deps(arch=None):
     elif platform.system() == 'Linux':
         settings.append('os=Linux')
     if arch:
-        settings.append(f'arch={arch}')
+        settings.append('arch=' + arch)
 
-    build = ['missing']
-    if os.path.isdir('/lib') and len([i for i in os.listdir('/lib') if i.startswith('libc.musl')]) != 0:
-        # Need to compile dependencies if musllinux
-        build.append('zlib*')
-        build.append('libpng*')
-        build.append('boost*')
-    if platform.architecture()[0] == '32bit' or platform.machine().lower() not in (conan_archs['armv8'] + conan_archs['x86']):
+    build = []
+    if platform.system() == 'Linux':
+        # Need to compile dependencies if Linux
+        build.append('*')
+    elif (not shutil.which('cmake') and 
+        (platform.architecture()[0] == '32bit' or 
+        platform.machine().lower() not in (conan_archs['armv8'] + conan_archs['x86']))):
         build.append('cmake*')
     
+    if build == []:
+        build.append('missing')
+    
     print('conan cli settings:')
-    print(f'{settings = }')
-    print(f'{build = }')
+    print('settings: ' + str(settings))
+    print('build: ' + str(build))
     
     subprocess.run(['conan', 'profile', 'detect'])
 
