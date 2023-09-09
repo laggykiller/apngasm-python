@@ -1,6 +1,4 @@
 from conan import ConanFile
-import shutil
-import platform
 
 class ApngasmRecipe(ConanFile):
     settings = 'os', 'compiler', 'build_type', 'arch'
@@ -13,7 +11,7 @@ class ApngasmRecipe(ConanFile):
 
     def build_requirements(self):
         # https://stackoverflow.com/questions/42123509/cmake-finds-boost-but-the-imported-targets-not-available-for-boost-version
-        self.tool_requires("cmake/3.27")
+        self.tool_requires("cmake/[>=3.27]")
     
     def build(self):
         build_type = 'Release'
