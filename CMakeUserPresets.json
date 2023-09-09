@@ -1,0 +1,9 @@
+{
+    "version": 4,
+    "vendor": {
+        "conan": {}
+    },
+    "include": [
+        "/mnt/Library-SSD/Codes/apngasm-python/conan_output/x86_64/CMakePresets.json"
+    ]
+}

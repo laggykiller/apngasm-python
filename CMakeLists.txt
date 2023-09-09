@@ -44,19 +44,28 @@ endif()
 
 # Add conan packages
 if ("${APNGASM_COMPILE_TARGET}" STREQUAL "universal2")
-    set(CONAN_TOOLCHAIN_1 ${CMAKE_SOURCE_DIR}/conan_output/armv8/conan_toolchain.cmake)
-    if (EXISTS ${CONAN_TOOLCHAIN_1})
-        include(${CONAN_TOOLCHAIN_1})
-    else()
-        message(WARNING "The conan_toolchain file could not be found: ${CONAN_TOOLCHAIN_1}")
-    endif()
+    set(CONAN_ROOT_X64 ${CMAKE_SOURCE_DIR}/conan_output/x86_64/direct_deploy)
+    set(CONAN_ROOT_ARM ${CMAKE_SOURCE_DIR}/conan_output/armv8/direct_deploy)
 
-    set(CONAN_TOOLCHAIN_2 ${CMAKE_SOURCE_DIR}/conan_output/x86_64/conan_toolchain.cmake)
-    if (EXISTS ${CONAN_TOOLCHAIN_2})
-        include(${CONAN_TOOLCHAIN_2})
-    else()
-        message(WARNING "The conan_toolchain file could not be found: ${CONAN_TOOLCHAIN_2}")
-    endif()
+    list(PREPEND CMAKE_PREFIX_PATH
+        ${CONAN_ROOT_X64}
+        ${CONAN_ROOT_ARM})
+
+    list(PREPEND CMAKE_LIBRARY_PATH
+        ${CONAN_ROOT_X64}/libpng/lib
+        ${CONAN_ROOT_ARM}/libpng/lib
+        ${CONAN_ROOT_X64}/boost/lib
+        ${CONAN_ROOT_ARM}/boost/lib
+        ${CONAN_ROOT_X64}/zlib/lib
+        ${CONAN_ROOT_ARM}/zlib/lib)
+    
+    list(PREPEND CMAKE_INCLUDE_PATH
+        ${CONAN_ROOT_X64}/libpng/include
+        ${CONAN_ROOT_ARM}/libpng/include
+        ${CONAN_ROOT_X64}/boost/include
+        ${CONAN_ROOT_ARM}/boost/include
+        ${CONAN_ROOT_X64}/zlib/include
+        ${CONAN_ROOT_ARM}/zlib/include)
 else()
     set(CONAN_TOOLCHAIN ${CMAKE_SOURCE_DIR}/conan_output/${APNGASM_COMPILE_TARGET}/conan_toolchain.cmake)
     if (EXISTS ${CONAN_TOOLCHAIN})

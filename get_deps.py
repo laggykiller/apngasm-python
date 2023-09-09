@@ -52,7 +52,7 @@ def install_deps(arch):
                     'conan', 'install', 
                     *[x for s in settings for x in ('-s', s)],
                     *[x for b in build for x in ('-b', b)], 
-                    '-of', conan_output, '--deployer=full_deploy', '.'
+                    '-of', conan_output, '--deployer=direct_deploy', '.'
                     ])
     
     return conan_output
