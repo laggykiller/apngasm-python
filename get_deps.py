@@ -22,6 +22,9 @@ def install_deps(arch=None):
         settings.append('compiler.libcxx=libc++')
     elif platform.system() == 'Linux':
         settings.append('os=Linux')
+        settings.append('compiler=gcc')
+        settings.append('compiler.version=10')
+        settings.append('compiler.libcxx=libstdc++')
     if arch:
         settings.append('arch=' + arch)
 
@@ -61,7 +64,7 @@ def main():
     if os.getenv('APNGASM_COMPILE_TARGET') == 'universal2':
         # Repeat to install the other architecture version of libwebp
         conan_output_x64 = install_deps('x86_64')
-        conan_output_universal2 = 'conan_output/universal2'
+        conan_output_universal2 = conan_output.replace('armv8', 'universal2')
         shutil.rmtree(conan_output_universal2, ignore_errors=True)
         os.makedirs(conan_output_universal2)
         subprocess.run([
