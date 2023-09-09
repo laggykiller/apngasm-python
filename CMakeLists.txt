@@ -43,37 +43,11 @@ if (WIN32)
 endif()
 
 # Add conan packages
-if ("${APNGASM_COMPILE_TARGET}" STREQUAL "universal2")
-    set(CONAN_ROOT_X64 ${CMAKE_SOURCE_DIR}/conan_output/x86_64/direct_deploy)
-    set(CONAN_ROOT_ARM ${CMAKE_SOURCE_DIR}/conan_output/armv8/direct_deploy)
+set(CONAN_ROOT ${CMAKE_SOURCE_DIR}/conan_output/${APNGASM_COMPILE_TARGET}/direct_deploy)
 
-    list(PREPEND CMAKE_PREFIX_PATH
-        ${CONAN_ROOT_X64}
-        ${CONAN_ROOT_ARM})
-
-    list(PREPEND CMAKE_LIBRARY_PATH
-        ${CONAN_ROOT_X64}/libpng/lib
-        ${CONAN_ROOT_ARM}/libpng/lib
-        ${CONAN_ROOT_X64}/boost/lib
-        ${CONAN_ROOT_ARM}/boost/lib
-        ${CONAN_ROOT_X64}/zlib/lib
-        ${CONAN_ROOT_ARM}/zlib/lib)
-    
-    list(PREPEND CMAKE_INCLUDE_PATH
-        ${CONAN_ROOT_X64}/libpng/include
-        ${CONAN_ROOT_ARM}/libpng/include
-        ${CONAN_ROOT_X64}/boost/include
-        ${CONAN_ROOT_ARM}/boost/include
-        ${CONAN_ROOT_X64}/zlib/include
-        ${CONAN_ROOT_ARM}/zlib/include)
-else()
-    set(CONAN_TOOLCHAIN ${CMAKE_SOURCE_DIR}/conan_output/${APNGASM_COMPILE_TARGET}/conan_toolchain.cmake)
-    if (EXISTS ${CONAN_TOOLCHAIN})
-        include(${CONAN_TOOLCHAIN})
-    else()
-        message(WARNING "The conan_toolchain file could not be found: ${CONAN_TOOLCHAIN}")
-    endif()
-endif()
+set(ZLIB_ROOT ${CONAN_ROOT}/zlib)
+set(PNG_ROOT ${CONAN_ROOT}/libpng)
+set(Boost_ROOT ${CONAN_ROOT}/boost)
 
 project(apngasm-python VERSION 1.0.6)
 set(PY_VERSION_SUFFIX "")
