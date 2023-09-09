@@ -33,7 +33,7 @@ def install_deps(arch=None):
         build.append('zlib*')
         build.append('libpng*')
         build.append('boost*')
-    if platform.architecture()[0] == '32bit' and platform.machine().lower() in (conan_archs['x86_64'] + conan_archs['x86']):
+    if platform.architecture()[0] == '32bit' or platform.machine().lower() not in (conan_archs['armv8'] + conan_archs['x86']):
         build.append('cmake*')
     if build == []:
         build.append('missing')
