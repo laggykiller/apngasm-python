@@ -12,8 +12,8 @@ class ApngasmRecipe(ConanFile):
         self.generators = ['CMakeToolchain', 'CMakeDeps']
 
     def build_requirements(self):
-        if not shutil.which('cmake'):
-            self.tool_requires("cmake/[>=3.5]")
+        # https://stackoverflow.com/questions/42123509/cmake-finds-boost-but-the-imported-targets-not-available-for-boost-version
+        self.tool_requires("cmake/3.27")
     
     def build(self):
         build_type = 'Release'
