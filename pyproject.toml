@@ -35,7 +35,8 @@ include = [
     "cmake/*.cmake",
     "src/*",
     "src-python/*",
-    "get-deps.py",
+    "get_deps.py",
+    "get_arch.py",
     "conanfile.py",
     "apngasm/*"
 ]
