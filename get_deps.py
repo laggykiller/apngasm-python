@@ -22,8 +22,6 @@ def install_deps(arch=None):
         settings.append('compiler.libcxx=libc++')
     elif platform.system() == 'Linux':
         settings.append('os=Linux')
-        settings.append('compiler=gcc')
-        settings.append('compiler.version=10')
     if arch:
         settings.append(f'arch={arch}')
 
@@ -35,6 +33,10 @@ def install_deps(arch=None):
         build.append('boost*')
     if platform.architecture()[0] == '32bit' or platform.machine().lower() not in (conan_archs['armv8'] + conan_archs['x86']):
         build.append('cmake*')
+    
+    print('conan cli settings:')
+    print(f'{settings = }')
+    print(f'{build = }')
     
     subprocess.run(['conan', 'profile', 'detect'])
 
