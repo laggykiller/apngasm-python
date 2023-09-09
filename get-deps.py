@@ -22,7 +22,10 @@ def install_deps(arch=None):
     elif platform.system() == 'Darwin':
         settings.append('os=Macos')
         settings.append('compiler=apple-clang')
-        settings.append('compiler.version=11.0')
+        if arch == 'armv8':
+            settings.append('compiler.version=11.0')
+        else:
+            settings.append('compiler.version=10.15')
         settings.append('compiler.libcxx=libc++')
     elif platform.system() == 'Linux':
         settings.append('os=Linux')
@@ -90,7 +93,7 @@ if os.getenv('APNGASM_COMPILE_TARGET') == 'universal2':
     cmake_presets = cmake_presets.replace('armv8', 'universal2')
     with open(os.path.join(conan_output_universal2, 'CMakePresets.json'), 'w+') as f:
         f.write(cmake_presets)
-        
+
     with open(os.path.join(conan_output_universal2, 'conan_toolchain.cmake')) as f:
         conan_toolchain = f.read()
     conan_toolchain = conan_toolchain.replace('armv8', 'universal2')

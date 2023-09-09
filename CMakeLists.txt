@@ -1,16 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
 cmake_policy(SET CMP0074 NEW)
 
-if (WIN32)
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
-elseif (LINUX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-elseif (APPLE)
-    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
-endif()
-
 find_package(PythonInterp 3 REQUIRED)
 
 set(PREPARE_CMD ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/get-deps.py")
@@ -23,6 +13,20 @@ execute_process(
 )
 message(STATUS "Finished get-deps.py")
 message(STATUS "APNGASM_COMPILE_TARGET is ${APNGASM_COMPILE_TARGET}")
+
+if (WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+elseif (LINUX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+elseif (APPLE)
+    if(${APNGASM_COMPILE_TARGET} STREQUAL "x86_64")
+        set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
+    else()
+        set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0")
+    endif()
+endif()
 
 set(ZLIB_USE_STATIC_LIBS ON)
 set(PNG_USE_STATIC_LIBS ON)
