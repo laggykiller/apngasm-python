@@ -3,6 +3,7 @@ import platform
 import os
 import subprocess
 import platform
+import shutil
 from get_arch import conan_archs, get_arch
 
 def install_deps(arch=None):
@@ -21,7 +22,8 @@ def install_deps(arch=None):
         settings.append('compiler.libcxx=libc++')
     elif platform.system() == 'Linux':
         settings.append('os=Linux')
-
+        settings.append('compiler=gcc')
+        settings.append('compiler.version=10')
     if arch:
         settings.append(f'arch={arch}')
 
@@ -30,7 +32,6 @@ def install_deps(arch=None):
         # Need to compile dependencies if musllinux
         build.append('zlib*')
         build.append('libpng*')
-        build.append('b2*')
         build.append('boost*')
     if platform.architecture()[0] == '32bit' and platform.machine().lower() in (conan_archs['x86_64'] + conan_archs['x86']):
         build.append('cmake*')
@@ -58,7 +59,8 @@ def main():
         # Repeat to install the other architecture version of libwebp
         conan_output_x64 = install_deps('x86_64')
         conan_output_universal2 = 'conan_output/universal2'
-        os.makedirs(conan_output_universal2, exist_ok=True)
+        shutil.rmtree(conan_output_universal2, ignore_errors=True)
+        os.makedirs(conan_output_universal2)
         subprocess.run([
                         'python3', 'lipo-dir-merge/lipo-dir-merge.py', 
                         conan_output, conan_output_x64, conan_output_universal2
