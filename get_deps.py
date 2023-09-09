@@ -30,8 +30,9 @@ def install_deps(arch=None):
         # Need to compile dependencies if musllinux
         build.append('zlib*')
         build.append('libpng*')
+        build.append('b2*')
         build.append('boost*')
-    if not platform.machine().lower() in conan_archs['armv8'] + conan_archs['x86_64']:
+    if platform.architecture()[0] == '32bit' and platform.machine().lower() in (conan_archs['x86_64'] + conan_archs['x86']):
         build.append('cmake*')
     if build == []:
         build.append('missing')

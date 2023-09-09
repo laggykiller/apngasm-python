@@ -12,6 +12,7 @@ class ApngasmRecipe(ConanFile):
     def build_requirements(self):
         # https://stackoverflow.com/questions/42123509/cmake-finds-boost-but-the-imported-targets-not-available-for-boost-version
         self.tool_requires("cmake/[>=3.27]")
+        self.tool_requires("b2/[>=4.10]")
     
     def build(self):
         build_type = 'Release'
