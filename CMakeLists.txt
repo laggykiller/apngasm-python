@@ -3,7 +3,7 @@ cmake_policy(SET CMP0074 NEW)
 
 find_package(PythonInterp 3 REQUIRED)
 
-set(GET_ARCH_CMD ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/get_deps.py")
+set(GET_ARCH_CMD ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/get_arch.py")
 set(GET_DEPS_CMD ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/get_deps.py")
 
 message(STATUS "Executing get_arch.py")
