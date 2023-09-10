@@ -74,7 +74,7 @@ def main():
         # Repeat to install the other architecture version of libwebp
         conan_output_x64 = install_deps('x86_64')
         conan_output_arm = install_deps('armv8')
-        conan_output_universal2 = conan_output.replace('armv8', 'universal2')
+        conan_output_universal2 = conan_output_arm.replace('armv8', 'universal2')
         shutil.rmtree(conan_output_universal2, ignore_errors=True)
         subprocess.run([
                         'python3', 'lipo-dir-merge/lipo-dir-merge.py', 
