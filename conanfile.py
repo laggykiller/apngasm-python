@@ -3,6 +3,7 @@ import shutil
 from get_arch import get_arch
 from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps, cmake_layout
 from conan.tools.apple import is_apple_os
+import os
 
 class ApngasmRecipe(ConanFile):
     settings = 'os', 'compiler', 'build_type', 'arch'
@@ -10,10 +11,10 @@ class ApngasmRecipe(ConanFile):
     def requirements(self):
         self.requires("zlib/1.2.13")
         self.requires("libpng/1.6.40")
-        self.requires("boost/1.74.0")
+        self.requires(f"boost/{os.getenv('BOOST_VERSION')}")
 
     def build_requirements(self):
-        self.build_requires("b2/4.5.0")
+        self.build_requires(f"b2/{os.getenv('B2_VERSION')}")
         if not shutil.which('cmake'):
             self.tool_requires("cmake/[>=3.27]")
     
