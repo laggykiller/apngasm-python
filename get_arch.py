@@ -13,9 +13,7 @@ conan_archs = {
 
 def get_arch():
     arch = None
-    if os.getenv('APNGASM_COMPILE_TARGET') == 'universal2':
-        arch = 'armv8'
-    elif os.getenv('APNGASM_COMPILE_TARGET'):
+    if os.getenv('APNGASM_COMPILE_TARGET'):
         arch = os.getenv('APNGASM_COMPILE_TARGET')
     else:
         for k, v in conan_archs.items():
