@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from ._apngasm_python import APNGAsm, APNGFrame, create_frame_from_rgb, create_frame_from_rgba
 from ._apngasm_python import __version__
 import numpy as np

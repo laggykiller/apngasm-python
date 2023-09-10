@@ -1,6 +1,27 @@
 cmake_minimum_required(VERSION 3.17)
 cmake_policy(SET CMP0074 NEW)
 
+find_package(PythonInterp 3 REQUIRED)
+
+set(GET_ARCH_CMD ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/get_arch.py")
+set(GET_DEPS_CMD ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/get_deps.py")
+
+message(STATUS "Executing get_arch.py")
+execute_process(
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    COMMAND ${GET_ARCH_CMD}
+    OUTPUT_VARIABLE APNGASM_COMPILE_TARGET
+)
+message(STATUS "Finished get_arch.py")
+message(STATUS "APNGASM_COMPILE_TARGET is ${APNGASM_COMPILE_TARGET}")
+
+message(STATUS "Executing get_deps.py")
+execute_process(
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    COMMAND ${GET_DEPS_CMD}
+)
+message(STATUS "Finished get_deps.py")
+
 if (WIN32)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
@@ -8,106 +29,33 @@ if (WIN32)
 elseif (LINUX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 elseif (APPLE)
-    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
+    if(${APNGASM_COMPILE_TARGET} STREQUAL "x86_64")
+        set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0")
+    else()
+        set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
+    endif()
 endif()
 
-if (WIN32)
-    set(GET_TARGET_CMD "cmd" "/c" "${CMAKE_SOURCE_DIR}/get-target-win.bat")
-    set(PREPARE_CMD "cmd" "/c" "${CMAKE_SOURCE_DIR}/prepare-win.bat")
-elseif (APPLE)
-    set(GET_TARGET_CMD "${CMAKE_SOURCE_DIR}/get-target-mac.sh")
-    set(PREPARE_CMD "${CMAKE_SOURCE_DIR}/prepare-mac.sh")
-else()
-    set(GET_TARGET_CMD "${CMAKE_SOURCE_DIR}/get-target-linux.sh")
-    set(PREPARE_CMD "${CMAKE_SOURCE_DIR}/prepare-linux.sh")
-endif()
-
-execute_process(
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    COMMAND ${PREPARE_CMD}
-)
-
+set(ZLIB_USE_STATIC_LIBS ON)
+set(PNG_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_LIBS ON)
 if (WIN32)
     set(Boost_USE_MULTITHREADED ON)
     set(Boost_USE_STATIC_RUNTIME ON)
-    set(STATIC_LIBRARY_SUFFIX ".lib")
-else()
-    set(STATIC_LIBRARY_SUFFIX ".a")
 endif()
 
-if (DEFINED ENV{VCPKG_INSTALLATION_ROOT})
-    set(VCPKG_INSTALLATION_ROOT $ENV{VCPKG_INSTALLATION_ROOT})
+# Add conan packages
+if ("${APNGASM_COMPILE_TARGET}" STREQUAL "universal2")
+    # x86_64 Contians static libraries that are universal2
+    set(CONAN_TOOLCHAIN ${CMAKE_SOURCE_DIR}/conan_output/x86_64/conan_toolchain.cmake)
+else()
+    set(CONAN_TOOLCHAIN ${CMAKE_SOURCE_DIR}/conan_output/${APNGASM_COMPILE_TARGET}/conan_toolchain.cmake)
 endif()
 
-if (DEFINED VCPKG_INSTALLATION_ROOT)
-    if (DEFINED ENV{APNGASM_COMPILE_TARGET})
-        set(APNGASM_COMPILE_TARGET $ENV{APNGASM_COMPILE_TARGET})
-    elseif (NOT DEFINED APNGASM_COMPILE_TARGET)
-        execute_process(
-            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-            COMMAND ${GET_TARGET_CMD}
-            OUTPUT_VARIABLE APNGASM_COMPILE_TARGET
-        )
-        if (DEFINED ENV{APNGASM_COMPILE_TARGET})
-            set(APNGASM_COMPILE_TARGET $ENV{APNGASM_COMPILE_TARGET})
-        endif()
-    endif()
-
-    if (DEFINED ENV{PLATFORM})
-        set(PLATFORM $ENV{PLATFORM})
-    elseif (NOT DEFINED PLATFORM)
-        if (WIN32)
-            set(PLATFORM windows-static)
-        elseif (APPLE)
-            set(PLATFORM osx)
-        else()
-            set(PLATFORM linux)
-        endif()
-    endif()
-
-    if (WIN32)
-        set(LIBZ_NAME zlib)
-        set(LIBPNG_NAME libpng16)
-    else()
-        set(LIBZ_NAME libz)
-        set(LIBPNG_NAME libpng16)
-    endif()
-
-    set(ZLIB_ROOT ${VCPKG_INSTALLATION_ROOT}/installed)
-    set(PNG_ROOT ${VCPKG_INSTALLATION_ROOT}/installed)
-    set(Boost_ROOT ${VCPKG_INSTALLATION_ROOT}/installed)
-
-    set(VCPKG_TARGET_TRIPLET ${APNGASM_COMPILE_TARGET}-${PLATFORM})
-
-    include_directories(${VCPKG_INSTALLATION_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/include)
-    set(LIBZ_PATH ${VCPKG_INSTALLATION_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/lib/${LIBZ_NAME}${STATIC_LIBRARY_SUFFIX})
-    set(LIBPNG_PATH ${VCPKG_INSTALLATION_ROOT}/installed/${VCPKG_TARGET_TRIPLET}/lib/${LIBPNG_NAME}${STATIC_LIBRARY_SUFFIX})
-    
-    set(CMAKE_TOOLCHAIN_FILE "${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake"
-      CACHE STRING "Vcpkg toolchain file")
+if (EXISTS ${CONAN_TOOLCHAIN})
+    include(${CONAN_TOOLCHAIN})
 else()
-    if (WIN32)
-        set(LIBZ_NAME zlibstatic)
-        set(LIBPNG_NAME libpng16_static)
-    else()
-        set(LIBZ_NAME libz)
-        set(LIBPNG_NAME libpng16)
-    endif()
-
-    set(ZLIB_ROOT ${CMAKE_SOURCE_DIR}/fakeroot)
-    set(PNG_ROOT ${CMAKE_SOURCE_DIR}/fakeroot)
-    set(Boost_ROOT ${CMAKE_SOURCE_DIR}/fakeroot)
-
-    set(LIBZ_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib/${LIBZ_NAME}${STATIC_LIBRARY_SUFFIX})
-    if(NOT EXISTS ${LIBZ_PATH})
-        set(LIBZ_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib64/${LIBZ_NAME}${STATIC_LIBRARY_SUFFIX})
-    endif()
-
-    set(LIBPNG_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib/${LIBPNG_NAME}${STATIC_LIBRARY_SUFFIX})
-    if(NOT EXISTS ${LIBPNG_PATH})
-        set(LIBPNG_PATH ${CMAKE_SOURCE_DIR}/fakeroot/lib64/${LIBPNG_NAME}${STATIC_LIBRARY_SUFFIX})
-    endif()
+    message(WARNING "The conan_toolchain file could not be found: ${CONAN_TOOLCHAIN}")
 endif()
 
 project(apngasm-python VERSION 1.0.6)
@@ -135,22 +83,14 @@ target_compile_definitions(_apngasm_python PRIVATE _apngasm_python_EXPORTS)
 target_compile_definitions(_apngasm_python PRIVATE apngasm_EXPORTS)
 
 # Static linking
-add_library(zlibstatic STATIC IMPORTED)
-add_library(png_static STATIC IMPORTED)
-
 add_subdirectory(apngasm)
 set_target_properties(apngasm-static PROPERTIES BUILD_SHARED_LIBS OFF)
 
-include_directories(${CMAKE_SOURCE_DIR}/fakeroot/include)
 include_directories(${CMAKE_BINARY_DIR}/apngasm/lib/src)
 include_directories(${CMAKE_SOURCE_DIR}/apngasm/lib/src)
 include_directories(${CMAKE_SOURCE_DIR}/apngasm/lib/src/listener)
 
-set_target_properties(zlibstatic PROPERTIES IMPORTED_LOCATION ${LIBZ_PATH})
-set_target_properties(png_static PROPERTIES IMPORTED_LOCATION ${LIBPNG_PATH})
-
-target_link_libraries(_apngasm_python PRIVATE apngasm-static png_static zlibstatic)
-
+target_link_libraries(_apngasm_python PRIVATE apngasm-static)
 target_compile_definitions(_apngasm_python PRIVATE
     MODULE_NAME=$<TARGET_FILE_BASE_NAME:_apngasm_python>
     VERSION_INFO="${PY_FULL_VERSION}"

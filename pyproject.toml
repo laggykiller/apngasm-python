@@ -16,7 +16,13 @@ Documentation = "https://apngasm-python.readthedocs.io/en/latest/"
 Tracker = "https://github.com/laggykiller/apngasm-python/issues"
 
 [build-system] # How pip and other frontends should build this project
-requires = ["py-build-cmake==0.2.0a7", "nanobind>=1.5.2", "nanobind-stubgen"]
+requires = [
+    "py-build-cmake==0.2.0a7",
+    "nanobind>=1.5.2",
+    "nanobind-stubgen",
+    "conan>=2.0",
+    "wheel"
+]
 build-backend = "py_build_cmake.build"
 
 [tool.py-build-cmake.module] # Where to find the Python module to package
@@ -24,12 +30,22 @@ name = "apngasm_python"
 directory = "src-python"
 
 [tool.py-build-cmake.sdist] # What to include in source distributions
-include = ["CMakeLists.txt", "cmake/*.cmake", "src/*", "src-python/*", "*.bat", "*.sh", "apngasm/*"]
+include = [
+    "CMakeLists.txt",
+    "cmake/*.cmake",
+    "src/*",
+    "src-python/*",
+    "get_deps.py",
+    "get_arch.py",
+    "conanfile.py",
+    "apngasm/*"
+]
 
 [tool.py-build-cmake.cmake] # How to build the CMake project
 build_type = "Release"
 source_path = "."
-options = { "WITH_PY_STUBS:BOOL" = "On", "CMAKE_FIND_DEBUG_MODE" = "On" }
+# options = { "WITH_PY_STUBS:BOOL" = "On", "CMAKE_FIND_DEBUG_MODE" = "On" }
+options = { "WITH_PY_STUBS:BOOL" = "On" }
 find_python3 = false
 find_python = true
 build_args = ["-j", "--verbose"]
@@ -38,6 +54,3 @@ install_components = ["python_module"]
 [tool.cibuildwheel]
 build-verbosity = 1
 environment = { PY_BUILD_CMAKE_VERBOSE="1" }
-
-[tool.py-build-cmake.mac.cmake] # macOS-specific options
-env = { "LDFLAGS" = "-L/usr/local/opt/icu4c/lib", "CPPFLAGS" = "-I/usr/local/opt/icu4c/include" } # Required for brew installed icu4c
