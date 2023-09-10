@@ -10,10 +10,10 @@ class ApngasmRecipe(ConanFile):
     def requirements(self):
         self.requires("zlib/1.2.13")
         self.requires("libpng/1.6.40")
-        self.requires("boost/1.74.0")
+        self.requires("boost/1.75.0") # https://github.com/conan-io/conan-center-index/issues/19704
 
     def build_requirements(self):
-        self.build_requires("b2/4.5.0")
+        self.build_requires("b2/4.10.1")
         if not shutil.which('cmake'):
             self.tool_requires("cmake/[>=3.27]")
     
