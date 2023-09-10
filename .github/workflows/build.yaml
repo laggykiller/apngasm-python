@@ -10,13 +10,14 @@ on:
 
 jobs:
   build_wheels:
-    name: Build wheels for Boost ${{ matrix.boost_version }} b2 ${{ matrix.b2_version }}
+    name: Arch ${{ matrix.arch }} Boost ${{ matrix.boost_version }} b2 ${{ matrix.b2_version }}
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
-        boost_version: ['1.74.0', '1.76.0', '1.78.0', '1.80.0', '1.82.0', '1.83.0']
-        b2_version: ['4.5.0', '4.7.2', '4.9.6', '4.10.1']
+        arch: ['ppc64le', 'x86_64']
+        boost_version: ['1.74.0', '1.75.0', '1.76.0', '1.77.0']
+        b2_version: ['4.5.0', '4.10.1']
 
     steps:
       - uses: actions/checkout@v3
@@ -33,15 +34,15 @@ jobs:
         uses: pypa/cibuildwheel@v2.15.0
         env:
           CIBW_BUILD_FRONTEND: build
-          CIBW_ARCHS: ppc64le
-          CIBW_ENVIRONMENT: APNGASM_COMPILE_TARGET=ppc64le 
+          CIBW_ARCHS: ${{ matrix.arch }}
+          CIBW_ENVIRONMENT: APNGASM_COMPILE_TARGET="${{ matrix.arch }}" 
             BOOST_VERSION="${{ matrix.boost_version }}"
             B2_VERSION="${{ matrix.b2_version }}"
           CIBW_BUILD: "cp38-manylinux_ppc64le"
 
-      - uses: actions/upload-artifact@v3
-        with:
-          path: ./wheelhouse/*.whl
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     path: ./wheelhouse/*.whl
   
   build_sdist:
     name: Build source distribution
