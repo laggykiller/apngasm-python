@@ -1,6 +1,6 @@
 from conan import ConanFile
 import shutil
-import get_arch
+from get_arch import get_arch
 from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps, cmake_layout
 from conan.tools.apple import is_apple_os
 
