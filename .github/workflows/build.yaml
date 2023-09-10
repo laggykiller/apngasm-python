@@ -59,7 +59,7 @@ jobs:
             cibw_environment: APNGASM_COMPILE_TARGET=x86
           - os: ubuntu-20.04
             cibw_archs: aarch64
-            cibw_build: "*-muslinux_*"
+            cibw_build: "*-musllinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=armv8
           - os: ubuntu-20.04
             cibw_archs: aarch64
@@ -67,7 +67,7 @@ jobs:
             cibw_environment: APNGASM_COMPILE_TARGET=armv8
           - os: ubuntu-20.04
             cibw_archs: ppc64le
-            cibw_build: "*-muslinux_*"
+            cibw_build: "*-musllinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
           - os: ubuntu-20.04
             cibw_archs: ppc64le
@@ -75,7 +75,7 @@ jobs:
             cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
           - os: ubuntu-20.04
             cibw_archs: s390x
-            cibw_build: "*-muslinux_*"
+            cibw_build: "*-musllinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=s390x
           - os: ubuntu-20.04
             cibw_archs: s390x
