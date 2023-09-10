@@ -23,7 +23,7 @@ class ApngasmRecipe(ConanFile):
     def generate(self):
         tc = CMakeToolchain(self)
         cmake = CMakeDeps(self)
-        if is_apple_os(self) and get_arch == 'universal2':
+        if is_apple_os(self) and get_arch() == 'universal2':
             tc.blocks['apple_system'].values['cmake_osx_architectures'] = 'x86_64; arm64'
         tc.generate()
         cmake.generate()
