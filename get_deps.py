@@ -10,6 +10,8 @@ def install_deps(arch):
     # Use Conan to install dependencies
     settings = []
 
+    print(f'DEBUGGING env variable: ${os.getenv("BOOST_VERSION")} ${os.getenv("B2_VERSION")}')
+
     if platform.system() == 'Windows':
         settings.append('os=Windows')
     elif platform.system() == 'Darwin':
