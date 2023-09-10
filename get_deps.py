@@ -60,30 +60,25 @@ def install_deps(arch):
 def main():
     arch = get_arch()
     if arch == 'universal2':
-        conan_output = os.path.join('conan_output/x86_64')
-        if os.path.isdir(conan_output):
-            print('Dependencies found at:' + conan_output)
-            print('Skip conan install...')
-            return
+        conan_output = 'conan_output/x86_64'
     else:
-        conan_output_1 = 'conan_output/x86_64'
-        conan_output_2 = 'conan_output/armv8'
-        if os.path.isdir(conan_output_1) and os.path.isdir(conan_output_2):
-            print('Dependencies (x86_64) found at:' + conan_output_1)
-            print('Dependencies (armv8) found at:' + conan_output_2)
-            print('Skip conan install...')
-            return
+        conan_output = 'conan_output/' + arch
+    if os.path.isdir(conan_output):
+        print('Dependencies found at:' + conan_output)
+        print('Skip conan install...')
+        return
 
-    conan_output = install_deps(arch)
-
-    if os.getenv('APNGASM_COMPILE_TARGET') == 'universal2':
+    if arch != 'universal2':
+        conan_output = install_deps(arch)
+    else:
         # Repeat to install the other architecture version of libwebp
         conan_output_x64 = install_deps('x86_64')
+        conan_output_arm = install_deps('armv8')
         conan_output_universal2 = conan_output.replace('armv8', 'universal2')
         shutil.rmtree(conan_output_universal2, ignore_errors=True)
         subprocess.run([
                         'python3', 'lipo-dir-merge/lipo-dir-merge.py', 
-                        conan_output_x64, conan_output, conan_output_universal2
+                        conan_output_x64, conan_output_arm, conan_output_universal2
                         ])
 
         shutil.rmtree(conan_output_x64)

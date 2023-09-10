@@ -1,5 +1,8 @@
 from conan import ConanFile
 import shutil
+import get_arch
+from conan.tools.cmake import CMake, CMakeToolchain, cmake_layout
+from conan.tools.apple import is_apple_os
 
 class ApngasmRecipe(ConanFile):
     settings = 'os', 'compiler', 'build_type', 'arch'
@@ -17,3 +20,9 @@ class ApngasmRecipe(ConanFile):
     
     def build(self):
         build_type = 'Release'
+    
+    def generate(self):
+        tc = CMakeToolchain(self)
+        if is_apple_os(self) and get_arch == 'universal2':
+            tc.blocks['apple_system'].values['cmake_osx_architectures'] = 'x86_64; arm64'
+        tc.generate()
