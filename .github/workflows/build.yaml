@@ -38,7 +38,7 @@ jobs:
           CIBW_ENVIRONMENT: APNGASM_COMPILE_TARGET="${{ matrix.arch }}" 
             BOOST_VERSION="${{ matrix.boost_version }}"
             B2_VERSION="${{ matrix.b2_version }}"
-          CIBW_BUILD: "cp38-manylinux_ppc64le"
+          CIBW_BUILD: "cp38-manylinux_*"
 
       # - uses: actions/upload-artifact@v3
       #   with:
