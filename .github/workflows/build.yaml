@@ -10,14 +10,14 @@ on:
 
 jobs:
   build_wheels:
-    name: Build wheels for Boost ${{ matrix.boost_version }} b2 ${ matrix.b2_version }}
+    name: Build wheels for Boost ${{ matrix.boost_version }} b2 ${{ matrix.b2_version }}
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
         boost_version: ['1.74.0', '1.75.0', '1.76.0', '1.77.0', '1.78.0', '1.79.0', '1.80.0', '1.81.0', '1.82.0', '1.83.0']
         b2_version: ['4.5.0', '4.6.1', '4.7.2', '4.8.2', '4.9.6', '4.10.1']
-                    
+
     steps:
       - uses: actions/checkout@v3
         with:
