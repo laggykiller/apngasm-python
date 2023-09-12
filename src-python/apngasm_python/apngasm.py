@@ -138,7 +138,7 @@ class APNGAsmBinder:
             is set with this value.
 
         :return: 1D numpy array representation of transparency data of frame (get) or None (set)
-        :rtype: numpy.adarray or None
+        :rtype: numpy.ndarray or None
         '''
         if new_value:
             self.apngasm.get_frames()[frame].transparency = new_value
@@ -420,7 +420,7 @@ class APNGAsmBinder:
         Returns the frame vector.
 
         :return: frame vector
-        :rtype: numpy.adarray
+        :rtype: numpy.ndarray
         '''
         return self.apngasm.get_frames()
     
@@ -466,7 +466,7 @@ class APNGAsmBinder:
         '''
         Returns the version of APNGAsm.
 
-        'return: version of APNGAsm.
+        :return: version of APNGAsm.
         :rtype: str
         '''
         return self.apngasm.version()
