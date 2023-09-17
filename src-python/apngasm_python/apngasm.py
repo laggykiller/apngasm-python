@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-from ._apngasm_python import APNGAsm, APNGFrame, create_frame_from_rgb, create_frame_from_rgba
+from ._apngasm_python import APNGAsm, APNGFrame, IAPNGAsmListener, create_frame_from_rgb, create_frame_from_rgba
 from ._apngasm_python import __version__
 import numpy as np
 from PIL import Image
+from typing import Optional
 
 class APNGAsmBinder:
     # https://www.w3.org/TR/PNG-Chunks.html
@@ -23,7 +24,7 @@ class APNGAsmBinder:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.apngasm.reset()
     
-    def frame_pixels_as_pillow(self, frame: int, new_value: list = None):
+    def frame_pixels_as_pillow(self, frame: int, new_value: Optional[list] = None) -> Optional[Image.Image]:
         '''
         Get/Set the raw pixel data of frame, expressed as a Pillow object.
         This should be set AFTER you set the width, height and color_type.
@@ -41,7 +42,7 @@ class APNGAsmBinder:
             mode = self.color_type_dict[self.apngasm.get_frames()[frame].color_type]
             return Image.frombytes(mode, (self.apngasm.get_frames()[frame].width, self.apngasm.get_frames()[frame].height), self.apngasm.get_frames()[frame].pixels)
     
-    def frame_pixels_as_numpy(self, frame: int, new_value: list = None):
+    def frame_pixels_as_numpy(self, frame: int, new_value: Optional[list] = None) -> Optional[np.ndarray]:
         '''
         Get/Set the raw pixel data of frame, expressed as a 1D numpy array.
         This should be set AFTER you set the width, height and color_type.
@@ -58,7 +59,7 @@ class APNGAsmBinder:
         else:
             return self.apngasm.get_frames()[frame].pixels
     
-    def frame_width(self, frame: int, new_value: int = None):
+    def frame_width(self, frame: int, new_value: Optional[int] = None) -> Optional[int]:
         '''
         Get/Set the width of frame.
         
@@ -74,7 +75,7 @@ class APNGAsmBinder:
         else:
             return self.apngasm.get_frames()[frame].width
     
-    def frame_height(self, frame: int, new_value: int = None):
+    def frame_height(self, frame: int, new_value: Optional[int] = None) -> Optional[int]:
         '''
         Get/Set the height of frame.
         
@@ -90,7 +91,7 @@ class APNGAsmBinder:
         else:
             return self.apngasm.get_frames()[frame].height
         
-    def frame_color_type(self, frame: int, new_value: int = None):
+    def frame_color_type(self, frame: int, new_value: Optional[int] = None) -> Optional[int]:
         '''
         Get/Set the color_type of frame.
 
@@ -112,7 +113,7 @@ class APNGAsmBinder:
         else:
             return self.apngasm.get_frames()[frame].color_type
     
-    def frame_palette(self, frame: int, new_value: np.ndarray = None):
+    def frame_palette(self, frame: int, new_value: Optional[np.ndarray] = None) -> Optional[np.ndarray]:
         '''
         Get/Set the palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA)
         Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]]
@@ -129,7 +130,7 @@ class APNGAsmBinder:
         else:
             return self.apngasm.get_frames()[frame].palette
 
-    def frame_transparency(self, frame: int, new_value: int = None):
+    def frame_transparency(self, frame: int, new_value: Optional[int] = None) -> Optional[np.ndarray]:
         '''
         Get/Set the transparency data of frame. Expressed as 1D numpy array.
         
@@ -145,7 +146,7 @@ class APNGAsmBinder:
         else:
             return self.apngasm.get_frames()[frame].transparency
 
-    def frame_palette_size(self, frame: int, new_value: int = None):
+    def frame_palette_size(self, frame: int, new_value: Optional[int] = None) -> Optional[int]:
         '''
         Get/Set the palette data size of frame.
         
@@ -161,7 +162,7 @@ class APNGAsmBinder:
         else:
             return self.apngasm.get_frames()[frame].palette_size
     
-    def frame_transparency_size(self, frame: int, new_value: int = None):
+    def frame_transparency_size(self, frame: int, new_value: Optional[int] = None) -> Optional[int]:
         '''
         Get/Set the transparency data size of frame.
         
@@ -177,7 +178,7 @@ class APNGAsmBinder:
         else:
             return self.apngasm.get_frames()[frame].transparency_size
     
-    def frame_delay_num(self, frame: int, new_value: int = None):
+    def frame_delay_num(self, frame: int, new_value: Optional[int] = None) -> Optional[int]:
         '''
         Get/Set the nominator of the duration of frame.
         Duration of time is delay_num / delay_den seconds.
@@ -194,7 +195,7 @@ class APNGAsmBinder:
         else:
             return self.apngasm.get_frames()[frame].delay_num
     
-    def frame_delay_den(self, frame: int, new_value: int = None):
+    def frame_delay_den(self, frame: int, new_value: Optional[int] = None) -> Optional[int]:
         '''
         Get/Set the denominator of the duration of frame.
         Duration of time is delay_num / delay_den seconds.
@@ -211,7 +212,7 @@ class APNGAsmBinder:
         else:
             return self.apngasm.get_frames()[frame].delay_den
     
-    def add_frame_from_file(self, file_path: str, delay_num: int = 100, delay_den: int = 1000):
+    def add_frame_from_file(self, file_path: str, delay_num: int = 100, delay_den: int = 1000) -> int:
         '''
         Adds a frame from a PNG file or frames from a APNG file to the frame vector.
         
@@ -228,7 +229,7 @@ class APNGAsmBinder:
             delay_den=delay_den
         )
     
-    def add_frame_from_pillow(self, pillow_image: Image.Image, delay_num: int = 100, delay_den: int = 1000):
+    def add_frame_from_pillow(self, pillow_image: Image.Image, delay_num: int = 100, delay_den: int = 1000) -> int:
         '''
         Add a frame from Pillow image.
         The frame duration is equal to delay_num / delay_den seconds.
@@ -253,7 +254,7 @@ class APNGAsmBinder:
         )
     
     def add_frame_from_numpy(self, numpy_data: int, width: int, height: int, trns_color: int = None, 
-                             mode: str = 'RGBA', delay_num: int = 100, delay_den: int = 1000):
+                             mode: str = 'RGBA', delay_num: int = 100, delay_den: int = 1000) -> int:
         '''
         Add frame from numpy array.
         The frame duration is equal to delay_num / delay_den seconds.
@@ -294,7 +295,7 @@ class APNGAsmBinder:
 
         return self.apngasm.add_frame(frame)
 
-    def assemble(self, output_path: str):
+    def assemble(self, output_path: str) -> bool:
         '''
         Assembles and outputs an APNG file.
         
@@ -305,7 +306,7 @@ class APNGAsmBinder:
         '''
         return self.apngasm.assemble(output_path)
     
-    def disassemble_as_numpy(self, file_path: str):
+    def disassemble_as_numpy(self, file_path: str) -> list:
         '''
         Disassembles an APNG file to a list of frames, expressed as 1D numpy array.
         
@@ -316,7 +317,7 @@ class APNGAsmBinder:
         '''
         return self.apngasm.disassemble(file_path)
 
-    def disassemble_as_pillow(self, file_path: str):
+    def disassemble_as_pillow(self, file_path: str) -> list:
         '''
         Disassembles an APNG file to a list of frames, expressed as Pillow images.
         
@@ -334,7 +335,7 @@ class APNGAsmBinder:
         
         return frames_pillow
     
-    def save_pngs(self, output_dir: str):
+    def save_pngs(self, output_dir: str) -> bool:
         '''
         Saves individual PNG files of the frames in the frame vector.
         
@@ -345,17 +346,22 @@ class APNGAsmBinder:
         '''
         return self.apngasm.save_pngs(output_dir)
     
-    def load_animation_spec(self, file_path: str):
+    def load_animation_spec(self, file_path: str) -> list:
         '''
         Loads an animation spec from JSON or XML.
         Loaded frames are added to the end of the frame vector.
         For more details on animation specs see:
         https://github.com/Genshin/PhantomStandards
         You probably won't need to use this function
+
+        :param str file_path: The path of JSON or XML file
+
+        :return: A vector containing the loaded frames
+        :rtype: list
         '''
         return self.apngasm.load_animation_spec(file_path)
     
-    def save_json(self, output_path: str, image_dir: str):
+    def save_json(self, output_path: str, image_dir: str) -> bool:
         '''
         Saves a JSON animation spec file.
         You probably won't need to use this function
@@ -369,7 +375,7 @@ class APNGAsmBinder:
         '''
         return self.apngasm.save_json(output_path, image_dir)
     
-    def save_xml(self, output_path: str, image_dir: str):
+    def save_xml(self, output_path: str, image_dir: str) -> bool:
         '''
         Saves an XML animation spec file.
         
@@ -382,12 +388,12 @@ class APNGAsmBinder:
         '''
         return self.apngasm.save_xml(output_path, image_dir)
 
-    def set_apng_asm_listener(self, listener=None):
+    def set_apng_asm_listener(self, listener: IAPNGAsmListener = None):
         '''
         Sets a listener.
         You probably won't need to use this function
         
-        :param listener: A pointer to the listener object.
+        :param apngasm_python.apngasm.IAPNGAsmListener listener: A pointer to the listener object.
             If the argument is None,
             a default APNGAsmListener will be created and assigned.
         '''
@@ -398,9 +404,6 @@ class APNGAsmBinder:
         Set loop count of animation.
         
         :param int loops: Loop count of animation. If the argument is 0 a loop count is infinity.
-        
-        :return: true if successful.
-        :rtype: bool
         '''
         return self.apngasm.set_loops(loops)
     
@@ -409,13 +412,10 @@ class APNGAsmBinder:
         Set flag of skip first frame.
 
         :param int skip_first: Flag of skip first frame.
-
-        :return: true if successful.
-        :rtype: bool
         '''
         return self.apngasm.set_skip_first(skip_first)
 
-    def get_frames(self):
+    def get_frames(self) -> np.ndarray:
         '''
         Returns the frame vector.
 
@@ -424,7 +424,7 @@ class APNGAsmBinder:
         '''
         return self.apngasm.get_frames()
     
-    def get_loops(self):
+    def get_loops(self) -> int:
         '''
         Returns the loop count.
 
@@ -433,7 +433,7 @@ class APNGAsmBinder:
         '''
         return self.apngasm.get_loops()
     
-    def is_skip_first(self):
+    def is_skip_first(self) -> int:
         '''
         Returns the flag of skip first frame.
 
@@ -442,7 +442,7 @@ class APNGAsmBinder:
         '''
         return self.apngasm.get_loops()
 
-    def frame_count(self):
+    def frame_count(self) -> int:
         '''
         Returns the number of frames.
 
@@ -451,7 +451,7 @@ class APNGAsmBinder:
         '''
         return self.apngasm.frame_count()
     
-    def reset(self):
+    def reset(self) -> int:
         '''
         Destroy all frames in memory/dispose of the frame vector.
         Leaves the apngasm object in a clean state.
@@ -462,7 +462,7 @@ class APNGAsmBinder:
         '''
         return self.apngasm.reset()
 
-    def version(self):
+    def version(self) -> str:
         '''
         Returns the version of APNGAsm.
 

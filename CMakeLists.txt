@@ -58,7 +58,7 @@ else()
     message(FATAL_ERROR "The conan_toolchain file could not be found: ${CONAN_TOOLCHAIN}")
 endif()
 
-project(apngasm-python VERSION 1.0.8)
+project(apngasm-python VERSION 1.0.9)
 set(PY_VERSION_SUFFIX "")
 set(PY_FULL_VERSION ${PROJECT_VERSION}${PY_VERSION_SUFFIX})
 

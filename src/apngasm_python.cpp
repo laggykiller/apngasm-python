@@ -112,6 +112,8 @@ NB_MODULE(MODULE_NAME, m) {
 
             :return: A APNGFrame object.
         )pbdoc");
+    
+    nb::class_<apngasm::listener::IAPNGAsmListener>(m, "IAPNGAsmListener");
 
     nb::class_<apngasm::rgb>(m, "rgb")
         .def(nb::init<>(),
@@ -430,8 +432,9 @@ NB_MODULE(MODULE_NAME, m) {
             Disassembles an APNG file.
             
             :param str file_path: The file path to the PNG image to be disassembled.
+
             :return: A vector containing the frames of the disassembled PNG.
-            :rtype: list")
+            :rtype: list
         )pbdoc")
 
         .def("save_pngs", &apngasm::APNGAsm::savePNGs,
@@ -453,7 +456,10 @@ NB_MODULE(MODULE_NAME, m) {
             For more details on animation specs see:
             https://github.com/Genshin/PhantomStandards
             
-            :param str file_path: The path of JSON file
+            :param str file_path: The path of JSON or XML file
+
+            :return: A vector containing the frames
+            :rtype: list
         )pbdoc")
 
         .def("save_json", &apngasm::APNGAsm::saveJSON,
@@ -463,6 +469,7 @@ NB_MODULE(MODULE_NAME, m) {
             
             :param str output_path: Path to save the file to.
             :param str image_dir: Directory where frame files are to be saved if not the same path as the animation spec.
+
             :return: true if save was successful.
             :rtype: bool
         )pbdoc")
@@ -485,6 +492,9 @@ NB_MODULE(MODULE_NAME, m) {
             Sets a listener.
             
             :param listener: A pointer to the listener object. If the argument is NULL a default APNGAsmListener will be created and assigned.
+
+            :return: None
+            :rtype: NoneType
         )pbdoc")
 
         .def("set_loops", &apngasm::APNGAsm::setLoops,
@@ -493,6 +503,9 @@ NB_MODULE(MODULE_NAME, m) {
             Set loop count of animation.
             
             :param int loops: Loop count of animation. If the argument is 0 a loop count is infinity.
+
+            :return: None
+            :rtype: NoneType
         )pbdoc")
 
         .def("set_skip_first", &apngasm::APNGAsm::setSkipFirst,
@@ -501,11 +514,17 @@ NB_MODULE(MODULE_NAME, m) {
             Set flag of skip first frame.
             
             :param int skip_first: Flag of skip first frame.
+
+            :return: None
+            :rtype: NoneType
         )pbdoc")
 
         .def("get_frames", &apngasm::APNGAsm::getFrames,
         R"pbdoc(
             Returns the frame vector.
+
+            :return: frame vector
+            :rtype: numpy.ndarray
         )pbdoc")
 
         .def("get_loops", &apngasm::APNGAsm::getLoops,
