@@ -111,6 +111,7 @@ NB_MODULE(MODULE_NAME, m) {
             :param delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR)
 
             :return: A APNGFrame object.
+            :rtype: apngasm_python._apngasm_python.APNGFrame
         )pbdoc");
     
     nb::class_<apngasm::listener::IAPNGAsmListener>(m, "IAPNGAsmListener");
@@ -491,10 +492,7 @@ NB_MODULE(MODULE_NAME, m) {
         R"pbdoc(
             Sets a listener.
             
-            :param listener: A pointer to the listener object. If the argument is NULL a default APNGAsmListener will be created and assigned.
-
-            :return: None
-            :rtype: NoneType
+            :param listener: A pointer to the listener object. If the argument is NULL a default APNGAsmListener will be created and assigned.8
         )pbdoc")
 
         .def("set_loops", &apngasm::APNGAsm::setLoops,
@@ -503,9 +501,6 @@ NB_MODULE(MODULE_NAME, m) {
             Set loop count of animation.
             
             :param int loops: Loop count of animation. If the argument is 0 a loop count is infinity.
-
-            :return: None
-            :rtype: NoneType
         )pbdoc")
 
         .def("set_skip_first", &apngasm::APNGAsm::setSkipFirst,
@@ -514,9 +509,6 @@ NB_MODULE(MODULE_NAME, m) {
             Set flag of skip first frame.
             
             :param int skip_first: Flag of skip first frame.
-
-            :return: None
-            :rtype: NoneType
         )pbdoc")
 
         .def("get_frames", &apngasm::APNGAsm::getFrames,
