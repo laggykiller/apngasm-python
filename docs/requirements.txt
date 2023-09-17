@@ -1,3 +1,3 @@
-apngasm-python==1.0.8
+apngasm-python==1.0.9
 myst_parser
 sphinx-immaterial
