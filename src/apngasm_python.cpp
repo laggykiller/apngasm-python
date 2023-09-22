@@ -113,7 +113,8 @@ NB_MODULE(MODULE_NAME, m) {
     :rtype: apngasm_python._apngasm_python.APNGFrame
     )pbdoc");
 
-    nb::class_<apngasm::listener::IAPNGAsmListener>(m, "IAPNGAsmListener");
+    nb::class_<apngasm::listener::IAPNGAsmListener>(m, "IAPNGAsmListener")
+        .doc() = "Class for APNGAsmListener. Meant to be used internally.";
 
     nb::class_<apngasm::rgb>(m, "rgb")
         .def(nb::init<>(),
@@ -128,13 +129,15 @@ NB_MODULE(MODULE_NAME, m) {
 
         .def_rw("r", &apngasm::rgb::r)
         .def_rw("g", &apngasm::rgb::g)
-        .def_rw("b", &apngasm::rgb::b);
+        .def_rw("b", &apngasm::rgb::b)
+        .doc() = "Class for RGB object. Meant to be used internally.";
     
     nb::class_<apngasm::rgba>(m, "rgba")
         .def(nb::init<>(),
         R"pbdoc(
         Create an empty RGBA object. Meant to be used internally.
         )pbdoc")
+
         .def(nb::init<unsigned char, unsigned char, unsigned char, unsigned char>(),
         R"pbdoc(
         Create a RGBA object. Meant to be used internally.
@@ -143,7 +146,8 @@ NB_MODULE(MODULE_NAME, m) {
         .def_rw("r", &apngasm::rgba::r)
         .def_rw("g", &apngasm::rgba::g)
         .def_rw("b", &apngasm::rgba::b)
-        .def_rw("a", &apngasm::rgba::a);
+        .def_rw("a", &apngasm::rgba::a)
+        .doc() = "Class for RGBA object. Meant to be used internally.";
 
     nb::class_<apngasm::APNGFrame>(m, "APNGFrame")
         .def(nb::init<>(),
@@ -330,17 +334,19 @@ NB_MODULE(MODULE_NAME, m) {
         [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_DECLSPEC { t.delayDen(v); },
         R"pbdoc(
         The denominator of the duration of frame. Duration of time is delay_num / delay_den seconds.
-        )pbdoc");
+        )pbdoc")
 
         // difficult to implement
         // rows is also set when pixels is set
         // .def_prop_rw("rows")
 
+        .doc() = "Class representing a frame in APNG.";
+
     nb::class_<apngasm::APNGAsm>(m, "APNGAsm")
         .def(nb::init<>(),
-            R"pbdoc(
-                Construct an empty APNGAsm object.
-            )pbdoc")
+        R"pbdoc(
+        Construct an empty APNGAsm object.
+        )pbdoc")
 
         .def(nb::init<const std::vector<apngasm::APNGFrame> &>(),
         "frames"_a,
@@ -559,5 +565,7 @@ NB_MODULE(MODULE_NAME, m) {
         
         :return: the version of APNGAsm
         :rtype: str
-        )pbdoc");
+        )pbdoc")
+
+        .doc() = "Class representing APNG file, storing APNGFrame(s) and other metadata.";
 }

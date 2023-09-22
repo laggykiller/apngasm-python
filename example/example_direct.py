@@ -28,7 +28,7 @@ color_type_dict = {
 
 color_type_dict.update(dict((v, k) for k, v in color_type_dict.items()))
 
-# # Cleanup
+# Cleanup
 shutil.rmtree('output', ignore_errors=True)
 os.mkdir('output')
 
