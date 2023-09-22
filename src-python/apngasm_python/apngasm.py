@@ -397,7 +397,7 @@ class APNGAsmBinder:
         Sets a listener.
         You probably won't need to use this function
         
-        :param apngasm_python.apngasm.IAPNGAsmListener listener: A pointer to the listener object.
+        :param apngasm_python._apngasm_python.IAPNGAsmListener listener: A pointer to the listener object.
             If the argument is None,
             a default APNGAsmListener will be created and assigned.
         '''

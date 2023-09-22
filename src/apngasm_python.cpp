@@ -498,7 +498,7 @@ NB_MODULE(MODULE_NAME, m) {
         R"pbdoc(
         Sets a listener.
         
-        :param apngasm_python.apngasm.IAPNGAsmListener listener: A pointer to the listener object. If the argument is NULL a default APNGAsmListener will be created and assigned.8
+        :param apngasm_python._apngasm_python.IAPNGAsmListener listener: A pointer to the listener object. If the argument is NULL a default APNGAsmListener will be created and assigned.8
         )pbdoc")
 
         .def("set_loops", &apngasm::APNGAsm::setLoops,
