@@ -33,8 +33,10 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 autoapi_dirs = [
-    os.path.abspath('../src-python')
+    os.path.abspath('../src-python/apngasm_python'),
+    os.path.abspath('../src-python/apngasm_python/_apngasm_python')
 ]
+autoapi_python_use_implicit_namespaces = True
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
