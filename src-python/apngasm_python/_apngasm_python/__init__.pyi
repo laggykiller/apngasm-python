@@ -472,7 +472,7 @@ def create_frame_from_rgb(pixels: numpy.typing.NDArray, width: int, height: int,
     """
     Creates an APNGFrame from a bitmapped array of RBG pixel data.
     
-    :param int pixels: The RGB pixel data, expressed as 1D numpy array.
+    :param numpy.ndarray pixels: The RGB pixel data, expressed as 1D numpy array.
     :param int width: The width of the pixel data.
     :param int height: The height of the pixel data.
     :param numpy.ndarray trns_color: An array of transparency data, expressed as 1D numpy array.
@@ -488,11 +488,11 @@ def create_frame_from_rgba(pixels: numpy.typing.NDArray, width: int, height: int
     """
     Creates an APNGFrame from a bitmapped array of RBGA pixel data.
     
-    :param pixels: The RGBA pixel data, expressed as 1D numpy array.
-    :param width: The width of the pixel data.
-    :param height: The height of the pixel data.
-    :param delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR)
-    :param delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR)
+    :param numpy.ndarray pixels: The RGBA pixel data, expressed as 1D numpy array.
+    :param int width: The width of the pixel data.
+    :param int height: The height of the pixel data.
+    :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR)
+    :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR)
     
     :return: A APNGFrame object.
     :rtype: apngasm_python._apngasm_python.APNGFrame
