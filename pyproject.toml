@@ -18,8 +18,8 @@ Tracker = "https://github.com/laggykiller/apngasm-python/issues"
 [build-system] # How pip and other frontends should build this project
 requires = [
     "py-build-cmake==0.2.0a7",
-    "nanobind>=1.5.2",
-    "nanobind-stubgen",
+    "nanobind~=1.5.2",
+    "nanobind-stubgen~=0.1.2",
     "conan>=2.0",
     "wheel"
 ]
@@ -44,12 +44,34 @@ include = [
 [tool.py-build-cmake.cmake] # How to build the CMake project
 build_type = "Release"
 source_path = "."
-# options = { "WITH_PY_STUBS:BOOL" = "On", "CMAKE_FIND_DEBUG_MODE" = "On" }
 options = { "WITH_PY_STUBS:BOOL" = "On" }
+args = ["-Wdev"]
 find_python3 = false
 find_python = true
 build_args = ["-j", "--verbose"]
-install_components = ["python_module"]
+build_tool_args = []
+install_args = ["--verbose"]
+install_components = ["python_modules"]
+env = {}
+python_abi = 'abi3'
+abi3_minimum_cpython_version = 312
+
+[tool.py-build-cmake.linux.cmake] # Linux-specific options
+generator = "Ninja Multi-Config"
+config = "Release"
+env = { "CMAKE_PREFIX_PATH" = "${HOME}/.local" }
+
+[tool.py-build-cmake.mac.cmake] # macOS-specific options
+generator = "Ninja Multi-Config"
+config = "Release"
+
+[tool.py-build-cmake.windows.cmake] # Windows-specific options
+config = "Release"
+[tool.py-build-cmake.windows.cmake.options]
+CMAKE_CXX_FLAGS_RELWITHDEBINFO = "/Zi /Ob0 /Od /RTC1"
+
+[tool.py-build-cmake.stubgen]
+args = ["-v"]
 
 [tool.cibuildwheel]
 build-verbosity = 1

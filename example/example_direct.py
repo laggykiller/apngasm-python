@@ -26,7 +26,7 @@ color_type_dict = {
     6: 'RGBA'
 }
 
-color_type_dict = color_type_dict | dict((v, k) for k, v in color_type_dict.items())
+color_type_dict.update(dict((v, k) for k, v in color_type_dict.items()))
 
 # # Cleanup
 shutil.rmtree('output', ignore_errors=True)

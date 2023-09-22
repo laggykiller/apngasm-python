@@ -32,58 +32,38 @@ std::map<int, int> rowbytesMap = {
     { 6, 4 }  // RGBA
 };
 
-nb::object create_frame_from_rgb(nb::ndarray<unsigned char, nb::shape<nb::any>> *pixels,
-    unsigned int width, unsigned int height, nb::ndarray<unsigned char, nb::shape<nb::any>> *trns_color = NULL,
-    unsigned delayNum = apngasm::DEFAULT_FRAME_NUMERATOR,
-    unsigned delayDen = apngasm::DEFAULT_FRAME_DENOMINATOR) {
-
-        apngasm::rgb *pixelsNew = new apngasm::rgb[pixels->shape(0)];
-        unsigned char *pixels_ptr = pixels->data();
-        for (int i = 0; i < pixels->shape(0) / 3; ++i) {
-            pixelsNew[i].r = pixels_ptr[3 * i];
-            pixelsNew[i].g = pixels_ptr[3 * i + 1];
-            pixelsNew[i].b = pixels_ptr[3 * i + 2];
-        }
-
-        apngasm::rgb *trns_colorNew = new apngasm::rgb[trns_color->shape(0)];
-        unsigned char *trns_color_ptr = trns_color->data();
-        for (int i = 0; i < trns_color->shape(0) / 3; ++i) {
-            trns_colorNew[i].r = trns_color_ptr[3 * i];
-            trns_colorNew[i].g = trns_color_ptr[3 * i + 1];
-            trns_colorNew[i].b = trns_color_ptr[3 * i + 2];
-        }
-
-        const apngasm::APNGFrame &frame = apngasm::APNGFrame(pixelsNew, width, height, trns_colorNew, delayNum, delayDen);
-        delete[] pixelsNew;
-        delete[] trns_colorNew;
-        return nb::cast(frame);
-}
-
-nb::object create_frame_from_rgba(nb::ndarray<unsigned char, nb::shape<nb::any>> *pixels,
-    unsigned int width, unsigned int height,
-    unsigned delayNum = apngasm::DEFAULT_FRAME_NUMERATOR,
-    unsigned delayDen = apngasm::DEFAULT_FRAME_DENOMINATOR) {
-
-        apngasm::rgba *pixelsNew = new apngasm::rgba[pixels->shape(0)];
-        unsigned char *pixels_ptr = pixels->data();
-
-        for (int i = 0; i < pixels->shape(0) / 4; ++i) {
-            pixelsNew[i].r = pixels_ptr[4 * i];
-            pixelsNew[i].g = pixels_ptr[4 * i + 1];
-            pixelsNew[i].b = pixels_ptr[4 * i + 2];
-            pixelsNew[i].a = pixels_ptr[4 * i + 3];
-        }
-
-        const apngasm::APNGFrame frame(pixelsNew, width, height, delayNum, delayDen);
-        delete[] pixelsNew;
-        return nb::cast(frame);
-}
-
 NB_MODULE(MODULE_NAME, m) {
     m.doc() = "A nanobind API for apngasm, a tool/library for APNG assembly/disassembly";
     m.attr("__version__") = VERSION_INFO;
 
-    m.def("create_frame_from_rgb", &create_frame_from_rgb,
+    m.def("create_frame_from_rgb", [](
+            nb::ndarray<unsigned char, nb::shape<nb::any>> *pixels,
+            unsigned int width, unsigned int height,
+            nb::ndarray<unsigned char, nb::shape<nb::any>> *trns_color = NULL,
+            unsigned delayNum = apngasm::DEFAULT_FRAME_NUMERATOR,
+            unsigned delayDen = apngasm::DEFAULT_FRAME_DENOMINATOR
+        ) APNGASM_PY_DECLSPEC {
+            apngasm::rgb *pixelsNew = new apngasm::rgb[pixels->shape(0)];
+            unsigned char *pixels_ptr = pixels->data();
+            for (int i = 0; i < pixels->shape(0) / 3; ++i) {
+                pixelsNew[i].r = pixels_ptr[3 * i];
+                pixelsNew[i].g = pixels_ptr[3 * i + 1];
+                pixelsNew[i].b = pixels_ptr[3 * i + 2];
+            }
+
+            apngasm::rgb *trns_colorNew = new apngasm::rgb[trns_color->shape(0)];
+            unsigned char *trns_color_ptr = trns_color->data();
+            for (int i = 0; i < trns_color->shape(0) / 3; ++i) {
+                trns_colorNew[i].r = trns_color_ptr[3 * i];
+                trns_colorNew[i].g = trns_color_ptr[3 * i + 1];
+                trns_colorNew[i].b = trns_color_ptr[3 * i + 2];
+            }
+
+            const apngasm::APNGFrame &frame = apngasm::APNGFrame(pixelsNew, width, height, trns_colorNew, delayNum, delayDen);
+            delete[] pixelsNew;
+            delete[] trns_colorNew;
+            return nb::cast(frame);
+        },
         "pixels"_a, "width"_a, "height"_a, "trns_color"_a = NULL, "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
         R"pbdoc(
             Creates an APNGFrame from a bitmapped array of RBG pixel data.
@@ -99,7 +79,26 @@ NB_MODULE(MODULE_NAME, m) {
             :rtype: apngasm_python._apngasm_python.APNGFrame
         )pbdoc");
     
-    m.def("create_frame_from_rgba", &create_frame_from_rgba,
+    m.def("create_frame_from_rgba", [](
+            nb::ndarray<unsigned char, nb::shape<nb::any>> *pixels,
+            unsigned int width, unsigned int height,
+            unsigned delayNum = apngasm::DEFAULT_FRAME_NUMERATOR,
+            unsigned delayDen = apngasm::DEFAULT_FRAME_DENOMINATOR
+        ) APNGASM_PY_DECLSPEC {
+            apngasm::rgba *pixelsNew = new apngasm::rgba[pixels->shape(0)];
+            unsigned char *pixels_ptr = pixels->data();
+
+            for (int i = 0; i < pixels->shape(0) / 4; ++i) {
+                pixelsNew[i].r = pixels_ptr[4 * i];
+                pixelsNew[i].g = pixels_ptr[4 * i + 1];
+                pixelsNew[i].b = pixels_ptr[4 * i + 2];
+                pixelsNew[i].a = pixels_ptr[4 * i + 3];
+            }
+
+            const apngasm::APNGFrame frame(pixelsNew, width, height, delayNum, delayDen);
+            delete[] pixelsNew;
+            return nb::cast(frame);
+        },
         "pixels"_a, "width"_a, "height"_a, "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
         R"pbdoc(
             Creates an APNGFrame from a bitmapped array of RBGA pixel data.
@@ -492,7 +491,7 @@ NB_MODULE(MODULE_NAME, m) {
         R"pbdoc(
             Sets a listener.
             
-            :param listener: A pointer to the listener object. If the argument is NULL a default APNGAsmListener will be created and assigned.8
+            :param apngasm_python.apngasm.IAPNGAsmListener listener: A pointer to the listener object. If the argument is NULL a default APNGAsmListener will be created and assigned.8
         )pbdoc")
 
         .def("set_loops", &apngasm::APNGAsm::setLoops,

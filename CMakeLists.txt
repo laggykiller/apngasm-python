@@ -109,9 +109,9 @@ endif()
 
 # Install the module
 install(TARGETS _apngasm_python
-    EXCLUDE_FROM_ALL
-    DESTINATION ${PY_BUILD_CMAKE_MODULE_NAME}
-    COMPONENT python_module)
+        EXCLUDE_FROM_ALL
+        DESTINATION ${PY_BUILD_CMAKE_MODULE_NAME}
+        COMPONENT python_modules)
 
 # Generate stubs for the Python module
 option(WITH_PY_STUBS

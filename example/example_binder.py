@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from apngasm_python import APNGAsmBinder
+from apngasm_python.apngasm import APNGAsmBinder
 import os
 import shutil
 from PIL import Image
