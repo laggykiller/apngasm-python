@@ -34,8 +34,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 autoapi_dirs = [
     os.path.abspath('../src-python')
-    ]
-autoapi_file_patterns = ["*.pyi", "*.py"]
+]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
