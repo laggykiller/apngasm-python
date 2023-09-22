@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from apngasm_python.apngasm import APNGAsm, APNGFrame, create_frame_from_rgb, create_frame_from_rgba
+from apngasm_python._apngasm_python import APNGAsm, APNGFrame, create_frame_from_rgb, create_frame_from_rgba
 import os
 import shutil
 from PIL import Image
@@ -26,9 +26,9 @@ color_type_dict = {
     6: 'RGBA'
 }
 
-color_type_dict = color_type_dict | dict((v, k) for k, v in color_type_dict.items())
+color_type_dict.update(dict((v, k) for k, v in color_type_dict.items()))
 
-# # Cleanup
+# Cleanup
 shutil.rmtree('output', ignore_errors=True)
 os.mkdir('output')
 

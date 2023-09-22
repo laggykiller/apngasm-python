@@ -20,9 +20,9 @@ pip install apngasm-python
 ```
 
 ## Example usage
-The recommended usage is to `from apngasm_python import APNGAsmBinder`, see [example/example_binder.py](example/example_binder.py)
+The recommended usage is to `from apngasm_python.apngasm import APNGAsmBinder`, see [example/example_binder.py](example/example_binder.py)
 ```python
-from apngasm_python import APNGAsmBinder
+from apngasm_python.apngasm import APNGAsmBinder
 import numpy as np
 from PIL import Image
 import os
@@ -61,7 +61,7 @@ apngasm.save_pngs('output')
 
 Alternatively, you can reduce overhead and do advanced tasks by calling methods directly, see [example/example_direct.py](example/example_direct.py)
 ```python
-from apngasm_python.apngasm import APNGAsm, APNGFrame, create_frame_from_rgb, create_frame_from_rgba
+from apngasm_python._apngasm_python import APNGAsm, APNGFrame, create_frame_from_rgb, create_frame_from_rgba
 import numpy as np
 from PIL import Image
 import os

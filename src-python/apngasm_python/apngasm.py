@@ -6,6 +6,10 @@ from PIL import Image
 from typing import Optional
 
 class APNGAsmBinder:
+    '''
+    Python class for binding apngasm library
+    '''
+    
     # https://www.w3.org/TR/PNG-Chunks.html
     color_type_dict = {
         0: 'L',
