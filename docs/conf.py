@@ -7,7 +7,6 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 import os
 import sys
-import apngasm_python
 
 project = 'apngasm-python'
 copyright = '2023, laggykiller'
@@ -17,7 +16,7 @@ author = 'laggykiller'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'sphinx.ext.autodoc',
+    'autoapi.extension',
     'sphinx.ext.mathjax',
     'sphinx.ext.napoleon',
     'myst_parser',
@@ -33,7 +32,12 @@ napoleon_use_ivar = True
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-
+autoapi_dirs = [
+    os.path.abspath('../src-python/apngasm_python'),
+    os.path.abspath('../src-python/apngasm_python/_apngasm_python')
+    ]
+autoapi_python_use_implicit_namespaces = True
+autoapi_file_patterns = ["*.pyi", "*.py"]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
