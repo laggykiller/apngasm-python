@@ -41,7 +41,7 @@ apngasm.save_pngs('output')
 
 Alternatively, you can reduce overhead and do advanced tasks by calling methods directly, see [example/example_direct.py](example/example_direct.py)
 ```python
-from apngasm_python.apngasm import APNGAsm, APNGFrame, create_frame_from_rgb, create_frame_from_rgba
+from apngasm_python._apngasm_python import APNGAsm, APNGFrame, create_frame_from_rgb, create_frame_from_rgba
 import numpy as np
 from PIL import Image
 import os
