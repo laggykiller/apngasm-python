@@ -32,7 +32,11 @@ napoleon_use_ivar = True
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-autoapi_dirs = [os.path.abspath('../src-python/apngasm_python')]
+autoapi_dirs = [
+    os.path.abspath('../src-python/apngasm_python'),
+    os.path.abspath('../src-python/apngasm_python/_apngasm_python')
+    ]
+autoapi_python_use_implicit_namespaces = True
 autoapi_file_patterns = ["*.pyi", "*.py"]
 
 # -- Options for HTML output -------------------------------------------------
