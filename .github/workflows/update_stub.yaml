@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  build:
+  stubgen:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -13,6 +13,7 @@ jobs:
         fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
     - name: Create local changes
       run: |
+        pip install build
         python update_stub.py
     - name: Commit & Push changes
       uses: actions-js/push@master
