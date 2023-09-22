@@ -11,7 +11,11 @@ jobs:
       with:
         fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
         submodules: recursive
-    - name: Create local changes
+    - name: Extract branch name
+      shell: bash
+      run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+      id: extract_branch
+    - name: Auto stub generation
       run: |
         pip install build
         python update_stub.py
@@ -19,3 +23,5 @@ jobs:
       uses: actions-js/push@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        message: Auto stub generation
+        branch: ${{ steps.extract_branch.outputs.branch }}
