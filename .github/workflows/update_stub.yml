@@ -1,6 +1,7 @@
 name: Update stub
 
-on: workflow_dispatch
+on:
+  push:
 
 jobs:
   stubgen:
