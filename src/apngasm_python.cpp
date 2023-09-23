@@ -297,8 +297,8 @@ NB_MODULE(MODULE_NAME, m) {
             }
         },
         R"pbdoc(
-        The palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA)
-        Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]] in Python
+        The palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA).
+        Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]] in Python.
         )pbdoc")
 
         .def_prop_rw("transparency", 
@@ -371,7 +371,7 @@ NB_MODULE(MODULE_NAME, m) {
         R"pbdoc(
         Adds an APNGFrame object to the frame vector.
     
-        :param frame: The APNGFrame object to be added
+        :param frame: The APNGFrame object to be added.
         :type frame: apngasm_python._apngasm_python.APNGFrame
 
         :return: The new number of frames/the number of this frame on the frame vector.
@@ -473,7 +473,7 @@ NB_MODULE(MODULE_NAME, m) {
         For more details on animation specs see:
         https://github.com/Genshin/PhantomStandards
         
-        :param str file_path: The path of JSON or XML file
+        :param str file_path: The path of JSON or XML file.
 
         :return: A vector containing the frames
         :rtype: list[apngasm_python._apngasm_python.APNGFrame]
@@ -508,7 +508,7 @@ NB_MODULE(MODULE_NAME, m) {
         R"pbdoc(
         Sets a listener.
         
-        :param Optional[apngasm_python._apngasm_python.IAPNGAsmListener] listener: A pointer to the listener object. If the argument is NULL a default APNGAsmListener will be created and assigned.8
+        :param Optional[apngasm_python._apngasm_python.IAPNGAsmListener] listener: A pointer to the listener object. If the argument is NULL a default APNGAsmListener will be created and assigned.
         )pbdoc")
 
         .def("set_loops", &apngasm::APNGAsm::setLoops,
@@ -531,7 +531,7 @@ NB_MODULE(MODULE_NAME, m) {
         R"pbdoc(
         Returns the frame vector.
 
-        :return: frame vector
+        :return: frame vector.
         :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         )pbdoc")
 
@@ -539,7 +539,7 @@ NB_MODULE(MODULE_NAME, m) {
         R"pbdoc(
         Returns the loop count.
         
-        :return: loop count
+        :return: loop count.
         :rtype: int
         )pbdoc")
 
@@ -547,7 +547,7 @@ NB_MODULE(MODULE_NAME, m) {
         R"pbdoc(
         Returns the flag of skip first frame.
         
-        :return: flag of skip first frame
+        :return: flag of skip first frame.
         :rtype: bool
         )pbdoc")
 
@@ -555,7 +555,7 @@ NB_MODULE(MODULE_NAME, m) {
         R"pbdoc(
         Returns the number of frames.
         
-        :return: number of frames
+        :return: number of frames.
         :rtype: int
         )pbdoc")
 
@@ -565,7 +565,7 @@ NB_MODULE(MODULE_NAME, m) {
         Leaves the apngasm object in a clean state.
         Returns number of frames disposed of.
         
-        :return: number of frames disposed of
+        :return: number of frames disposed of.
         :rtype: int
         )pbdoc")
 
@@ -573,7 +573,7 @@ NB_MODULE(MODULE_NAME, m) {
         R"pbdoc(
         Returns the version of APNGAsm.
         
-        :return: the version of APNGAsm
+        :return: the version of APNGAsm.
         :rtype: str
         )pbdoc")
 

@@ -360,9 +360,9 @@ class APNGAsmBinder:
         https://github.com/Genshin/PhantomStandards
         You probably won't need to use this function
 
-        :param str file_path: The path of JSON or XML file
+        :param str file_path: The path of JSON or XML file.
 
-        :return: A vector containing the loaded frames
+        :return: A vector containing the loaded frames.
         :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         '''
         return self.apngasm.load_animation_spec(file_path)
@@ -397,7 +397,7 @@ class APNGAsmBinder:
     def set_apng_asm_listener(self, listener: Optional[IAPNGAsmListener] = None):
         '''
         Sets a listener.
-        You probably won't need to use this function
+        You probably won't need to use this function.
         
         :param Optional[apngasm_python._apngasm_python.IAPNGAsmListener] listener: A pointer to the listener object.
             If the argument is None,
@@ -425,7 +425,7 @@ class APNGAsmBinder:
         '''
         Returns the frame vector.
 
-        :return: frame vector
+        :return: frame vector.
         :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         '''
         return self.apngasm.get_frames()
@@ -434,7 +434,7 @@ class APNGAsmBinder:
         '''
         Returns the loop count.
 
-        :return: loop count
+        :return: loop count.
         :rtype: int
         '''
         return self.apngasm.get_loops()
@@ -443,7 +443,7 @@ class APNGAsmBinder:
         '''
         Returns the flag of skip first frame.
 
-        :return: flag of skip first frame
+        :return: flag of skip first frame.
         :rtype: int
         '''
         return self.apngasm.get_loops()
@@ -452,7 +452,7 @@ class APNGAsmBinder:
         '''
         Returns the number of frames.
 
-        :return: number of frames
+        :return: number of frames.
         :rtype: int
         '''
         return self.apngasm.frame_count()
@@ -463,7 +463,7 @@ class APNGAsmBinder:
         Leaves the apngasm object in a clean state.
         Returns number of frames disposed of.
 
-        :return: number of frames disposed of
+        :return: number of frames disposed of.
         :rtype: int
         '''
         return self.apngasm.reset()
