@@ -7,7 +7,7 @@ class APNGAsm:
     Class representing APNG file, storing APNGFrame(s) and other metadata.
     """
 
-    def __init__(self, frames: List[_apngasm_python.APNGFrame]) -> None:
+    def __init__(self, frames: list[_apngasm_python.APNGFrame]) -> None:
         """
         Construct APNGAsm object from an existing vector of apngasm frames.
         
@@ -59,7 +59,7 @@ class APNGAsm:
         :param pixels_rgb: The RGB pixel data.
         :param int width: The width of the pixel data.
         :param int height: The height of the pixel data.
-        :param trns_color: An array of transparency data.
+        :param trns_color: The color [r, g, b] to be treated as transparent.
         :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
         :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
         
@@ -99,7 +99,7 @@ class APNGAsm:
         """
         ...
     
-    def disassemble(self, file_path: str) -> List[_apngasm_python.APNGFrame]:
+    def disassemble(self, file_path: str) -> list[_apngasm_python.APNGFrame]:
         """
         Disassembles an APNG file.
         
@@ -119,12 +119,12 @@ class APNGAsm:
         """
         ...
     
-    def get_frames(self) -> List[_apngasm_python.APNGFrame]:
+    def get_frames(self) -> list[_apngasm_python.APNGFrame]:
         """
         Returns the frame vector.
         
         :return: frame vector
-        :rtype: numpy.ndarray
+        :rtype: numpy.typing.NDArray
         """
         ...
     
@@ -146,7 +146,7 @@ class APNGAsm:
         """
         ...
     
-    def load_animation_spec(self, file_path: str) -> List[_apngasm_python.APNGFrame]:
+    def load_animation_spec(self, file_path: str) -> list[_apngasm_python.APNGFrame]:
         """
         Loads an animation spec from JSON or XML.
         Loaded frames are added to the end of the frame vector.
@@ -292,7 +292,7 @@ class APNGFrame:
         :param pixels: The RGB pixel data.
         :param int width: The width of the pixel data.
         :param int height: The height of the pixel data.
-        :param trns_color: An array of transparency data.
+        :param trns_color: The color [r, g, b] to be treated as transparent.
         :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
         :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
         """
@@ -393,7 +393,7 @@ class APNGFrame:
     @property
     def pixels(self) -> numpy.typing.NDArray:
         """
-        The raw pixel data of frame, expressed as a 1D numpy array in Python.
+        The raw pixel data of frame, expressed as a 3D numpy array in Python.
         Note that setting this value will also set the variable 'rows' internally.
         This should be set AFTER you set the width, height and color_type.
         """
@@ -401,7 +401,7 @@ class APNGFrame:
     @pixels.setter
     def pixels(self, arg: numpy.typing.NDArray, /) -> None:
         """
-        The raw pixel data of frame, expressed as a 1D numpy array in Python.
+        The raw pixel data of frame, expressed as a 3D numpy array in Python.
         Note that setting this value will also set the variable 'rows' internally.
         This should be set AFTER you set the width, height and color_type.
         """
@@ -421,13 +421,15 @@ class APNGFrame:
     @property
     def transparency(self) -> numpy.typing.NDArray:
         """
-        The transparency data of frame. Expressed as 1D numpy array.
+        The transparency color of frame that is treated as transparent, expressed as 1D numpy array.
+        For more info, refer to 'tRNS Transparency' in https://libpng.org/pub/png/spec/1.2/PNG-Chunks.html
         """
         ...
     @transparency.setter
     def transparency(self, arg: numpy.typing.NDArray, /) -> None:
         """
-        The transparency data of frame. Expressed as 1D numpy array.
+        The transparency color of frame that is treated as transparent, expressed as 1D numpy array.
+        For more info, refer to 'tRNS Transparency' in https://libpng.org/pub/png/spec/1.2/PNG-Chunks.html
         """
         ...
     
@@ -468,14 +470,14 @@ class IAPNGAsmListener:
         """
         ...
     
-def create_frame_from_rgb(pixels: numpy.typing.NDArray, width: int, height: int, trns_color: numpy.typing.NDArray = 0, delay_num: int = 100, delay_den: int = 1000) -> _apngasm_python.APNGFrame:
+def create_frame_from_rgb(pixels: numpy.typing.NDArray, width: int, height: int, trns_color: Optional[numpy.typing.NDArray], delay_num: int = 100, delay_den: int = 1000) -> _apngasm_python.APNGFrame:
     """
     Creates an APNGFrame from a bitmapped array of RBG pixel data.
     
-    :param numpy.ndarray pixels: The RGB pixel data, expressed as 1D numpy array.
+    :param numpy.typing.NDArray pixels: The RGB pixel data, expressed as 3D numpy array.
     :param int width: The width of the pixel data.
     :param int height: The height of the pixel data.
-    :param numpy.ndarray trns_color: An array of transparency data, expressed as 1D numpy array.
+    :param numpy.typing.NDArray trns_color: The color [r, g, b] to be treated as transparent, expressed as 1D numpy array.
     :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
     :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
     
@@ -488,7 +490,7 @@ def create_frame_from_rgba(pixels: numpy.typing.NDArray, width: int, height: int
     """
     Creates an APNGFrame from a bitmapped array of RBGA pixel data.
     
-    :param numpy.ndarray pixels: The RGBA pixel data, expressed as 1D numpy array.
+    :param numpy.typing.NDArray pixels: The RGBA pixel data, expressed as 3D numpy array.
     :param int width: The width of the pixel data.
     :param int height: The height of the pixel data.
     :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR)
