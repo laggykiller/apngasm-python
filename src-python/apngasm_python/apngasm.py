@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from __future__ import annotations
 from ._apngasm_python import APNGAsm, APNGFrame, IAPNGAsmListener, create_frame_from_rgb, create_frame_from_rgba
 from ._apngasm_python import __version__
 import numpy as np
@@ -35,11 +36,11 @@ class APNGAsmBinder:
         This should be set AFTER you set the width, height and color_type.
         
         :param int frame: Target frame number.
-        :param Image.Image new_value: (Optional) If set, then the raw pixel data of frame 
+        :param Optional[PIL.Image.Image] new_value: If set, then the raw pixel data of frame 
             is set with this value.
         
         :return: Pillow image object of the frame (get) or None (set)
-        :rtype: PIL.Image.Image or None
+        :rtype: Optional[PIL.Image.Image]
         '''
         if new_value:
             self.apngasm.get_frames()[frame].pixels = np.array(new_value)
@@ -53,11 +54,11 @@ class APNGAsmBinder:
         This should be set AFTER you set the width, height and color_type.
 
         :param int frame: Target frame number.
-        :param numpy.typing.NDArray new_value: (Optional) If set, then the raw pixel data of frame 
+        :param Optional[numpy.typing.NDArray] new_value: If set, then the raw pixel data of frame 
             is set with this value.
 
         :return: 3D numpy array representation of raw pixel data of frame (get) or None (set)
-        :rtype: numpy.typing.NDArray or None
+        :rtype: Optional[numpy.typing.NDArray]
         '''
         if new_value:
             self.apngasm.get_frames()[frame].pixels = new_value
@@ -69,11 +70,11 @@ class APNGAsmBinder:
         Get/Set the width of frame.
         
         :param int frame: Target frame number.
-        :param int new_value: (Optional) If set, then the width of frame 
+        :param Optional[int] new_value: If set, then the width of frame 
             is set with this value.
 
         :return: width (get) or None (set)
-        :rtype: int or None
+        :rtype: Optional[int]
         '''
         if new_value:
             self.apngasm.get_frames()[frame].width = new_value
@@ -85,11 +86,11 @@ class APNGAsmBinder:
         Get/Set the height of frame.
         
         :param int frame: Target frame number.
-        :param int new_value: (Optional) If set, then the height of frame 
+        :param Optional[int] new_value: If set, then the height of frame 
             is set with this value.
 
         :return: height (get) or None (set)
-        :rtype: int or None
+        :rtype: Optional[int]
         '''
         if new_value:
             self.apngasm.get_frames()[frame].height = new_value
@@ -107,11 +108,11 @@ class APNGAsmBinder:
         6: RGBA (Pillow mode='RGBA')
         
         :param int frame: Target frame number.
-        :param int new_value: (Optional) If set, then the color type of frame 
+        :param Optional[int] new_value: If set, then the color type of frame 
             is set with this value.
         
         :return: color_type of frame (get) or None (set)
-        :rtype: int or None
+        :rtype: Optional[int]
         '''
         if new_value:
             self.apngasm.get_frames()[frame].color_type = new_value
@@ -124,11 +125,11 @@ class APNGAsmBinder:
         Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]]
         
         :param int frame: Target frame number.
-        :param numpy.typing.NDArray new_value: (Optional) If set, then the palette data of frame 
+        :param Optional[numpy.typing.NDArray] new_value: If set, then the palette data of frame 
             is set with this value.
 
         :return: 2D numpy array representation of palette data of frame (get) or None (set)
-        :rtype: numpy.typing.NDArray or None
+        :rtype: Optional[numpy.typing.NDArray]
         '''
         if new_value:
             self.apngasm.get_frames()[frame].palette = new_value
@@ -141,11 +142,11 @@ class APNGAsmBinder:
         For more info, refer to 'tRNS Transparency' in https://libpng.org/pub/png/spec/1.2/PNG-Chunks.html
         
         :param int frame: Target frame number.
-        :param numpy.typing.NDArray new_value: (Optional) If set, then the transparency of frame 
+        :param Optional[numpy.typing.NDArray] new_value: If set, then the transparency of frame 
             is set with this value.
 
         :return: The color [r, g, b] to be treated as transparent in the frame (get) or None (set)
-        :rtype: numpy.typing.NDArray or None
+        :rtype: Optional[numpy.typing.NDArray]
         '''
         if new_value:
             self.apngasm.get_frames()[frame].transparency = new_value
@@ -157,11 +158,11 @@ class APNGAsmBinder:
         Get/Set the palette data size of frame.
         
         :param int frame: Target frame number.
-        :param int new_value: (Optional) If set, then the palette data size of frame 
+        :param Optional[int] new_value: If set, then the palette data size of frame 
             is set with this value.
 
         :return: Palette data size of frame (get) or None (set)
-        :rtype: int or None
+        :rtype: Optional[int]
         '''
         if new_value:
             self.apngasm.get_frames()[frame].palette_size = new_value
@@ -173,11 +174,11 @@ class APNGAsmBinder:
         Get/Set the transparency data size of frame.
         
         :param int frame: Target frame number.
-        :param int new_value: (Optional) If set, then the transparency data size of frame 
+        :param Optional[int] new_value: If set, then the transparency data size of frame 
             is set with this value.
         
         :return: Transparency data size of frame (get) or None (set)
-        :rtype: int or None
+        :rtype: Optional[int]
         '''
         if new_value:
             self.apngasm.get_frames()[frame].transparency_size = new_value
@@ -190,11 +191,11 @@ class APNGAsmBinder:
         Duration of time is delay_num / delay_den seconds.
         
         :param int frame: Target frame number.
-        :param int new_value: (Optional) If set, then the nominator of the duration of frame
+        :param Optional[int] new_value: If set, then the nominator of the duration of frame
             is set with this value.
         
         :return: Nominator of the duration of frame.
-        :rtype: int or None
+        :rtype: Optional[int]
         '''
         if new_value:
             self.apngasm.get_frames()[frame].delay_num = new_value
@@ -207,11 +208,11 @@ class APNGAsmBinder:
         Duration of time is delay_num / delay_den seconds.
         
         :param int frame: Target frame number.
-        :param int new_value: (Optional) If set, then the denominator of the duration of frame
+        :param Optional[int] new_value: If set, then the denominator of the duration of frame
             is set with this value.
         
         :return: Denominator of the duration of frame.
-        :rtype: int or None
+        :rtype: Optional[int]
         '''
         if new_value:
             self.apngasm.get_frames()[frame].delay_den = new_value
@@ -311,25 +312,25 @@ class APNGAsmBinder:
         '''
         return self.apngasm.assemble(output_path)
     
-    def disassemble_as_numpy(self, file_path: str) -> list:
+    def disassemble_as_numpy(self, file_path: str) -> list[APNGFrame]:
         '''
         Disassembles an APNG file to a list of frames, expressed as 3D numpy array.
         
         :param str file_path: The file path to the PNG image to be disassembled.
         
         :return: A list containing the frames of the disassembled PNG.
-        :rtype: list
+        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         '''
         return self.apngasm.disassemble(file_path)
 
-    def disassemble_as_pillow(self, file_path: str) -> list:
+    def disassemble_as_pillow(self, file_path: str) -> list[APNGFrame]:
         '''
         Disassembles an APNG file to a list of frames, expressed as Pillow images.
         
         :param str file_path: The file path to the PNG image to be disassembled.
         
         :return: A list containing the frames of the disassembled PNG.
-        :rtype: list
+        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         '''
         frames_numpy = self.apngasm.disassemble(file_path)
         frames_pillow = []
@@ -351,7 +352,7 @@ class APNGAsmBinder:
         '''
         return self.apngasm.save_pngs(output_dir)
     
-    def load_animation_spec(self, file_path: str) -> list:
+    def load_animation_spec(self, file_path: str) -> list[APNGFrame]:
         '''
         Loads an animation spec from JSON or XML.
         Loaded frames are added to the end of the frame vector.
@@ -362,7 +363,7 @@ class APNGAsmBinder:
         :param str file_path: The path of JSON or XML file
 
         :return: A vector containing the loaded frames
-        :rtype: list
+        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         '''
         return self.apngasm.load_animation_spec(file_path)
     
@@ -393,12 +394,12 @@ class APNGAsmBinder:
         '''
         return self.apngasm.save_xml(output_path, image_dir)
 
-    def set_apng_asm_listener(self, listener: IAPNGAsmListener = None):
+    def set_apng_asm_listener(self, listener: Optional[IAPNGAsmListener] = None):
         '''
         Sets a listener.
         You probably won't need to use this function
         
-        :param apngasm_python._apngasm_python.IAPNGAsmListener listener: A pointer to the listener object.
+        :param Optional[apngasm_python._apngasm_python.IAPNGAsmListener] listener: A pointer to the listener object.
             If the argument is None,
             a default APNGAsmListener will be created and assigned.
         '''
@@ -420,12 +421,12 @@ class APNGAsmBinder:
         '''
         return self.apngasm.set_skip_first(skip_first)
 
-    def get_frames(self) -> numpy.typing.NDArray:
+    def get_frames(self) -> list[APNGFrame]:
         '''
         Returns the frame vector.
 
         :return: frame vector
-        :rtype: numpy.typing.NDArray
+        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         '''
         return self.apngasm.get_frames()
     
