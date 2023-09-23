@@ -67,16 +67,16 @@ apngasm.reset()
 # Assemble palette and grey PNGs
 # You can use with statement to avoid calling reset()
 with APNGAsmBinder() as apng:
-    apng.add_frame_from_file('input/palette.png')
-    apng.add_frame_from_file('input/grey.png')
+    apng.add_frame_from_file('input/palette.png', delay_num=1, delay_den=1)
+    apng.add_frame_from_file('input/grey.png', delay_num=1, delay_den=1)
     success = apng.assemble('output/birds.apng')
     print(f'{success = }')
 
 # Assemble palette and grey PNGs, but with Pillow
 image0 = Image.open('input/grey.png')
-frame0 = apngasm.add_frame_from_pillow(image0)
+frame0 = apngasm.add_frame_from_pillow(image0, delay_num=1, delay_den=1)
 image1 = Image.open('input/palette.png')
-apngasm.add_frame_from_pillow(image1)
+apngasm.add_frame_from_pillow(image1, delay_num=1, delay_den=1)
 
 success = apngasm.assemble('output/birds-pillow.apng')
 print(f'{success = }')

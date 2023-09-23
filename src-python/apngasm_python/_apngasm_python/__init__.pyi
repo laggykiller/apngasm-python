@@ -7,7 +7,7 @@ class APNGAsm:
     Class representing APNG file, storing APNGFrame(s) and other metadata.
     """
 
-    def __init__(self, frames: list[_apngasm_python.APNGFrame]) -> None:
+    def __init__(self, frames: List[_apngasm_python.APNGFrame]) -> None:
         """
         Construct APNGAsm object from an existing vector of apngasm frames.
         
@@ -99,7 +99,7 @@ class APNGAsm:
         """
         ...
     
-    def disassemble(self, file_path: str) -> list[_apngasm_python.APNGFrame]:
+    def disassemble(self, file_path: str) -> List[_apngasm_python.APNGFrame]:
         """
         Disassembles an APNG file.
         
@@ -119,7 +119,7 @@ class APNGAsm:
         """
         ...
     
-    def get_frames(self) -> list[_apngasm_python.APNGFrame]:
+    def get_frames(self) -> List[_apngasm_python.APNGFrame]:
         """
         Returns the frame vector.
         
@@ -146,7 +146,7 @@ class APNGAsm:
         """
         ...
     
-    def load_animation_spec(self, file_path: str) -> list[_apngasm_python.APNGFrame]:
+    def load_animation_spec(self, file_path: str) -> List[_apngasm_python.APNGFrame]:
         """
         Loads an animation spec from JSON or XML.
         Loaded frames are added to the end of the frame vector.
@@ -363,7 +363,7 @@ class APNGFrame:
         ...
     
     @property
-    def palette(self) -> object:
+    def palette(self) -> numpy.typing.NDArray:
         """
         The palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA)
         Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]] in Python
@@ -391,7 +391,7 @@ class APNGFrame:
         ...
     
     @property
-    def pixels(self) -> object:
+    def pixels(self) -> numpy.typing.NDArray:
         """
         The raw pixel data of frame, expressed as a 1D numpy array in Python.
         Note that setting this value will also set the variable 'rows' internally.
@@ -419,7 +419,7 @@ class APNGFrame:
         ...
     
     @property
-    def transparency(self) -> object:
+    def transparency(self) -> numpy.typing.NDArray:
         """
         The transparency data of frame. Expressed as 1D numpy array.
         """
@@ -468,7 +468,7 @@ class IAPNGAsmListener:
         """
         ...
     
-def create_frame_from_rgb(pixels: numpy.typing.NDArray, width: int, height: int, trns_color: numpy.typing.NDArray = 0, delay_num: int = 100, delay_den: int = 1000) -> object:
+def create_frame_from_rgb(pixels: numpy.typing.NDArray, width: int, height: int, trns_color: numpy.typing.NDArray = 0, delay_num: int = 100, delay_den: int = 1000) -> _apngasm_python.APNGFrame:
     """
     Creates an APNGFrame from a bitmapped array of RBG pixel data.
     
@@ -484,7 +484,7 @@ def create_frame_from_rgb(pixels: numpy.typing.NDArray, width: int, height: int,
     """
     ...
 
-def create_frame_from_rgba(pixels: numpy.typing.NDArray, width: int, height: int, delay_num: int = 100, delay_den: int = 1000) -> object:
+def create_frame_from_rgba(pixels: numpy.typing.NDArray, width: int, height: int, delay_num: int = 100, delay_den: int = 1000) -> _apngasm_python.APNGFrame:
     """
     Creates an APNGFrame from a bitmapped array of RBGA pixel data.
     

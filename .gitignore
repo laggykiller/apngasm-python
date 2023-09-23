@@ -4,3 +4,4 @@ dist/
 fakeroot/
 .vscode/
 conan_output/
+example/output/

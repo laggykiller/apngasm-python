@@ -63,7 +63,7 @@ apng.assemble('result-from-file.apng')
 apngasm.reset()
 for file_name in sorted(os.listdir('frames')):
     image = Image.open(os.path.join('frames', file_name)).convert('RGBA')
-    frame = create_frame_from_rgba(np.array(image).flatten(), image.width, image.height)
+    frame = create_frame_from_rgba(np.array(image), image.width, image.height)
     frame.delay_num = 50
     frame.delay_den = 1000
     apngasm.add_frame(frame)

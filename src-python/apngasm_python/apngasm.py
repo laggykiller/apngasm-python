@@ -2,6 +2,7 @@
 from ._apngasm_python import APNGAsm, APNGFrame, IAPNGAsmListener, create_frame_from_rgb, create_frame_from_rgba
 from ._apngasm_python import __version__
 import numpy as np
+import numpy.typing
 from PIL import Image
 from typing import Optional
 
@@ -28,35 +29,35 @@ class APNGAsmBinder:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.apngasm.reset()
     
-    def frame_pixels_as_pillow(self, frame: int, new_value: Optional[list] = None) -> Optional[Image.Image]:
+    def frame_pixels_as_pillow(self, frame: int, new_value: Optional[Image.Image] = None) -> Optional[Image.Image]:
         '''
         Get/Set the raw pixel data of frame, expressed as a Pillow object.
         This should be set AFTER you set the width, height and color_type.
         
         :param int frame: Target frame number.
-        :param list new_value: (Optional) If set, then the raw pixel data of frame 
+        :param Image.Image new_value: (Optional) If set, then the raw pixel data of frame 
             is set with this value.
         
         :return: Pillow image object of the frame (get) or None (set)
         :rtype: PIL.Image.Image or None
         '''
         if new_value:
-            self.apngasm.get_frames()[frame].pixels = np.array(new_value).flatten()
+            self.apngasm.get_frames()[frame].pixels = np.array(new_value)
         else:
             mode = self.color_type_dict[self.apngasm.get_frames()[frame].color_type]
             return Image.frombytes(mode, (self.apngasm.get_frames()[frame].width, self.apngasm.get_frames()[frame].height), self.apngasm.get_frames()[frame].pixels)
     
-    def frame_pixels_as_numpy(self, frame: int, new_value: Optional[list] = None) -> Optional[np.ndarray]:
+    def frame_pixels_as_numpy(self, frame: int, new_value: Optional[numpy.typing.NDArray] = None) -> Optional[numpy.typing.NDArray]:
         '''
-        Get/Set the raw pixel data of frame, expressed as a 1D numpy array.
+        Get/Set the raw pixel data of frame, expressed as a 3D numpy array.
         This should be set AFTER you set the width, height and color_type.
 
         :param int frame: Target frame number.
-        :param list new_value: (Optional) If set, then the raw pixel data of frame 
+        :param numpy.typing.NDArray new_value: (Optional) If set, then the raw pixel data of frame 
             is set with this value.
 
-        :return: 1D numpy array representation of raw pixel data of frame (get) or None (set)
-        :rtype: numpy.ndarray or None
+        :return: 3D numpy array representation of raw pixel data of frame (get) or None (set)
+        :rtype: numpy.typing.NDArray or None
         '''
         if new_value:
             self.apngasm.get_frames()[frame].pixels = new_value
@@ -117,33 +118,34 @@ class APNGAsmBinder:
         else:
             return self.apngasm.get_frames()[frame].color_type
     
-    def frame_palette(self, frame: int, new_value: Optional[np.ndarray] = None) -> Optional[np.ndarray]:
+    def frame_palette(self, frame: int, new_value: Optional[numpy.typing.NDArray] = None) -> Optional[numpy.typing.NDArray]:
         '''
         Get/Set the palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA)
         Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]]
         
         :param int frame: Target frame number.
-        :param np.ndarray new_value: (Optional) If set, then the palette data of frame 
+        :param numpy.typing.NDArray new_value: (Optional) If set, then the palette data of frame 
             is set with this value.
 
         :return: 2D numpy array representation of palette data of frame (get) or None (set)
-        :rtype: numpy.ndarray or None
+        :rtype: numpy.typing.NDArray or None
         '''
         if new_value:
             self.apngasm.get_frames()[frame].palette = new_value
         else:
             return self.apngasm.get_frames()[frame].palette
 
-    def frame_transparency(self, frame: int, new_value: Optional[int] = None) -> Optional[np.ndarray]:
+    def frame_transparency(self, frame: int, new_value: Optional[numpy.typing.NDArray] = None) -> Optional[numpy.typing.NDArray]:
         '''
-        Get/Set the transparency data of frame. Expressed as 1D numpy array.
+        Get/Set the color [r, g, b] to be treated as transparent in the frame, expressed as 1D numpy array.
+        For more info, refer to 'tRNS Transparency' in https://libpng.org/pub/png/spec/1.2/PNG-Chunks.html
         
         :param int frame: Target frame number.
-        :param int new_value: (Optional) If set, then the transparency of frame 
+        :param numpy.typing.NDArray new_value: (Optional) If set, then the transparency of frame 
             is set with this value.
 
-        :return: 1D numpy array representation of transparency data of frame (get) or None (set)
-        :rtype: numpy.ndarray or None
+        :return: The color [r, g, b] to be treated as transparent in the frame (get) or None (set)
+        :rtype: numpy.typing.NDArray or None
         '''
         if new_value:
             self.apngasm.get_frames()[frame].transparency = new_value
@@ -249,7 +251,7 @@ class APNGAsmBinder:
         if pillow_image.mode not in ('RGB', 'RGBA'):
             pillow_image = pillow_image.convert('RGBA')
         return self.add_frame_from_numpy(
-            numpy_data=np.array(pillow_image).flatten(),
+            numpy_data=np.array(pillow_image),
             width=pillow_image.width,
             height=pillow_image.height,
             mode=pillow_image.mode,
@@ -257,19 +259,18 @@ class APNGAsmBinder:
             delay_den=delay_den
         )
     
-    def add_frame_from_numpy(self, numpy_data: int, width: int, height: int, trns_color: int = None, 
+    def add_frame_from_numpy(self, numpy_data: numpy.typing.NDArray, width: int, height: int, trns_color: Optional[numpy.typing.NDArray] = None, 
                              mode: str = 'RGBA', delay_num: int = 100, delay_den: int = 1000) -> int:
         '''
         Add frame from numpy array.
         The frame duration is equal to delay_num / delay_den seconds.
         Default frame duration is 100/1000 second, or 0.1 second.
         
-        :param int numpy_data: The pixel data, expressed as 1D numpy array. 
-            For example: [r0, g0, b0, r1, g1, b1, ...]
+        :param numpy.typing.NDArray numpy_data: The pixel data, expressed as 3D numpy array.
         :param int width: The width of the pixel data.
         :param int height: The height of the pixel data.
         :param str mode: The color mode of data. Possible values are RGB or RGBA.
-        :param int trns_color: An array of transparency data, expressed as 1D numpy array.
+        :param Optional[numpy.typing.NDArray] trns_color: The color [r, g, b] to be treated as transparent, expressed as 1D numpy array.
             Only use if RGB mode.
         :param int delay_num: The delay numerator for this frame (defaults to 100).
         :param int delay_den: The delay denominator for this frame (defaults to 1000).
@@ -312,7 +313,7 @@ class APNGAsmBinder:
     
     def disassemble_as_numpy(self, file_path: str) -> list:
         '''
-        Disassembles an APNG file to a list of frames, expressed as 1D numpy array.
+        Disassembles an APNG file to a list of frames, expressed as 3D numpy array.
         
         :param str file_path: The file path to the PNG image to be disassembled.
         
@@ -419,12 +420,12 @@ class APNGAsmBinder:
         '''
         return self.apngasm.set_skip_first(skip_first)
 
-    def get_frames(self) -> np.ndarray:
+    def get_frames(self) -> numpy.typing.NDArray:
         '''
         Returns the frame vector.
 
         :return: frame vector
-        :rtype: numpy.ndarray
+        :rtype: numpy.typing.NDArray
         '''
         return self.apngasm.get_frames()
     

@@ -86,7 +86,7 @@ angle_step = 360 / len(os.listdir('frames'))
 for file_name in sorted(os.listdir('frames')):
     image = Image.open(os.path.join('frames', file_name))
     image = image.rotate(angle)
-    frame = create_frame_from_rgba(np.array(image).flatten(), image.width, image.height)
+    frame = create_frame_from_rgba(np.array(image), image.width, image.height)
     apngasm.add_frame(frame)
     
     angle += angle_step
@@ -111,22 +111,22 @@ print(f'{success = }')
 del apngasm
 
 # Assemble palette and grey PNGs, but with Pillow
-image0 = Image.open('input/grey.png').convert('RGBA')
-frame0 = create_frame_from_rgba(np.array(image0).flatten(), image0.width, image0.height)
+image0 = Image.open('input/grey.png').convert('RGB')
+frame0 = create_frame_from_rgb(np.array(image0), image0.width, image0.height, np.array([0,0,0]), 1, 1)
 frame_info(frame0)
 
 # You may even set the variables manually
 image1 = Image.open('input/palette.png').convert('RGBA')
 frame1 = APNGFrame()
-frame1.delay_num = 100
-frame1.delay_den = 1000
+frame1.delay_num = 1
+frame1.delay_den = 1
 frame1.color_type = color_type_dict[image1.mode]
 frame1.width = image1.width
 frame1.height = image1.height
-frame1.pixels = np.array(image1).flatten()
+frame1.pixels = np.array(image1)
 frame_info(frame1)
 
-# # Another way of creating APNGAsm object
+# Another way of creating APNGAsm object
 apngasm = APNGAsm([frame0, frame1])
 
 success = apngasm.assemble('output/birds-pillow.apng')
