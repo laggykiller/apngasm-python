@@ -1,3 +1,5 @@
+from __future__ import annotations
+import numpy.typing
 from typing import Any, Optional, overload, Typing, Sequence
 from enum import Enum
 import _apngasm_python
@@ -11,7 +13,7 @@ class APNGAsm:
         """
         Construct APNGAsm object from an existing vector of apngasm frames.
         
-        :param list frames: A list of APNGFrame objects.
+        :param list[apngasm_python._apngasm_python.APNGFrame] frames: A list of APNGFrame objects.
         """
         ...
     
@@ -106,7 +108,7 @@ class APNGAsm:
         :param str file_path: The file path to the PNG image to be disassembled.
         
         :return: A vector containing the frames of the disassembled PNG.
-        :rtype: list
+        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         """
         ...
     
@@ -124,7 +126,7 @@ class APNGAsm:
         Returns the frame vector.
         
         :return: frame vector
-        :rtype: numpy.typing.NDArray
+        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         """
         ...
     
@@ -156,7 +158,7 @@ class APNGAsm:
         :param str file_path: The path of JSON or XML file
         
         :return: A vector containing the frames
-        :rtype: list
+        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         """
         ...
     
@@ -210,7 +212,7 @@ class APNGAsm:
         """
         Sets a listener.
         
-        :param apngasm_python._apngasm_python.IAPNGAsmListener listener: A pointer to the listener object. If the argument is NULL a default APNGAsmListener will be created and assigned.8
+        :param Optional[apngasm_python._apngasm_python.IAPNGAsmListener] listener: A pointer to the listener object. If the argument is NULL a default APNGAsmListener will be created and assigned.8
         """
         ...
     
@@ -253,7 +255,7 @@ class APNGFrame:
         then set frame.width, frame.height, frame.color_type, frame.pixels,
         frame.palette, frame.delay_num, frame.delay_den manually.
         
-        :param pixels: The RGBA pixel data.
+        :param apngasm_python._apngasm_python.rgba pixels: The RGBA pixel data.
         :param int width: The width of the pixel data.
         :param int height: The height of the pixel data.
         :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
@@ -289,10 +291,10 @@ class APNGFrame:
         then set frame.width, frame.height, frame.color_type, frame.pixels,
         frame.palette, frame.delay_num, frame.delay_den manually.
         
-        :param pixels: The RGB pixel data.
+        :param apngasm_python._apngasm_python.rgb pixels: The RGB pixel data.
         :param int width: The width of the pixel data.
         :param int height: The height of the pixel data.
-        :param trns_color: The color [r, g, b] to be treated as transparent.
+        :param apngasm_python._apngasm_python.rgb trns_color: The color [r, g, b] to be treated as transparent.
         :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
         :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
         """
