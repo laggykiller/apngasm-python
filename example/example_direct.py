@@ -112,7 +112,7 @@ del apngasm
 
 # Assemble palette and grey PNGs, but with Pillow
 image0 = Image.open('input/grey.png').convert('RGB')
-frame0 = create_frame_from_rgb(np.array(image0), image0.width, image0.height, np.array([0,0,0]), 1, 1)
+frame0 = create_frame_from_rgb(np.array(image0), image0.width, image0.height, None, 1, 1)
 frame_info(frame0)
 
 # You may even set the variables manually
