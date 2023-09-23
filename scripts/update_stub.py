@@ -25,14 +25,6 @@ def main():
                     os.makedirs(dest_dir)
                 with open(dest_path, 'wb+') as f:
                     f.write(archive.read(file))
-    
-    with open('src-python/apngasm_python/_apngasm_python/__init__.pyi') as f:
-        init_pyi = f.read()
-    
-    with open('src-python/apngasm_python/_apngasm_python/__init__.pyi', 'w+') as f:
-        f.write('from __future__ import annotations\n')
-        f.write('import numpy.typing\n')
-        f.write(init_pyi)
 
 if __name__ == '__main__':
     main()
