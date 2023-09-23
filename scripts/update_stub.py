@@ -7,14 +7,17 @@ def main():
     py_bin = shutil.which('python3')
     if not py_bin:
         py_bin = shutil.which('python')
+    
+    dist_dir = os.path.join(os.path.split(os.path.abspath(__file__))[0], '../dist')
 
-    shutil.rmtree('./dist', ignore_errors=True)
+    shutil.rmtree(dist_dir, ignore_errors=True)
+    os.chdir(os.path.join(os.path.split(os.path.abspath(__file__))[0], '../'))
     os.system(py_bin + ' -m build .')
 
-    for zip_file in os.listdir('dist'):
+    for zip_file in os.listdir(dist_dir):
         if os.path.splitext(zip_file)[1] != '.whl':
             continue
-        zip_path = os.path.join('dist', zip_file)
+        zip_path = os.path.join(dist_dir, zip_file)
         with zipfile.ZipFile(zip_path, mode="r") as archive:
             for file in archive.namelist():
                 if os.path.splitext(file)[1] != '.pyi':

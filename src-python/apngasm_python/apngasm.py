@@ -139,7 +139,7 @@ class APNGAsmBinder:
     def frame_transparency(self, frame: int, new_value: Optional[numpy.typing.NDArray] = None) -> Optional[numpy.typing.NDArray]:
         '''
         Get/Set the color [r, g, b] to be treated as transparent in the frame, expressed as 1D numpy array.
-        For more info, refer to 'tRNS Transparency' in https://libpng.org/pub/png/spec/1.2/PNG-Chunks.html
+        For more info, refer to 'tRNS Transparency' in http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
         
         :param int frame: Target frame number.
         :param Optional[numpy.typing.NDArray] new_value: If set, then the transparency of frame 

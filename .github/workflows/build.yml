@@ -101,7 +101,7 @@ jobs:
           CIBW_BEFORE_ALL: ${{ matrix.cibw_before_all }}
           # CIBW_ENVIRONMENT: PY_BUILD_CMAKE_VERBOSE=1 ${{ matrix.cibw_environment }}
           CIBW_ENVIRONMENT: ${{ matrix.cibw_environment }}
-          CIBW_BUILD: cp36* cp37* pp37* ${{ matrix.cibw_build }}
+          CIBW_BUILD: ${{ matrix.cibw_build }}
 
       - uses: actions/upload-artifact@v3
         with:

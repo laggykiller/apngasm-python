@@ -315,7 +315,7 @@ NB_MODULE(MODULE_NAME, m) {
         },
         R"pbdoc(
         The transparency color of frame that is treated as transparent, expressed as 1D numpy array.
-        For more info, refer to 'tRNS Transparency' in https://libpng.org/pub/png/spec/1.2/PNG-Chunks.html
+        For more info, refer to 'tRNS Transparency' in http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
         )pbdoc")
 
         .def_prop_rw("palette_size", 

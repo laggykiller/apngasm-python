@@ -2,7 +2,7 @@ from __future__ import annotations
 import numpy.typing
 from typing import Any, Optional, overload, Typing, Sequence
 from enum import Enum
-import _apngasm_python
+from . import _apngasm_python
 
 class APNGAsm:
     """
@@ -424,14 +424,14 @@ class APNGFrame:
     def transparency(self) -> numpy.typing.NDArray:
         """
         The transparency color of frame that is treated as transparent, expressed as 1D numpy array.
-        For more info, refer to 'tRNS Transparency' in https://libpng.org/pub/png/spec/1.2/PNG-Chunks.html
+        For more info, refer to 'tRNS Transparency' in http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
         """
         ...
     @transparency.setter
     def transparency(self, arg: numpy.typing.NDArray, /) -> None:
         """
         The transparency color of frame that is treated as transparent, expressed as 1D numpy array.
-        For more info, refer to 'tRNS Transparency' in https://libpng.org/pub/png/spec/1.2/PNG-Chunks.html
+        For more info, refer to 'tRNS Transparency' in http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
         """
         ...
     
