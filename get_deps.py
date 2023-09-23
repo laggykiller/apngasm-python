@@ -29,11 +29,8 @@ def install_deps(arch):
         settings.append('arch=' + arch)
 
     build = []
-    if (platform.system() == 'Linux' and
-        os.path.isdir('/lib') and
-        len([i for i in os.listdir('/lib') if i.startswith('libc.musl')]) != 0):
-
-        # Need to compile dependencies if musllinux
+    if (platform.system() == 'Linux'):
+        # Need to compile dependencies if Linux
         build.append('*')
     elif (not shutil.which('cmake') and 
         (platform.architecture()[0] == '32bit' or 
