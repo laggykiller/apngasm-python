@@ -24,7 +24,7 @@
 namespace nb = nanobind;
 using namespace nb::literals;
 
-std::map<int, int> rowbytesMap = {
+std::map<int, size_t> rowbytesMap = {
     { 0, 1 }, // Grayscale
     { 2, 3 }, // RGB
     { 3, 1 }, // Palette
@@ -224,12 +224,12 @@ NB_MODULE(MODULE_NAME, m) {
 
         .def_prop_rw("pixels", 
         [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC {
-            int rowbytes = rowbytesMap[t._colorType];
+            size_t rowbytes = rowbytesMap[t._colorType];
             size_t shape[3] = { t._height, t._width, rowbytes };
             return nb::ndarray<nb::numpy, unsigned char, nb::shape<nb::any, nb::any, nb::any>>(t._pixels, 3, shape);
         },
         [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<nb::any, nb::any, nb::any>> *v) APNGASM_PY_DECLSPEC {
-            int rowbytes = rowbytesMap[t._colorType];
+            size_t rowbytes = rowbytesMap[t._colorType];
             unsigned char *pixelsNew = new unsigned char[v->size()];
             unsigned char *v_ptr = v->data();
 
