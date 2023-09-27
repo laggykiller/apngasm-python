@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Optional, overload
+from typing import overload, Optional
 import numpy.typing
 try:
     from . import _apngasm_python
