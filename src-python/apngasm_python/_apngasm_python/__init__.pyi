@@ -1,6 +1,8 @@
+from __future__ import annotations
+import numpy.typing
 from typing import Any, Optional, overload, Typing, Sequence
 from enum import Enum
-import _apngasm_python
+from . import _apngasm_python
 
 class APNGAsm:
     """
@@ -11,7 +13,7 @@ class APNGAsm:
         """
         Construct APNGAsm object from an existing vector of apngasm frames.
         
-        :param list frames: A list of APNGFrame objects.
+        :param list[apngasm_python._apngasm_python.APNGFrame] frames: A list of APNGFrame objects.
         """
         ...
     
@@ -26,7 +28,7 @@ class APNGAsm:
         """
         Adds an APNGFrame object to the frame vector.
         
-        :param frame: The APNGFrame object to be added
+        :param frame: The APNGFrame object to be added.
         :type frame: apngasm_python._apngasm_python.APNGFrame
         
         :return: The new number of frames/the number of this frame on the frame vector.
@@ -56,10 +58,10 @@ class APNGAsm:
         then set frame.width, frame.height, frame.color_type, frame.pixels,
         frame.palette, frame.delay_num, frame.delay_den manually.
         
-        :param pixels_rgb: The RGB pixel data.
+        :param apngasm_python._apngasm_python.rgb pixels_rgb: The RGB pixel data.
         :param int width: The width of the pixel data.
         :param int height: The height of the pixel data.
-        :param trns_color: An array of transparency data.
+        :param apngasm_python._apngasm_python.rgb trns_color: The color [r, g, b] to be treated as transparent.
         :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
         :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
         
@@ -77,7 +79,7 @@ class APNGAsm:
         then set frame.width, frame.height, frame.color_type, frame.pixels,
         frame.palette, frame.delay_num, frame.delay_den manually.
         
-        :param pixels_rgba: The RGBA pixel data.
+        :param apngasm_python._apngasm_python.rgba pixels_rgba: The RGBA pixel data.
         :param int width: The width of the pixel data.
         :param int height: The height of the pixel data.
         :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
@@ -106,7 +108,7 @@ class APNGAsm:
         :param str file_path: The file path to the PNG image to be disassembled.
         
         :return: A vector containing the frames of the disassembled PNG.
-        :rtype: list
+        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         """
         ...
     
@@ -114,7 +116,7 @@ class APNGAsm:
         """
         Returns the number of frames.
         
-        :return: number of frames
+        :return: number of frames.
         :rtype: int
         """
         ...
@@ -123,8 +125,8 @@ class APNGAsm:
         """
         Returns the frame vector.
         
-        :return: frame vector
-        :rtype: numpy.ndarray
+        :return: frame vector.
+        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         """
         ...
     
@@ -132,7 +134,7 @@ class APNGAsm:
         """
         Returns the loop count.
         
-        :return: loop count
+        :return: loop count.
         :rtype: int
         """
         ...
@@ -141,7 +143,7 @@ class APNGAsm:
         """
         Returns the flag of skip first frame.
         
-        :return: flag of skip first frame
+        :return: flag of skip first frame.
         :rtype: bool
         """
         ...
@@ -153,10 +155,10 @@ class APNGAsm:
         For more details on animation specs see:
         https://github.com/Genshin/PhantomStandards
         
-        :param str file_path: The path of JSON or XML file
+        :param str file_path: The path of JSON or XML file.
         
         :return: A vector containing the frames
-        :rtype: list
+        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         """
         ...
     
@@ -166,7 +168,7 @@ class APNGAsm:
         Leaves the apngasm object in a clean state.
         Returns number of frames disposed of.
         
-        :return: number of frames disposed of
+        :return: number of frames disposed of.
         :rtype: int
         """
         ...
@@ -206,11 +208,11 @@ class APNGAsm:
         """
         ...
     
-    def set_apng_asm_listener(self, listener: _apngasm_python.IAPNGAsmListener = 0) -> None:
+    def set_apngasm_listener(self, listener: Optional[_apngasm_python.IAPNGAsmListener] = None) -> None:
         """
         Sets a listener.
         
-        :param apngasm_python._apngasm_python.IAPNGAsmListener listener: A pointer to the listener object. If the argument is NULL a default APNGAsmListener will be created and assigned.8
+        :param Optional[apngasm_python._apngasm_python.IAPNGAsmListener] listener: A pointer to the listener object. If the argument is NULL a default APNGAsmListener will be created and assigned.
         """
         ...
     
@@ -234,7 +236,7 @@ class APNGAsm:
         """
         Returns the version of APNGAsm.
         
-        :return: the version of APNGAsm
+        :return: the version of APNGAsm.
         :rtype: str
         """
         ...
@@ -253,7 +255,7 @@ class APNGFrame:
         then set frame.width, frame.height, frame.color_type, frame.pixels,
         frame.palette, frame.delay_num, frame.delay_den manually.
         
-        :param pixels: The RGBA pixel data.
+        :param apngasm_python._apngasm_python.rgba pixels: The RGBA pixel data.
         :param int width: The width of the pixel data.
         :param int height: The height of the pixel data.
         :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
@@ -289,10 +291,10 @@ class APNGFrame:
         then set frame.width, frame.height, frame.color_type, frame.pixels,
         frame.palette, frame.delay_num, frame.delay_den manually.
         
-        :param pixels: The RGB pixel data.
+        :param apngasm_python._apngasm_python.rgb pixels: The RGB pixel data.
         :param int width: The width of the pixel data.
         :param int height: The height of the pixel data.
-        :param trns_color: An array of transparency data.
+        :param apngasm_python._apngasm_python.rgb trns_color: The color [r, g, b] to be treated as transparent.
         :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
         :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
         """
@@ -363,17 +365,17 @@ class APNGFrame:
         ...
     
     @property
-    def palette(self) -> object:
+    def palette(self) -> numpy.typing.NDArray:
         """
-        The palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA)
-        Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]] in Python
+        The palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA).
+        Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]] in Python.
         """
         ...
     @palette.setter
     def palette(self, arg: numpy.typing.NDArray, /) -> None:
         """
-        The palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA)
-        Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]] in Python
+        The palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA).
+        Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]] in Python.
         """
         ...
     
@@ -391,9 +393,9 @@ class APNGFrame:
         ...
     
     @property
-    def pixels(self) -> object:
+    def pixels(self) -> numpy.typing.NDArray:
         """
-        The raw pixel data of frame, expressed as a 1D numpy array in Python.
+        The raw pixel data of frame, expressed as a 3D numpy array in Python.
         Note that setting this value will also set the variable 'rows' internally.
         This should be set AFTER you set the width, height and color_type.
         """
@@ -401,7 +403,7 @@ class APNGFrame:
     @pixels.setter
     def pixels(self, arg: numpy.typing.NDArray, /) -> None:
         """
-        The raw pixel data of frame, expressed as a 1D numpy array in Python.
+        The raw pixel data of frame, expressed as a 3D numpy array in Python.
         Note that setting this value will also set the variable 'rows' internally.
         This should be set AFTER you set the width, height and color_type.
         """
@@ -419,15 +421,17 @@ class APNGFrame:
         ...
     
     @property
-    def transparency(self) -> object:
+    def transparency(self) -> numpy.typing.NDArray:
         """
-        The transparency data of frame. Expressed as 1D numpy array.
+        The transparency color of frame that is treated as transparent, expressed as 1D numpy array.
+        For more info, refer to 'tRNS Transparency' in http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
         """
         ...
     @transparency.setter
     def transparency(self, arg: numpy.typing.NDArray, /) -> None:
         """
-        The transparency data of frame. Expressed as 1D numpy array.
+        The transparency color of frame that is treated as transparent, expressed as 1D numpy array.
+        For more info, refer to 'tRNS Transparency' in http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
         """
         ...
     
@@ -468,14 +472,13 @@ class IAPNGAsmListener:
         """
         ...
     
-def create_frame_from_rgb(pixels: numpy.typing.NDArray, width: int, height: int, trns_color: numpy.typing.NDArray = 0, delay_num: int = 100, delay_den: int = 1000) -> object:
+def create_frame_from_rgb(pixels: numpy.typing.NDArray, width: int, height: int, delay_num: int = 100, delay_den: int = 1000) -> _apngasm_python.APNGFrame:
     """
     Creates an APNGFrame from a bitmapped array of RBG pixel data.
     
-    :param numpy.ndarray pixels: The RGB pixel data, expressed as 1D numpy array.
+    :param numpy.typing.NDArray pixels: The RGB pixel data, expressed as 3D numpy array.
     :param int width: The width of the pixel data.
     :param int height: The height of the pixel data.
-    :param numpy.ndarray trns_color: An array of transparency data, expressed as 1D numpy array.
     :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
     :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
     
@@ -484,11 +487,27 @@ def create_frame_from_rgb(pixels: numpy.typing.NDArray, width: int, height: int,
     """
     ...
 
-def create_frame_from_rgba(pixels: numpy.typing.NDArray, width: int, height: int, delay_num: int = 100, delay_den: int = 1000) -> object:
+def create_frame_from_rgb_trns(pixels: numpy.typing.NDArray, width: int, height: int, trns_color: numpy.typing.NDArray, delay_num: int = 100, delay_den: int = 1000) -> _apngasm_python.APNGFrame:
+    """
+    Creates an APNGFrame from a bitmapped array of RBG pixel data, with one color treated as transparent.
+    
+    :param numpy.typing.NDArray pixels: The RGB pixel data, expressed as 3D numpy array.
+    :param int width: The width of the pixel data.
+    :param int height: The height of the pixel data.
+    :param numpy.typing.NDArray trns_color: The color [r, g, b] to be treated as transparent, expressed as 1D numpy array.
+    :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
+    :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
+    
+    :return: A APNGFrame object.
+    :rtype: apngasm_python._apngasm_python.APNGFrame
+    """
+    ...
+
+def create_frame_from_rgba(pixels: numpy.typing.NDArray, width: int, height: int, delay_num: int = 100, delay_den: int = 1000) -> _apngasm_python.APNGFrame:
     """
     Creates an APNGFrame from a bitmapped array of RBGA pixel data.
     
-    :param numpy.ndarray pixels: The RGBA pixel data, expressed as 1D numpy array.
+    :param numpy.typing.NDArray pixels: The RGBA pixel data, expressed as 3D numpy array.
     :param int width: The width of the pixel data.
     :param int height: The height of the pixel data.
     :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR)

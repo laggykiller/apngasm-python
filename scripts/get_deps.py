@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 import platform
 import os
+import sys
 import subprocess
 import platform
 import shutil
-from get_arch import conan_archs, get_arch
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
+
+from scripts.get_arch import conan_archs, get_arch
 
 def install_deps(arch):
     # Use Conan to install dependencies
@@ -29,12 +34,13 @@ def install_deps(arch):
         settings.append('arch=' + arch)
 
     build = []
-    if platform.system() == 'Linux':
+    if (platform.system() == 'Linux'):
         # Need to compile dependencies if Linux
         build.append('*')
     elif (not shutil.which('cmake') and 
         (platform.architecture()[0] == '32bit' or 
         platform.machine().lower() not in (conan_archs['armv8'] + conan_archs['x86']))):
+
         build.append('cmake*')
     
     if build == []:

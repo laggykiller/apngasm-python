@@ -18,7 +18,7 @@ jobs:
     - name: Auto stub generation
       run: |
         pip install build
-        python update_stub.py
+        python scripts/update_stub.py
     - name: Commit & Push changes
       uses: actions-js/push@master
       with:

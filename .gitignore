@@ -1,6 +1,6 @@
 **/__pycache__
 dist/
 .py-build-cmake_cache/
-fakeroot/
 .vscode/
 conan_output/
+example/output/
