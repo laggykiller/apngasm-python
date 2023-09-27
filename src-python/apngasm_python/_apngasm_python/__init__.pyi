@@ -472,14 +472,29 @@ class IAPNGAsmListener:
         """
         ...
     
-def create_frame_from_rgb(pixels: numpy.typing.NDArray, width: int, height: int, trns_color: Optional[numpy.typing.NDArray], delay_num: int = 100, delay_den: int = 1000) -> _apngasm_python.APNGFrame:
+def create_frame_from_rgb(pixels: numpy.typing.NDArray, width: int, height: int, delay_num: int = 100, delay_den: int = 1000) -> _apngasm_python.APNGFrame:
     """
     Creates an APNGFrame from a bitmapped array of RBG pixel data.
     
     :param numpy.typing.NDArray pixels: The RGB pixel data, expressed as 3D numpy array.
     :param int width: The width of the pixel data.
     :param int height: The height of the pixel data.
-    :param Optional[numpy.typing.NDArray] trns_color: The color [r, g, b] to be treated as transparent, expressed as 1D numpy array.
+    :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
+    :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
+    
+    :return: A APNGFrame object.
+    :rtype: apngasm_python._apngasm_python.APNGFrame
+    """
+    ...
+
+def create_frame_from_rgb_trns(pixels: numpy.typing.NDArray, width: int, height: int, trns_color: numpy.typing.NDArray, delay_num: int = 100, delay_den: int = 1000) -> _apngasm_python.APNGFrame:
+    """
+    Creates an APNGFrame from a bitmapped array of RBG pixel data, with one color treated as transparent.
+    
+    :param numpy.typing.NDArray pixels: The RGB pixel data, expressed as 3D numpy array.
+    :param int width: The width of the pixel data.
+    :param int height: The height of the pixel data.
+    :param numpy.typing.NDArray trns_color: The color [r, g, b] to be treated as transparent, expressed as 1D numpy array.
     :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
     :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
     

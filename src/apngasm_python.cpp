@@ -39,6 +39,41 @@ NB_MODULE(MODULE_NAME, m) {
     m.def("create_frame_from_rgb", [](
         nb::ndarray<unsigned char, nb::shape<nb::any, nb::any, 3>> *pixels,
         unsigned int width, unsigned int height,
+        unsigned delayNum = apngasm::DEFAULT_FRAME_NUMERATOR,
+        unsigned delayDen = apngasm::DEFAULT_FRAME_DENOMINATOR
+    ) APNGASM_PY_DECLSPEC {
+        apngasm::rgb *pixelsNew = new apngasm::rgb[pixels->shape(0)*pixels->shape(1)];
+        unsigned char *pixels_ptr = pixels->data();
+
+        for (int y = 0; y < pixels->shape(0); ++y) {
+            for (int x = 0; x < pixels->shape(1); ++x) {
+                pixelsNew[pixels->shape(1)*y + x].r = pixels_ptr[pixels->shape(2)*pixels->shape(1)*y + pixels->shape(2)*x];
+                pixelsNew[pixels->shape(1)*y + x].g = pixels_ptr[pixels->shape(2)*pixels->shape(1)*y + pixels->shape(2)*x + 1];
+                pixelsNew[pixels->shape(1)*y + x].b = pixels_ptr[pixels->shape(2)*pixels->shape(1)*y + pixels->shape(2)*x + 2];
+            }
+        }
+
+        const apngasm::APNGFrame frame(pixelsNew, width, height, NULL, delayNum, delayDen);
+        delete[] pixelsNew;
+        return frame;
+    },
+    "pixels"_a, "width"_a, "height"_a, "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
+    R"pbdoc(
+    Creates an APNGFrame from a bitmapped array of RBG pixel data.
+    
+    :param numpy.typing.NDArray pixels: The RGB pixel data, expressed as 3D numpy array.
+    :param int width: The width of the pixel data.
+    :param int height: The height of the pixel data.
+    :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
+    :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
+    
+    :return: A APNGFrame object.
+    :rtype: apngasm_python._apngasm_python.APNGFrame
+    )pbdoc");
+
+    m.def("create_frame_from_rgb_trns", [](
+        nb::ndarray<unsigned char, nb::shape<nb::any, nb::any, 3>> *pixels,
+        unsigned int width, unsigned int height,
         nb::ndarray<unsigned char, nb::shape<3>> *trns_color,
         unsigned delayNum = apngasm::DEFAULT_FRAME_NUMERATOR,
         unsigned delayDen = apngasm::DEFAULT_FRAME_DENOMINATOR
@@ -54,30 +89,26 @@ NB_MODULE(MODULE_NAME, m) {
             }
         }
 
-        apngasm::rgb *trns_color_new = new apngasm::rgb;
+        apngasm::rgb *trns_colorNew = new apngasm::rgb;
 
-        if (trns_color != NULL) {
-            unsigned char *trns_color_ptr = trns_color->data();
-            trns_color_new->r = trns_color_ptr[0];
-            trns_color_new->g = trns_color_ptr[1];
-            trns_color_new->b = trns_color_ptr[2];
-        } else {
-            trns_color_new = NULL;
-        }
+        unsigned char *trns_color_ptr = trns_color->data();
+        trns_colorNew->r = trns_color_ptr[0];
+        trns_colorNew->g = trns_color_ptr[1];
+        trns_colorNew->b = trns_color_ptr[2];
 
-        const apngasm::APNGFrame frame(pixelsNew, width, height, trns_color_new, delayNum, delayDen);
+        const apngasm::APNGFrame frame(pixelsNew, width, height, trns_colorNew, delayNum, delayDen);
         delete[] pixelsNew;
-        delete trns_color_new;
+        delete trns_colorNew;
         return frame;
     },
-    "pixels"_a, "width"_a, "height"_a, "trns_color"_a.none(), "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
+    "pixels"_a, "width"_a, "height"_a, "trns_color"_a, "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
     R"pbdoc(
-    Creates an APNGFrame from a bitmapped array of RBG pixel data.
+    Creates an APNGFrame from a bitmapped array of RBG pixel data, with one color treated as transparent.
     
     :param numpy.typing.NDArray pixels: The RGB pixel data, expressed as 3D numpy array.
     :param int width: The width of the pixel data.
     :param int height: The height of the pixel data.
-    :param Optional[numpy.typing.NDArray] trns_color: The color [r, g, b] to be treated as transparent, expressed as 1D numpy array.
+    :param numpy.typing.NDArray trns_color: The color [r, g, b] to be treated as transparent, expressed as 1D numpy array.
     :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
     :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
     

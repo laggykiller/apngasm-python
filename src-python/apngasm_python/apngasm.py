@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-from ._apngasm_python import APNGAsm, APNGFrame, IAPNGAsmListener, create_frame_from_rgb, create_frame_from_rgba
+from ._apngasm_python import APNGAsm, APNGFrame, IAPNGAsmListener, create_frame_from_rgb, create_frame_from_rgb_trns, create_frame_from_rgba
 from ._apngasm_python import __version__
 import numpy as np
 import numpy.typing
@@ -260,17 +260,17 @@ class APNGAsmBinder:
             delay_den=delay_den
         )
     
-    def add_frame_from_numpy(self, numpy_data: numpy.typing.NDArray, width: int, height: int, trns_color: Optional[numpy.typing.NDArray] = None, 
-                             mode: str = 'RGBA', delay_num: int = 100, delay_den: int = 1000) -> int:
+    def add_frame_from_numpy(self, numpy_data: numpy.typing.NDArray, width: Optional[int] = None, height: Optional[int] = None, trns_color: Optional[numpy.typing.NDArray] = None, 
+                             mode: Optional[str] = None, delay_num: int = 100, delay_den: int = 1000) -> int:
         '''
         Add frame from numpy array.
         The frame duration is equal to delay_num / delay_den seconds.
         Default frame duration is 100/1000 second, or 0.1 second.
         
         :param numpy.typing.NDArray numpy_data: The pixel data, expressed as 3D numpy array.
-        :param int width: The width of the pixel data.
-        :param int height: The height of the pixel data.
-        :param str mode: The color mode of data. Possible values are RGB or RGBA.
+        :param Optional[int] width: The width of the pixel data. If not given, the 2nd dimension size of numpy_data is used.
+        :param Optional[int] height: The height of the pixel data. If not given, the 1st dimension size of numpy_data is used.
+        :param Optional[str] mode: The color mode of data. Possible values are RGB or RGBA. If not given, it is determined using the 3rd dimension size of numpy_data.
         :param Optional[numpy.typing.NDArray] trns_color: The color [r, g, b] to be treated as transparent, expressed as 1D numpy array.
             Only use if RGB mode.
         :param int delay_num: The delay numerator for this frame (defaults to 100).
@@ -279,16 +279,40 @@ class APNGAsmBinder:
         :return: The new number of frames.
         :rtype: int
         '''
+        width = width if width else np.shape(numpy_data)[1]
+        height = height if height else np.shape(numpy_data)[0]
+
+        if not mode:
+            if np.shape(numpy_data)[2] == 3:
+                mode = 'RGB'
+            elif np.shape(numpy_data)[2] == 4:
+                mode = 'RGBA'
+            else:
+                raise TypeError('Cannot determine mode from numpy_data. '
+                                'expected 3rd dimension size to be 3 (RGB) or 4 (RGBA). '
+                                f'The given numpy_data 3rd dimension size was {np.shape(numpy_data)[2]}.')
+        
         if mode == 'RGB':
-            frame = create_frame_from_rgb(
-                pixels=numpy_data,
-                width=width,
-                height=height,
-                trns_color=trns_color,
-                delay_num=delay_num,
-                delay_den=delay_den
-            )
+            if type(trns_color) == numpy.typing.NDArray:
+                frame = create_frame_from_rgb_trns(
+                    pixels=numpy_data,
+                    width=width,
+                    height=height,
+                    trns_color=trns_color,
+                    delay_num=delay_num,
+                    delay_den=delay_den
+                )
+            else:
+                frame = create_frame_from_rgb(
+                    pixels=numpy_data,
+                    width=width,
+                    height=height,
+                    delay_num=delay_num,
+                    delay_den=delay_den
+                )
         elif mode == 'RGBA':
+            if type(trns_color) == numpy.typing.NDArray:
+                raise TypeError('Cannot set trns_color on RGBA mode Pillow object. Must be RGB.')
             frame = create_frame_from_rgba(
                 pixels=numpy_data,
                 width=width,

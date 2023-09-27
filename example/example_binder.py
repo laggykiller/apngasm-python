@@ -3,6 +3,7 @@ from apngasm_python.apngasm import APNGAsmBinder
 import os
 import shutil
 from PIL import Image
+import numpy as np
 
 # Cleanup
 shutil.rmtree('output', ignore_errors=True)
@@ -72,11 +73,13 @@ with APNGAsmBinder() as apng:
     success = apng.assemble('output/birds.apng')
     print(f'{success = }')
 
-# Assemble palette and grey PNGs, but with Pillow
+# Assemble palette and grey PNGs, but with Pillow and numpy
 image0 = Image.open('input/grey.png')
 frame0 = apngasm.add_frame_from_pillow(image0, delay_num=1, delay_den=1)
-image1 = Image.open('input/palette.png')
-apngasm.add_frame_from_pillow(image1, delay_num=1, delay_den=1)
+image1 = Image.open('input/grey.png').convert('RGB')
+frame1 = apngasm.add_frame_from_numpy(np.array(image1), trns_color=np.array([255, 255, 255]), delay_num=1, delay_den=1)
+image2 = Image.open('input/palette.png')
+apngasm.add_frame_from_pillow(image2, delay_num=1, delay_den=1)
 
 success = apngasm.assemble('output/birds-pillow.apng')
 print(f'{success = }')
