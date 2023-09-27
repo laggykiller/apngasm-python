@@ -119,9 +119,9 @@ option(WITH_PY_STUBS
 if (WITH_PY_STUBS AND NOT CMAKE_CROSSCOMPILING)
     include(cmake/NanobindStubgen.cmake)
     nanobind_stubgen(_apngasm_python)
-    add_custom_command(TARGET _apngasm_python POST_BUILD
-        COMMAND ${PYTHON_EXECUTABLE} patch_stub.py $<TARGET_FILE_DIR:_apngasm_python>/_apngasm_python.pyi
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/scripts
-        USES_TERMINAL)
+    # add_custom_command(TARGET _apngasm_python POST_BUILD
+    #     COMMAND ${PYTHON_EXECUTABLE} patch_stub.py $<TARGET_FILE_DIR:_apngasm_python>/_apngasm_python.pyi
+    #     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/scripts
+    #     USES_TERMINAL)
     nanobind_stubgen_install(_apngasm_python ${PY_BUILD_CMAKE_MODULE_NAME})
 endif()

@@ -60,12 +60,22 @@ NB_MODULE(MODULE_NAME, m) {
     "pixels"_a, "width"_a, "height"_a, "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
     R"pbdoc(
     Creates an APNGFrame from a bitmapped array of RBG pixel data.
+
+    .. warning::
+        When you create `frame` using this function, calling `del frame`
+        will NOT destroy `frame` completely.
+        
+        To fully destruct the created `frame`,
+        first add `frame` into an `APNGAsm` object using `add_frame()`,
+        then call `reset()` on the `APNGAsm` object containing `frame`.
     
     :param numpy.typing.NDArray pixels: The RGB pixel data, expressed as 3D numpy array.
     :param int width: The width of the pixel data.
     :param int height: The height of the pixel data.
-    :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
-    :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
+    :param int delay_num: The delay numerator for this frame
+        (defaults to DEFAULT_FRAME_NUMERATOR).
+    :param int delay_den: The delay denominator for this frame
+        (defaults to DEFAULT_FRAME_DENMINATOR).
     
     :return: A APNGFrame object.
     :rtype: apngasm_python._apngasm_python.APNGFrame
@@ -103,14 +113,26 @@ NB_MODULE(MODULE_NAME, m) {
     },
     "pixels"_a, "width"_a, "height"_a, "trns_color"_a, "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
     R"pbdoc(
-    Creates an APNGFrame from a bitmapped array of RBG pixel data, with one color treated as transparent.
+    Creates an APNGFrame from a bitmapped array of RBG pixel data,
+    with one color treated as transparent.
+
+    .. warning::
+        When you create `frame` using this function, calling `del frame`
+        will NOT destroy `frame` completely.
+        
+        To fully destruct the created `frame`,
+        first add `frame` into an `APNGAsm` object using `add_frame()`,
+        then call `reset()` on the `APNGAsm` object containing `frame`.
     
     :param numpy.typing.NDArray pixels: The RGB pixel data, expressed as 3D numpy array.
     :param int width: The width of the pixel data.
     :param int height: The height of the pixel data.
-    :param numpy.typing.NDArray trns_color: The color [r, g, b] to be treated as transparent, expressed as 1D numpy array.
-    :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
-    :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
+    :param numpy.typing.NDArray trns_color: The color [r, g, b]
+        to be treated as transparent, expressed as 1D numpy array.
+    :param int delay_num: The delay numerator for this frame
+        (defaults to DEFAULT_FRAME_NUMERATOR).
+    :param int delay_den: The delay denominator for this frame
+        (defaults to DEFAULT_FRAME_DENMINATOR).
     
     :return: A APNGFrame object.
     :rtype: apngasm_python._apngasm_python.APNGFrame
@@ -141,12 +163,23 @@ NB_MODULE(MODULE_NAME, m) {
     "pixels"_a, "width"_a, "height"_a, "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
     R"pbdoc(
     Creates an APNGFrame from a bitmapped array of RBGA pixel data.
+
+    .. warning::
+        When you create `frame` using this function, calling `del frame`
+        will NOT destroy `frame` completely.
+        
+        To fully destruct the created `frame`,
+        first add `frame` into an `APNGAsm` object using `add_frame()`,
+        then call `reset()` on the `APNGAsm` object containing `frame`.
     
-    :param numpy.typing.NDArray pixels: The RGBA pixel data, expressed as 3D numpy array.
+    :param numpy.typing.NDArray pixels: The RGBA pixel data,
+        expressed as 3D numpy array.
     :param int width: The width of the pixel data.
     :param int height: The height of the pixel data.
-    :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR)
-    :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR)
+    :param int delay_num: The delay numerator for this frame
+        (defaults to DEFAULT_FRAME_NUMERATOR)
+    :param int delay_den: The delay denominator for this frame
+        (defaults to DEFAULT_FRAME_DENMINATOR)
 
     :return: A APNGFrame object.
     :rtype: apngasm_python._apngasm_python.APNGFrame
@@ -200,8 +233,10 @@ NB_MODULE(MODULE_NAME, m) {
         Creates an APNGFrame from a PNG file.
         
         :param str file_path: The relative or absolute path to an image file.
-        :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
-        :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
+        :param int delay_num: The delay numerator for this frame
+            (defaults to DEFAULT_FRAME_NUMERATOR).
+        :param int delay_den: The delay denominator for this frame
+            (defaults to DEFAULT_FRAME_DENMINATOR).
         )pbdoc")
 
         // Exist in apngframe.h but not exist in apngframe.cpp
@@ -211,35 +246,54 @@ NB_MODULE(MODULE_NAME, m) {
         "pixels"_a, "width"_a, "height"_a, "trns_color"_a, "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
         R"pbdoc(
         Creates an APNGFrame from a bitmapped array of RBG pixel data.
-        Not possible to use in Python. To create APNGFrame from pixel data in memory,
-        Use create_frame_from_rgb() or create_frame_from_rgba(). Or manually,
-        First create an empty APNGFrame with frame = APNGFrame(),
-        then set frame.width, frame.height, frame.color_type, frame.pixels,
-        frame.palette, frame.delay_num, frame.delay_den manually.
+
+        .. warning::
+            Not possible to use in Python.
+            
+            To create APNGFrame from pixel data in memory, Use
+            create_frame_from_rgb(),
+            create_frame_from_rgb_trns() or
+            create_frame_from_rgba().
+
+            Or manually, First create an empty `APNGFrame` with `frame = APNGFrame()`,
+            then set `frame.width`, `frame.height`, `frame.color_type`, `frame.pixels`,
+            `frame.palette`, `frame.delay_num`, `frame.delay_den` manually.
         
         :param apngasm_python._apngasm_python.rgb pixels: The RGB pixel data.
         :param int width: The width of the pixel data.
         :param int height: The height of the pixel data.
-        :param apngasm_python._apngasm_python.rgb trns_color: The color [r, g, b] to be treated as transparent.
-        :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
-        :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
+        :param apngasm_python._apngasm_python.rgb trns_color: The color [r, g, b]
+            to be treated as transparent.
+        :param int delay_num: The delay numerator for this frame
+            (defaults to DEFAULT_FRAME_NUMERATOR).
+        :param int delay_den: The delay denominator for this frame
+            (defaults to DEFAULT_FRAME_DENMINATOR).
         )pbdoc")
 
         .def(nb::init<apngasm::rgba *, unsigned int, unsigned int, unsigned, unsigned>(),
         "pixels"_a, "width"_a, "height"_a, "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
         R"pbdoc(
         Creates an APNGFrame from a bitmapped array of RBGA pixel data.
-        Not possible to use in Python. To create APNGFrame from pixel data in memory,
-        Use create_frame_from_rgb() or create_frame_from_rgba(). Or manually,
-        First create an empty APNGFrame with frame = APNGFrame(),
-        then set frame.width, frame.height, frame.color_type, frame.pixels,
-        frame.palette, frame.delay_num, frame.delay_den manually.
+        
+        .. warning::
+            Not possible to use in Python.
+            
+            To create APNGFrame from pixel data in memory, Use
+            create_frame_from_rgb(),
+            create_frame_from_rgb_trns() or
+            create_frame_from_rgba().
+
+            Or manually, First create an empty `APNGFrame` with `frame = APNGFrame()`,
+            then set `frame.width`, `frame.height`, `frame.color_type`, `frame.pixels`,
+            `frame.palette`, `frame.delay_num`, `frame.delay_den` manually.
         
         :param apngasm_python._apngasm_python.rgba pixels: The RGBA pixel data.
         :param int width: The width of the pixel data.
         :param int height: The height of the pixel data.
-        :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
-        :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
+        :param int delay_num: The delay numerator for this frame
+            (defaults to DEFAULT_FRAME_NUMERATOR).
+        :param int delay_den: The delay denominator for this frame
+            (defaults to DEFAULT_FRAME_DENMINATOR).
         )pbdoc")
 
         .def("save", &apngasm::APNGFrame::save,
@@ -276,8 +330,10 @@ NB_MODULE(MODULE_NAME, m) {
         },
         R"pbdoc(
         The raw pixel data of frame, expressed as a 3D numpy array in Python.
-        Note that setting this value will also set the variable 'rows' internally.
-        This should be set AFTER you set the width, height and color_type.
+
+        .. note::
+            Setting this value will also set the variable 'rows' internally.
+            This should be set AFTER you set the width, height and color_type.
         )pbdoc")
 
         .def_prop_rw("width", 
@@ -300,11 +356,13 @@ NB_MODULE(MODULE_NAME, m) {
         R"pbdoc(
         The color_type of the frame.
         
-        0: Grayscale (Pillow mode='L')
-        2: RGB (Pillow mode='RGB')
-        3: Palette (Pillow mode='P')
-        4: Grayscale + Alpha (Pillow mode='LA')
-        6: RGBA (Pillow mode='RGBA')
+        .. note::
+            .. line-block::
+                0: Grayscale (Pillow mode='L')
+                2: RGB (Pillow mode='RGB')
+                3: Palette (Pillow mode='P')
+                4: Grayscale + Alpha (Pillow mode='LA')
+                6: RGBA (Pillow mode='RGBA')
         )pbdoc")
 
         .def_prop_rw("palette", 
@@ -329,7 +387,9 @@ NB_MODULE(MODULE_NAME, m) {
         },
         R"pbdoc(
         The palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA).
-        Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]] in Python.
+
+        Expressed as 2D numpy array in format of
+        [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]] in Python.
         )pbdoc")
 
         .def_prop_rw("transparency", 
@@ -345,8 +405,12 @@ NB_MODULE(MODULE_NAME, m) {
             }
         },
         R"pbdoc(
-        The transparency color of frame that is treated as transparent, expressed as 1D numpy array.
-        For more info, refer to 'tRNS Transparency' in http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
+        The transparency color of frame that is treated as transparent,
+        expressed as 1D numpy array.
+
+        .. note::
+            For more info, refer to 'tRNS Transparency' in
+            http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
         )pbdoc")
 
         .def_prop_rw("palette_size", 
@@ -367,14 +431,18 @@ NB_MODULE(MODULE_NAME, m) {
         [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC { return t._delayNum; },
         [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_DECLSPEC { t.delayNum(v); },
         R"pbdoc(
-        The nominator of the duration of frame. Duration of time is delay_num / delay_den seconds.
+        The nominator of the duration of frame.
+        
+        Duration of frame is delay_num / delay_den seconds.
         )pbdoc")
 
         .def_prop_rw("delay_den", 
         [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC { return t._delayDen; },
         [](apngasm::APNGFrame &t, unsigned int v) APNGASM_PY_DECLSPEC { t.delayDen(v); },
         R"pbdoc(
-        The denominator of the duration of frame. Duration of time is delay_num / delay_den seconds.
+        The denominator of the duration of frame.
+        
+        Duration of frame is delay_num / delay_den seconds.
         )pbdoc")
 
         // difficult to implement
@@ -394,7 +462,8 @@ NB_MODULE(MODULE_NAME, m) {
         R"pbdoc(
         Construct APNGAsm object from an existing vector of apngasm frames.
     
-        :param list[apngasm_python._apngasm_python.APNGFrame] frames: A list of APNGFrame objects.
+        :param list[apngasm_python._apngasm_python.APNGFrame] frames:
+            A list of APNGFrame objects.
         )pbdoc")
 
         .def("add_frame", nb::overload_cast<const apngasm::APNGFrame &>(&apngasm::APNGAsm::addFrame),
@@ -415,8 +484,10 @@ NB_MODULE(MODULE_NAME, m) {
         Adds a frame from a PNG file or frames from a APNG file to the frame vector.
     
         :param str file_path: The relative or absolute path to an image file.
-        :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
-        :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
+        :param int delay_num: The delay numerator for this frame
+            (defaults to DEFAULT_FRAME_NUMERATOR).
+        :param int delay_den: The delay denominator for this frame
+            (defaults to DEFAULT_FRAME_DENMINATOR).
 
         :return: The new number of frames/the number of this frame on the frame vector.
         :rtype: int
@@ -426,18 +497,28 @@ NB_MODULE(MODULE_NAME, m) {
         "pixels_rgb"_a, "width"_a, "height"_a, "trns_color"_a = NULL, "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
         R"pbdoc(
         Adds an APNGFrame object to the vector.
-        Not possible to use in Python. As alternative,
-        Use create_frame_from_rgb() or create_frame_from_rgba(). Or manually,
-        First create an empty APNGFrame with frame = APNGFrame(),
-        then set frame.width, frame.height, frame.color_type, frame.pixels,
-        frame.palette, frame.delay_num, frame.delay_den manually.
+        
+        .. warning::
+            Not possible to use in Python.
+            
+            To create APNGFrame from pixel data in memory, Use
+            create_frame_from_rgb(),
+            create_frame_from_rgb_trns() or
+            create_frame_from_rgba().
+
+            Or manually, First create an empty `APNGFrame` with `frame = APNGFrame()`,
+            then set `frame.width`, `frame.height`, `frame.color_type`, `frame.pixels`,
+            `frame.palette`, `frame.delay_num`, `frame.delay_den` manually.
         
         :param apngasm_python._apngasm_python.rgb pixels_rgb: The RGB pixel data.
         :param int width: The width of the pixel data.
         :param int height: The height of the pixel data.
-        :param apngasm_python._apngasm_python.rgb trns_color: The color [r, g, b] to be treated as transparent.
-        :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
-        :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
+        :param apngasm_python._apngasm_python.rgb trns_color: The color [r, g, b]
+            to be treated as transparent.
+        :param int delay_num: The delay numerator for this frame
+            (defaults to DEFAULT_FRAME_NUMERATOR).
+        :param int delay_den: The delay denominator for this frame
+            (defaults to DEFAULT_FRAME_DENMINATOR).
 
         :return: The new number of frames/the number of this frame on the frame vector.
         :rtype: int
@@ -447,17 +528,26 @@ NB_MODULE(MODULE_NAME, m) {
         "pixels_rgba"_a, "width"_a, "height"_a, "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
         R"pbdoc(
         Adds an APNGFrame object to the vector.
-        Not possible to use in Python. As alternative,
-        Use create_frame_from_rgb() or create_frame_from_rgba(). Or manually,
-        First create an empty APNGFrame with frame = APNGFrame(),
-        then set frame.width, frame.height, frame.color_type, frame.pixels,
-        frame.palette, frame.delay_num, frame.delay_den manually.
+        
+        .. warning::
+            Not possible to use in Python.
+            
+            To create APNGFrame from pixel data in memory, Use
+            create_frame_from_rgb(),
+            create_frame_from_rgb_trns() or
+            create_frame_from_rgba().
+
+            Or manually, First create an empty `APNGFrame` with `frame = APNGFrame()`,
+            then set `frame.width`, `frame.height`, `frame.color_type`, `frame.pixels`,
+            `frame.palette`, `frame.delay_num`, `frame.delay_den` manually.
         
         :param apngasm_python._apngasm_python.rgba pixels_rgba: The RGBA pixel data.
         :param int width: The width of the pixel data.
         :param int height: The height of the pixel data.
-        :param int delay_num: The delay numerator for this frame (defaults to DEFAULT_FRAME_NUMERATOR).
-        :param int delay_den: The delay denominator for this frame (defaults to DEFAULT_FRAME_DENMINATOR).
+        :param int delay_num: The delay numerator for this frame
+            (defaults to DEFAULT_FRAME_NUMERATOR).
+        :param int delay_den: The delay denominator for this frame
+            (defaults to DEFAULT_FRAME_DENMINATOR).
         
         :return: The new number of frames/the number of this frame on the frame vector.
         :rtype: int
@@ -500,9 +590,12 @@ NB_MODULE(MODULE_NAME, m) {
         "file_path"_a,
         R"pbdoc(
         Loads an animation spec from JSON or XML.
+
         Loaded frames are added to the end of the frame vector.
-        For more details on animation specs see:
-        https://github.com/Genshin/PhantomStandards
+
+        .. note::
+            For more details on animation specs see:
+            https://github.com/Genshin/PhantomStandards
         
         :param str file_path: The path of JSON or XML file.
 
@@ -516,7 +609,8 @@ NB_MODULE(MODULE_NAME, m) {
         Saves a JSON animation spec file.
         
         :param str output_path: Path to save the file to.
-        :param str image_dir: Directory where frame files are to be saved if not the same path as the animation spec.
+        :param str image_dir: Directory where frame files are to be saved
+            if not the same path as the animation spec.
 
         :return: true if save was successful.
         :rtype: bool
@@ -528,7 +622,8 @@ NB_MODULE(MODULE_NAME, m) {
         Saves an XML animation spec file.
         
         :param str file_path: Path to save the file to.
-        :param str image_dir: Directory where frame files are to be saved if not the same path as the animation spec.
+        :param str image_dir: Directory where frame files are to be saved
+            if not the same path as the animation spec.
         
         :return: true if save was successful.
         :rtype: bool
@@ -539,7 +634,10 @@ NB_MODULE(MODULE_NAME, m) {
         R"pbdoc(
         Sets a listener.
         
-        :param Optional[apngasm_python._apngasm_python.IAPNGAsmListener] listener: A pointer to the listener object. If the argument is NULL a default APNGAsmListener will be created and assigned.
+        :param Optional[apngasm_python._apngasm_python.IAPNGAsmListener] listener:
+            A pointer to the listener object.
+            If the argument is NULL a default APNGAsmListener
+            will be created and assigned.
         )pbdoc")
 
         .def("set_loops", &apngasm::APNGAsm::setLoops,
@@ -547,7 +645,8 @@ NB_MODULE(MODULE_NAME, m) {
         R"pbdoc(
         Set loop count of animation.
         
-        :param int loops: Loop count of animation. If the argument is 0 a loop count is infinity.
+        :param int loops: Loop count of animation. If the argument is 0
+            a loop count is infinity.
         )pbdoc")
 
         .def("set_skip_first", &apngasm::APNGAsm::setSkipFirst,
@@ -593,8 +692,8 @@ NB_MODULE(MODULE_NAME, m) {
         .def("reset", &apngasm::APNGAsm::reset,
         R"pbdoc(
         Destroy all frames in memory/dispose of the frame vector.
+
         Leaves the apngasm object in a clean state.
-        Returns number of frames disposed of.
         
         :return: number of frames disposed of.
         :rtype: int

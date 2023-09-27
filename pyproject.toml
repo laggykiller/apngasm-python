@@ -19,7 +19,7 @@ Tracker = "https://github.com/laggykiller/apngasm-python/issues"
 requires = [
     "py-build-cmake==0.2.0a7",
     "nanobind~=1.5.2",
-    "nanobind-stubgen~=0.1.3",
+    "nanobind-stubgen @ git+https://github.com/laggykiller/nanobind-stubgen.git",
     "conan>=2.0",
     "wheel"
 ]
