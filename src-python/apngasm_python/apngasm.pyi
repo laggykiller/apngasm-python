@@ -4,6 +4,9 @@ from PIL import Image
 from _typeshed import Incomplete
 from typing import Optional
 
+NUMPY_LOADED: bool
+PILLOW_LOADED: bool
+
 class APNGAsmBinder:
     color_type_dict: Incomplete
     apngasm: Incomplete

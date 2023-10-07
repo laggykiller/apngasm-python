@@ -1,3 +1,5 @@
 myst_parser
 sphinx-immaterial
 sphinx-autoapi
+numpy
+Pillow

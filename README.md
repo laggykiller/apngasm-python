@@ -19,6 +19,11 @@ Documentations: https://apngasm-python.readthedocs.io/en/latest/
 pip install apngasm-python
 ```
 
+Optionally, you can also install `Pillow` and `numpy`
+```
+pip install Pillow numpy
+```
+
 ## Example usage
 The recommended usage is to `from apngasm_python.apngasm import APNGAsmBinder`, see [example/example_binder.py](example/example_binder.py)
 ```python
