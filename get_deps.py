@@ -26,7 +26,7 @@ def install_deps(arch):
         settings.append('os=Linux')
         settings.append('compiler=gcc')
         settings.append('compiler.version=10')
-        settings.append('compiler.libcxx=libstdc++')
+        settings.append('compiler.libcxx=libstdc++11')
     if arch:
         settings.append('arch=' + arch)
 
