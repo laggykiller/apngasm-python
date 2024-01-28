@@ -18,6 +18,7 @@ def install_deps(arch):
 
     if platform.system() == "Windows":
         settings.append("os=Windows")
+        settings.append("compiler.runtime=static")
     elif platform.system() == "Darwin":
         settings.append("os=Macos")
         if arch == "x86_64":
