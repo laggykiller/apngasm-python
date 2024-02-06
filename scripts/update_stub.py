@@ -20,8 +20,8 @@ def main():
     if not py_bin:
         raise RuntimeError("Cannot find path for python")
 
-    proj_dir = Path(Path(__file__).parent, "../")
-    dist_dir = Path(proj_dir, "../dist").resolve()
+    proj_dir = Path(Path(__file__).parent, "../").resolve()
+    dist_dir = Path(proj_dir, "dist")
     src_python_dir = Path(proj_dir, "src-python/apngasm_python")
 
     clean_pyi(src_python_dir)
