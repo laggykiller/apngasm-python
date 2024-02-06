@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 import os
+from pathlib import Path
 import shutil
 import zipfile
+
+
+def clean_pyi(path: Path):
+    for i in path.iterdir():
+        if i.suffix == ".pyi":
+            os.remove(i)
+        elif i.is_dir():
+            clean_pyi(i)
 
 
 def main():
@@ -11,10 +20,13 @@ def main():
     if not py_bin:
         raise RuntimeError("Cannot find path for python")
 
-    dist_dir = os.path.join(os.path.split(os.path.abspath(__file__))[0], "../dist")
+    proj_dir = Path(Path(__file__).parent, "../")
+    dist_dir = Path(proj_dir, "../dist").resolve()
+    src_python_dir = Path(proj_dir, "src-python/apngasm_python")
 
+    clean_pyi(src_python_dir)
     shutil.rmtree(dist_dir, ignore_errors=True)
-    os.chdir(os.path.join(os.path.split(os.path.abspath(__file__))[0], "../"))
+    os.chdir(proj_dir)
     os.system(py_bin + " -m build .")
 
     for zip_file in os.listdir(dist_dir):
