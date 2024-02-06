@@ -28,7 +28,7 @@ def frame_info(frame):
 # https://www.w3.org/TR/PNG-Chunks.html
 color_type_dict = {0: "L", 2: "RGB", 3: "P", 4: "LA", 6: "RGBA"}
 
-color_type_dict.update(dict((v, k) for k, v in color_type_dict.items()))
+color_type_dict.update(dict((v, k) for k, v in color_type_dict.items())) # type: ignore
 
 # Cleanup
 shutil.rmtree("output", ignore_errors=True)
@@ -128,14 +128,14 @@ image2 = Image.open("input/palette.png").convert("RGBA")
 frame2 = APNGFrame()
 frame2.delay_num = 1
 frame2.delay_den = 1
-frame2.color_type = color_type_dict[image2.mode]
+frame2.color_type = color_type_dict[image2.mode] # type: ignore
 frame2.width = image2.width
 frame2.height = image2.height
 frame2.pixels = np.array(image2)
 frame_info(frame2)
 
 # Another way of creating APNGAsm object
-apngasm = APNGAsm([frame0, frame1, frame2])
+apngasm = APNGAsm([frame0, frame1, frame2]) # type: ignore
 
 success = apngasm.assemble("output/birds-pillow.apng")
 print(f"{success = }")

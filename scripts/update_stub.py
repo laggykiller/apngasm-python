@@ -8,6 +8,8 @@ def main():
     py_bin = shutil.which("python3")
     if not py_bin:
         py_bin = shutil.which("python")
+    if not py_bin:
+        raise RuntimeError("Cannot find path for python")
 
     dist_dir = os.path.join(os.path.split(os.path.abspath(__file__))[0], "../dist")
 

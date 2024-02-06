@@ -301,7 +301,7 @@ class APNGFrame:
         ...
     
     @property
-    def color_type(color_typescolor_typeecolor_typelcolor_typefcolor_type)color_type color_type-color_type>color_type color_typeicolor_typencolor_typetcolor_type:
+    def color_type(self) -> int:
         """
         The color_type of the frame.
         
@@ -313,7 +313,7 @@ class APNGFrame:
         """
         ...
     @color_type.setter
-    def color_type(color_typescolor_typeecolor_typelcolor_typefcolor_type,color_type color_typeacolor_typercolor_typegcolor_type:color_type color_typeicolor_typencolor_typetcolor_type,color_type color_type/color_type)color_type color_type-color_type>color_type color_typeNcolor_typeocolor_typencolor_typeecolor_type:
+    def color_type(self, arg: int, /) -> None:
         """
         The color_type of the frame.
         
@@ -326,53 +326,53 @@ class APNGFrame:
         ...
     
     @property
-    def delay_den(delay_densdelay_denedelay_denldelay_denfdelay_den)delay_den delay_den-delay_den>delay_den delay_denidelay_denndelay_dentdelay_den:
+    def delay_den(self) -> int:
         """
         The denominator of the duration of frame. Duration of time is delay_num / delay_den seconds.
         """
         ...
     @delay_den.setter
-    def delay_den(delay_densdelay_denedelay_denldelay_denfdelay_den,delay_den delay_denadelay_denrdelay_dengdelay_den:delay_den delay_denidelay_denndelay_dentdelay_den,delay_den delay_den/delay_den)delay_den delay_den-delay_den>delay_den delay_denNdelay_denodelay_denndelay_denedelay_den:
+    def delay_den(self, arg: int, /) -> None:
         """
         The denominator of the duration of frame. Duration of time is delay_num / delay_den seconds.
         """
         ...
     
     @property
-    def delay_num(delay_numsdelay_numedelay_numldelay_numfdelay_num)delay_num delay_num-delay_num>delay_num delay_numidelay_numndelay_numtdelay_num:
+    def delay_num(self) -> int:
         """
         The nominator of the duration of frame. Duration of time is delay_num / delay_den seconds.
         """
         ...
     @delay_num.setter
-    def delay_num(delay_numsdelay_numedelay_numldelay_numfdelay_num,delay_num delay_numadelay_numrdelay_numgdelay_num:delay_num delay_numidelay_numndelay_numtdelay_num,delay_num delay_num/delay_num)delay_num delay_num-delay_num>delay_num delay_numNdelay_numodelay_numndelay_numedelay_num:
+    def delay_num(self, arg: int, /) -> None:
         """
         The nominator of the duration of frame. Duration of time is delay_num / delay_den seconds.
         """
         ...
     
     @property
-    def height(heightsheighteheightlheightfheight)height height-height>height heightiheightnheighttheight:
+    def height(self) -> int:
         """
         The height of frame.
         """
         ...
     @height.setter
-    def height(heightsheighteheightlheightfheight,height heightaheightrheightgheight:height heightiheightnheighttheight,height height/height)height height-height>height heightNheightoheightnheighteheight:
+    def height(self, arg: int, /) -> None:
         """
         The height of frame.
         """
         ...
     
     @property
-    def palette(palettespaletteepalettelpalettefpalette)palette palette-palette>palette palettenpaletteupalettempaletteppaletteypalette.palettetpaletteypaletteppaletteipalettenpalettegpalette.paletteNpaletteDpaletteApaletterpaletterpaletteapaletteypalette:
+    def palette(self) -> numpy.typing.NDArray:
         """
         The palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA).
         Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]] in Python.
         """
         ...
     @palette.setter
-    def palette(palettespaletteepalettelpalettefpalette,palette paletteapaletterpalettegpalette:palette palettenpaletteupalettempaletteppaletteypalette.palettetpaletteypaletteppaletteipalettenpalettegpalette.paletteNpaletteDpaletteApaletterpaletterpaletteapaletteypalette,palette palette/palette)palette palette-palette>palette paletteNpaletteopalettenpaletteepalette:
+    def palette(self, arg: numpy.typing.NDArray, /) -> None:
         """
         The palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA).
         Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]] in Python.
@@ -380,20 +380,20 @@ class APNGFrame:
         ...
     
     @property
-    def palette_size(palette_sizespalette_sizeepalette_sizelpalette_sizefpalette_size)palette_size palette_size-palette_size>palette_size palette_sizeipalette_sizenpalette_sizetpalette_size:
+    def palette_size(self) -> int:
         """
         The palette data size of frame.
         """
         ...
     @palette_size.setter
-    def palette_size(palette_sizespalette_sizeepalette_sizelpalette_sizefpalette_size,palette_size palette_sizeapalette_sizerpalette_sizegpalette_size:palette_size palette_sizeipalette_sizenpalette_sizetpalette_size,palette_size palette_size/palette_size)palette_size palette_size-palette_size>palette_size palette_sizeNpalette_sizeopalette_sizenpalette_sizeepalette_size:
+    def palette_size(self, arg: int, /) -> None:
         """
         The palette data size of frame.
         """
         ...
     
     @property
-    def pixels(pixelsspixelsepixelslpixelsfpixels)pixels pixels-pixels>pixels pixelsnpixelsupixelsmpixelsppixelsypixels.pixelstpixelsypixelsppixelsipixelsnpixelsgpixels.pixelsNpixelsDpixelsApixelsrpixelsrpixelsapixelsypixels:
+    def pixels(self) -> numpy.typing.NDArray:
         """
         The raw pixel data of frame, expressed as a 3D numpy array in Python.
         Note that setting this value will also set the variable 'rows' internally.
@@ -401,7 +401,7 @@ class APNGFrame:
         """
         ...
     @pixels.setter
-    def pixels(pixelsspixelsepixelslpixelsfpixels,pixels pixelsapixelsrpixelsgpixels:pixels pixelsnpixelsupixelsmpixelsppixelsypixels.pixelstpixelsypixelsppixelsipixelsnpixelsgpixels.pixelsNpixelsDpixelsApixelsrpixelsrpixelsapixelsypixels,pixels pixels/pixels)pixels pixels-pixels>pixels pixelsNpixelsopixelsnpixelsepixels:
+    def pixels(self, arg: numpy.typing.NDArray, /) -> None:
         """
         The raw pixel data of frame, expressed as a 3D numpy array in Python.
         Note that setting this value will also set the variable 'rows' internally.
@@ -421,14 +421,14 @@ class APNGFrame:
         ...
     
     @property
-    def transparency(transparencystransparencyetransparencyltransparencyftransparency)transparency transparency-transparency>transparency transparencyntransparencyutransparencymtransparencyptransparencyytransparency.transparencyttransparencyytransparencyptransparencyitransparencyntransparencygtransparency.transparencyNtransparencyDtransparencyAtransparencyrtransparencyrtransparencyatransparencyytransparency:
+    def transparency(self) -> numpy.typing.NDArray:
         """
         The transparency color of frame that is treated as transparent, expressed as 1D numpy array.
         For more info, refer to 'tRNS Transparency' in http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
         """
         ...
     @transparency.setter
-    def transparency(transparencystransparencyetransparencyltransparencyftransparency,transparency transparencyatransparencyrtransparencygtransparency:transparency transparencyntransparencyutransparencymtransparencyptransparencyytransparency.transparencyttransparencyytransparencyptransparencyitransparencyntransparencygtransparency.transparencyNtransparencyDtransparencyAtransparencyrtransparencyrtransparencyatransparencyytransparency,transparency transparency/transparency)transparency transparency-transparency>transparency transparencyNtransparencyotransparencyntransparencyetransparency:
+    def transparency(self, arg: numpy.typing.NDArray, /) -> None:
         """
         The transparency color of frame that is treated as transparent, expressed as 1D numpy array.
         For more info, refer to 'tRNS Transparency' in http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
@@ -436,26 +436,26 @@ class APNGFrame:
         ...
     
     @property
-    def transparency_size(transparency_sizestransparency_sizeetransparency_sizeltransparency_sizeftransparency_size)transparency_size transparency_size-transparency_size>transparency_size transparency_sizeitransparency_sizentransparency_sizettransparency_size:
+    def transparency_size(self) -> int:
         """
         The transparency data size of frame.
         """
         ...
     @transparency_size.setter
-    def transparency_size(transparency_sizestransparency_sizeetransparency_sizeltransparency_sizeftransparency_size,transparency_size transparency_sizeatransparency_sizertransparency_sizegtransparency_size:transparency_size transparency_sizeitransparency_sizentransparency_sizettransparency_size,transparency_size transparency_size/transparency_size)transparency_size transparency_size-transparency_size>transparency_size transparency_sizeNtransparency_sizeotransparency_sizentransparency_sizeetransparency_size:
+    def transparency_size(self, arg: int, /) -> None:
         """
         The transparency data size of frame.
         """
         ...
     
     @property
-    def width(widthswidthewidthlwidthfwidth)width width-width>width widthiwidthnwidthtwidth:
+    def width(self) -> int:
         """
         The width of frame.
         """
         ...
     @width.setter
-    def width(widthswidthewidthlwidthfwidth,width widthawidthrwidthgwidth:width widthiwidthnwidthtwidth,width width/width)width width-width>width widthNwidthowidthnwidthewidth:
+    def width(self, arg: int, /) -> None:
         """
         The width of frame.
         """
@@ -537,24 +537,24 @@ class rgb:
         ...
     
     @property
-    def b(bsbeblbfb)b b-b>b bibnbtb:
+    def b(self) -> int:
         ...
     @b.setter
-    def b(bsbeblbfb,b babrbgb:b bibnbtb,b b/b)b b-b>b bNbobnbeb:
+    def b(self, arg: int, /) -> None:
         ...
     
     @property
-    def g(gsgeglgfg)g g-g>g gigngtg:
+    def g(self) -> int:
         ...
     @g.setter
-    def g(gsgeglgfg,g gagrggg:g gigngtg,g g/g)g g-g>g gNgogngeg:
+    def g(self, arg: int, /) -> None:
         ...
     
     @property
-    def r(rsrerlrfr)r r-r>r rirnrtr:
+    def r(self) -> int:
         ...
     @r.setter
-    def r(rsrerlrfr,r rarrrgr:r rirnrtr,r r/r)r r-r>r rNrornrer:
+    def r(self, arg: int, /) -> None:
         ...
     
 class rgba:
@@ -576,30 +576,30 @@ class rgba:
         ...
     
     @property
-    def a(asaealafa)a a-a>a aianata:
+    def a(self) -> int:
         ...
     @a.setter
-    def a(asaealafa,a aaaraga:a aianata,a a/a)a a-a>a aNaoanaea:
+    def a(self, arg: int, /) -> None:
         ...
     
     @property
-    def b(bsbeblbfb)b b-b>b bibnbtb:
+    def b(self) -> int:
         ...
     @b.setter
-    def b(bsbeblbfb,b babrbgb:b bibnbtb,b b/b)b b-b>b bNbobnbeb:
+    def b(self, arg: int, /) -> None:
         ...
     
     @property
-    def g(gsgeglgfg)g g-g>g gigngtg:
+    def g(self) -> int:
         ...
     @g.setter
-    def g(gsgeglgfg,g gagrggg:g gigngtg,g g/g)g g-g>g gNgogngeg:
+    def g(self, arg: int, /) -> None:
         ...
     
     @property
-    def r(rsrerlrfr)r r-r>r rirnrtr:
+    def r(self) -> int:
         ...
     @r.setter
-    def r(rsrerlrfr,r rarrrgr:r rirnrtr,r r/r)r r-r>r rNrornrer:
+    def r(self, arg: int, /) -> None:
         ...
     

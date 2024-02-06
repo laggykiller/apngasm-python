@@ -8,7 +8,7 @@ from ._apngasm_python import (
     create_frame_from_rgb_trns,
     create_frame_from_rgba,
 )
-from ._apngasm_python import __version__
+from ._apngasm_python import __version__ # type: ignore
 
 try:
     import numpy
@@ -499,7 +499,8 @@ class APNGAsmBinder:
             If the argument is None,
             a default APNGAsmListener will be created and assigned.
         """
-        return self.apngasm.set_apng_asm_listener(listener)
+        raise NotImplementedError("set_apng_asm_listener is not implemented")
+        # return self.apngasm.set_apng_asm_listener(listener)
 
     def set_loops(self, loops: int = 0):
         """
@@ -509,11 +510,11 @@ class APNGAsmBinder:
         """
         return self.apngasm.set_loops(loops)
 
-    def set_skip_first(self, skip_first: int):
+    def set_skip_first(self, skip_first: bool):
         """
         Set flag of skip first frame.
 
-        :param int skip_first: Flag of skip first frame.
+        :param bool skip_first: Flag of skip first frame.
         """
         return self.apngasm.set_skip_first(skip_first)
 

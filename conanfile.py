@@ -9,16 +9,16 @@ class ApngasmRecipe(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
 
     def requirements(self):
-        self.requires("zlib/1.2.13")
-        self.requires("libpng/1.6.40")
+        self.requires("zlib/1.2.13") # type: ignore
+        self.requires("libpng/1.6.40") # type: ignore
         self.requires(
-            "boost/1.75.0"
+            "boost/1.75.0" # type: ignore
         )  # https://github.com/conan-io/conan-center-index/issues/19704
 
     def build_requirements(self):
-        self.build_requires("b2/4.10.1")
+        self.build_requires("b2/4.10.1") # type: ignore
         if not shutil.which("cmake"):
-            self.tool_requires("cmake/[>=3.27]")
+            self.tool_requires("cmake/[>=3.27]") # type: ignore
 
     def build(self):
         build_type = "Release"
