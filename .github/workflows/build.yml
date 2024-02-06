@@ -94,7 +94,7 @@ jobs:
           platforms: all
 
       - name: Build wheels for ${{ matrix.os }} ${{ matrix.cibw_archs }} ${{ matrix.cibw_build }}
-        uses: pypa/cibuildwheel@v2.15.0
+        uses: pypa/cibuildwheel@v2.16.5
         env:
           CIBW_BUILD_FRONTEND: build
           CIBW_ARCHS: ${{ matrix.cibw_archs }}
