@@ -5,14 +5,6 @@ import shutil
 import zipfile
 
 
-def clean_pyi(path: Path):
-    for i in path.iterdir():
-        if i.suffix == ".pyi":
-            os.remove(i)
-        elif i.is_dir():
-            clean_pyi(i)
-
-
 def main():
     py_bin = shutil.which("python3")
     if not py_bin:
@@ -22,9 +14,7 @@ def main():
 
     proj_dir = Path(Path(__file__).parent, "../").resolve()
     dist_dir = Path(proj_dir, "dist")
-    src_python_dir = Path(proj_dir, "src-python/apngasm_python")
 
-    clean_pyi(src_python_dir)
     shutil.rmtree(dist_dir, ignore_errors=True)
     os.chdir(proj_dir)
     os.system(py_bin + " -m build .")
