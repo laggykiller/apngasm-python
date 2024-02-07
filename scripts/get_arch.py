@@ -30,7 +30,8 @@ def get_arch():
 
 def main():
     arch = get_arch()
-    if compile_target := os.getenv("APNGASM_COMPILE_TARGET"):
+    compile_target = os.getenv("APNGASM_COMPILE_TARGET")
+    if compile_target:
         sys.stdout.write(compile_target)
     else:
         sys.stdout.write(arch)
