@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from typing import Optional, Any, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
+    from PIL import Image
+
 from . import (
     APNGAsm,
     APNGFrame,
@@ -7,26 +13,7 @@ from . import (
     create_frame_from_rgb,
     create_frame_from_rgb_trns,
     create_frame_from_rgba,
-    __version__, # type: ignore
 )
-
-try:
-    import numpy
-    import numpy.typing
-
-    NUMPY_LOADED = True
-except ModuleNotFoundError:
-    NUMPY_LOADED = False # type: ignore
-
-try:
-    from PIL import Image
-
-    PILLOW_LOADED = True
-except ModuleNotFoundError:
-    PILLOW_LOADED = False # type: ignore
-
-from typing import Optional, Any
-
 
 class APNGAsmBinder:
     """
@@ -45,55 +32,56 @@ class APNGAsmBinder:
     def __exit__(self, exc_type, exc_val, exc_tb): # type: ignore
         self.apngasm.reset()
 
-    if PILLOW_LOADED and NUMPY_LOADED:
+    def frame_pixels_as_pillow(
+        self, frame: int, new_value: Optional[Image.Image] = None
+    ) -> Optional[Image.Image]:
+        """
+        Get/Set the raw pixel data of frame, expressed as a Pillow object.
+        This should be set AFTER you set the width, height and color_type.
 
-        def frame_pixels_as_pillow(
-            self, frame: int, new_value: Optional[Image.Image] = None
-        ) -> Optional[Image.Image]:
-            """
-            Get/Set the raw pixel data of frame, expressed as a Pillow object.
-            This should be set AFTER you set the width, height and color_type.
+        :param int frame: Target frame number.
+        :param Optional[PIL.Image.Image] new_value: If set, then the raw pixel data of frame
+            is set with this value.
 
-            :param int frame: Target frame number.
-            :param Optional[PIL.Image.Image] new_value: If set, then the raw pixel data of frame
-                is set with this value.
+        :return: Pillow image object of the frame (get) or None (set)
+        :rtype: Optional[PIL.Image.Image]
+        """
+        from numpy import array
+        from PIL import Image
 
-            :return: Pillow image object of the frame (get) or None (set)
-            :rtype: Optional[PIL.Image.Image]
-            """
-            if new_value:
-                self.apngasm.get_frames()[frame].pixels = numpy.array(new_value) # type: ignore
-            else:
-                mode = self.color_type_dict[self.apngasm.get_frames()[frame].color_type]
-                return Image.frombytes( # type: ignore
-                    mode,
-                    (
-                        self.apngasm.get_frames()[frame].width,
-                        self.apngasm.get_frames()[frame].height,
-                    ),
-                    self.apngasm.get_frames()[frame].pixels,
-                )
+        if new_value:
+            self.apngasm.get_frames()[frame].pixels = array(new_value)
+        else:
+            mode = self.color_type_dict[self.apngasm.get_frames()[frame].color_type]
+            return Image.frombytes( # type: ignore
+                mode,
+                (
+                    self.apngasm.get_frames()[frame].width,
+                    self.apngasm.get_frames()[frame].height,
+                ),
+                self.apngasm.get_frames()[frame].pixels,
+            )
 
-    if NUMPY_LOADED:
+    def frame_pixels_as_numpy(
+        self, frame: int, new_value: Optional[NDArray[Any]] = None
+    ) -> Optional[NDArray[Any]]:
+        """
+        Get/Set the raw pixel data of frame, expressed as a 3D numpy array.
+        This should be set AFTER you set the width, height and color_type.
 
-        def frame_pixels_as_numpy(
-            self, frame: int, new_value: Optional[numpy.typing.NDArray[Any]] = None
-        ) -> Optional[numpy.typing.NDArray[Any]]:
-            """
-            Get/Set the raw pixel data of frame, expressed as a 3D numpy array.
-            This should be set AFTER you set the width, height and color_type.
+        :param int frame: Target frame number.
+        :param Optional[NDArray] new_value: If set, then the raw pixel data of frame
+            is set with this value.
 
-            :param int frame: Target frame number.
-            :param Optional[numpy.typing.NDArray] new_value: If set, then the raw pixel data of frame
-                is set with this value.
+        :return: 3D numpy array representation of raw pixel data of frame (get) or None (set)
+        :rtype: Optional[NDArray]
+        """
+        from numpy import array
 
-            :return: 3D numpy array representation of raw pixel data of frame (get) or None (set)
-            :rtype: Optional[numpy.typing.NDArray]
-            """
-            if new_value:
-                self.apngasm.get_frames()[frame].pixels = new_value
-            else:
-                return numpy.array(self.apngasm.get_frames()[frame].pixels) # type: ignore
+        if new_value:
+            self.apngasm.get_frames()[frame].pixels = new_value
+        else:
+            return array(self.apngasm.get_frames()[frame].pixels)
 
     def frame_width(self, frame: int, new_value: Optional[int] = None) -> Optional[int]:
         """
@@ -153,46 +141,48 @@ class APNGAsmBinder:
         else:
             return self.apngasm.get_frames()[frame].color_type
 
-    if NUMPY_LOADED:
+    def frame_palette(
+        self, frame: int, new_value: Optional[NDArray[Any]] = None
+    ) -> Optional[NDArray[Any]]:
+        """
+        Get/Set the palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA)
+        Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]]
 
-        def frame_palette(
-            self, frame: int, new_value: Optional[numpy.typing.NDArray[Any]] = None
-        ) -> Optional[numpy.typing.NDArray[Any]]:
-            """
-            Get/Set the palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA)
-            Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]]
+        :param int frame: Target frame number.
+        :param Optional[NDArray] new_value: If set, then the palette data of frame
+            is set with this value.
 
-            :param int frame: Target frame number.
-            :param Optional[numpy.typing.NDArray] new_value: If set, then the palette data of frame
-                is set with this value.
+        :return: 2D numpy array representation of palette data of frame (get) or None (set)
+        :rtype: Optional[NDArray]
+        """
+        from numpy import array
 
-            :return: 2D numpy array representation of palette data of frame (get) or None (set)
-            :rtype: Optional[numpy.typing.NDArray]
-            """
-            if new_value:
-                self.apngasm.get_frames()[frame].palette = new_value
-            else:
-                return numpy.array(self.apngasm.get_frames()[frame].palette) # type: ignore
+        if new_value:
+            self.apngasm.get_frames()[frame].palette = new_value
+        else:
+            return array(self.apngasm.get_frames()[frame].palette)
 
-        def frame_transparency(
-            self, frame: int, new_value: Optional[numpy.typing.NDArray[Any]] = None
-        ) -> Optional[numpy.typing.NDArray[Any]]:
-            """
-            Get/Set the color [r, g, b] to be treated as transparent in the frame, expressed as 1D numpy array.
-            For more info, refer to 'tRNS Transparency' in
-            http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
+    def frame_transparency(
+        self, frame: int, new_value: Optional[NDArray[Any]] = None
+    ) -> Optional[NDArray[Any]]:
+        """
+        Get/Set the color [r, g, b] to be treated as transparent in the frame, expressed as 1D numpy array.
+        For more info, refer to 'tRNS Transparency' in
+        http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
 
-            :param int frame: Target frame number.
-            :param Optional[numpy.typing.NDArray] new_value: If set, then the transparency of frame
-                is set with this value.
+        :param int frame: Target frame number.
+        :param Optional[NDArray] new_value: If set, then the transparency of frame
+            is set with this value.
 
-            :return: The color [r, g, b] to be treated as transparent in the frame (get) or None (set)
-            :rtype: Optional[numpy.typing.NDArray]
-            """
-            if new_value:
-                self.apngasm.get_frames()[frame].transparency = new_value
-            else:
-                return numpy.array(self.apngasm.get_frames()[frame].transparency) # type: ignore
+        :return: The color [r, g, b] to be treated as transparent in the frame (get) or None (set)
+        :rtype: Optional[NDArray]
+        """
+        from numpy import array
+
+        if new_value:
+            self.apngasm.get_frames()[frame].transparency = new_value
+        else:
+            return array(self.apngasm.get_frames()[frame].transparency)
 
     def frame_palette_size(
         self, frame: int, new_value: Optional[int] = None
@@ -285,116 +275,117 @@ class APNGAsmBinder:
             file_path=file_path, delay_num=delay_num, delay_den=delay_den
         )
 
-    if PILLOW_LOADED and NUMPY_LOADED:
+    def add_frame_from_pillow(
+        self, pillow_image: Image.Image, delay_num: int = 100, delay_den: int = 1000
+    ) -> int:
+        """
+        Add a frame from Pillow image.
+        The frame duration is equal to delay_num / delay_den seconds.
+        Default frame duration is 100/1000 second, or 0.1 second.
 
-        def add_frame_from_pillow(
-            self, pillow_image: Image.Image, delay_num: int = 100, delay_den: int = 1000
-        ) -> int:
-            """
-            Add a frame from Pillow image.
-            The frame duration is equal to delay_num / delay_den seconds.
-            Default frame duration is 100/1000 second, or 0.1 second.
+        :param PIL.Image.Image pillow_image: Pillow image object.
+        :param int delay_num: The delay numerator for this frame (defaults to 100).
+        :param int delay_den: The delay denominator for this frame (defaults to 1000).
 
-            :param PIL.Image.Image pillow_image: Pillow image object.
-            :param int delay_num: The delay numerator for this frame (defaults to 100).
-            :param int delay_den: The delay denominator for this frame (defaults to 1000).
+        :return: The new number of frames.
+        :rtype: int
+        """
+        from numpy import array
 
-            :return: The new number of frames.
-            :rtype: int
-            """
-            if pillow_image.mode not in ("RGB", "RGBA"):
-                pillow_image = pillow_image.convert("RGBA")
-            return self.add_frame_from_numpy( # type: ignore
-                numpy_data=numpy.array(pillow_image), # type: ignore
-                width=pillow_image.width,
-                height=pillow_image.height,
-                mode=pillow_image.mode,
-                delay_num=delay_num,
-                delay_den=delay_den,
-            )
+        if pillow_image.mode not in ("RGB", "RGBA"):
+            pillow_image = pillow_image.convert("RGBA")
+        return self.add_frame_from_numpy(
+            numpy_data=array(pillow_image),
+            width=pillow_image.width,
+            height=pillow_image.height,
+            mode=pillow_image.mode,
+            delay_num=delay_num,
+            delay_den=delay_den,
+        )
 
-    if NUMPY_LOADED:
+    def add_frame_from_numpy(
+        self,
+        numpy_data: NDArray[Any],
+        width: Optional[int] = None,
+        height: Optional[int] = None,
+        trns_color: Optional[NDArray[Any]] = None,
+        mode: Optional[str] = None,
+        delay_num: int = 100,
+        delay_den: int = 1000,
+    ) -> int:
+        """
+        Add frame from numpy array.
+        The frame duration is equal to delay_num / delay_den seconds.
+        Default frame duration is 100/1000 second, or 0.1 second.
 
-        def add_frame_from_numpy(
-            self,
-            numpy_data: numpy.typing.NDArray[Any],
-            width: Optional[int] = None,
-            height: Optional[int] = None,
-            trns_color: Optional[numpy.typing.NDArray[Any]] = None,
-            mode: Optional[str] = None,
-            delay_num: int = 100,
-            delay_den: int = 1000,
-        ) -> int:
-            """
-            Add frame from numpy array.
-            The frame duration is equal to delay_num / delay_den seconds.
-            Default frame duration is 100/1000 second, or 0.1 second.
+        :param NDArray numpy_data: The pixel data, expressed as 3D numpy array.
+        :param Optional[int] width: The width of the pixel data.
+            If not given, the 2nd dimension size of numpy_data is used.
+        :param Optional[int] height: The height of the pixel data.
+            If not given, the 1st dimension size of numpy_data is used.
+        :param Optional[str] mode: The color mode of data. Possible values are RGB or RGBA.
+            If not given, it is determined using the 3rd dimension size of numpy_data.
+        :param Optional[NDArray] trns_color: The color [r, g, b] to be treated as transparent, expressed as 1D numpy array.
+            Only use if RGB mode.
+        :param int delay_num: The delay numerator for this frame (defaults to 100).
+        :param int delay_den: The delay denominator for this frame (defaults to 1000).
 
-            :param numpy.typing.NDArray numpy_data: The pixel data, expressed as 3D numpy array.
-            :param Optional[int] width: The width of the pixel data.
-                If not given, the 2nd dimension size of numpy_data is used.
-            :param Optional[int] height: The height of the pixel data.
-                If not given, the 1st dimension size of numpy_data is used.
-            :param Optional[str] mode: The color mode of data. Possible values are RGB or RGBA.
-                If not given, it is determined using the 3rd dimension size of numpy_data.
-            :param Optional[numpy.typing.NDArray] trns_color: The color [r, g, b] to be treated as transparent, expressed as 1D numpy array.
-                Only use if RGB mode.
-            :param int delay_num: The delay numerator for this frame (defaults to 100).
-            :param int delay_den: The delay denominator for this frame (defaults to 1000).
+        :return: The new number of frames.
+        :rtype: int
+        """
+        from numpy import shape
+        from numpy.typing import NDArray
 
-            :return: The new number of frames.
-            :rtype: int
-            """
-            width = width if width else numpy.shape(numpy_data)[1] # type: ignore
-            height = height if height else numpy.shape(numpy_data)[0] # type: ignore
+        width = width if width else shape(numpy_data)[1]
+        height = height if height else shape(numpy_data)[0]
 
-            if not mode:
-                if numpy.shape(numpy_data)[2] == 3: # type: ignore
-                    mode = "RGB"
-                elif numpy.shape(numpy_data)[2] == 4: # type: ignore
-                    mode = "RGBA"
-                else:
-                    raise TypeError(
-                        "Cannot determine mode from numpy_data. "
-                        "expected 3rd dimension size to be 3 (RGB) or 4 (RGBA). "
-                        "The given numpy_data 3rd dimension size was "
-                        f"{numpy.shape(numpy_data)[2]}." # type: ignore
-                    )
+        if not mode:
+            if shape(numpy_data)[2] == 3:
+                mode = "RGB"
+            elif shape(numpy_data)[2] == 4:
+                mode = "RGBA"
+            else:
+                raise TypeError(
+                    "Cannot determine mode from numpy_data. "
+                    "expected 3rd dimension size to be 3 (RGB) or 4 (RGBA). "
+                    "The given numpy_data 3rd dimension size was "
+                    f"{shape(numpy_data)[2]}."
+                )
 
-            if mode == "RGB":
-                if type(trns_color) == numpy.typing.NDArray: # type: ignore
-                    frame = create_frame_from_rgb_trns(
-                        pixels=numpy_data,
-                        width=width,
-                        height=height,
-                        trns_color=trns_color,
-                        delay_num=delay_num,
-                        delay_den=delay_den,
-                    )
-                else:
-                    frame = create_frame_from_rgb(
-                        pixels=numpy_data,
-                        width=width,
-                        height=height,
-                        delay_num=delay_num,
-                        delay_den=delay_den,
-                    )
-            elif mode == "RGBA":
-                if type(trns_color) == numpy.typing.NDArray: # type: ignore
-                    raise TypeError(
-                        "Cannot set trns_color on RGBA mode Pillow object. Must be RGB."
-                    )
-                frame = create_frame_from_rgba(
+        if mode == "RGB":
+            if type(trns_color) == NDArray:
+                frame = create_frame_from_rgb_trns(
+                    pixels=numpy_data,
+                    width=width,
+                    height=height,
+                    trns_color=trns_color,
+                    delay_num=delay_num,
+                    delay_den=delay_den,
+                )
+            else:
+                frame = create_frame_from_rgb(
                     pixels=numpy_data,
                     width=width,
                     height=height,
                     delay_num=delay_num,
                     delay_den=delay_den,
                 )
-            else:
-                raise TypeError(f"Invalid mode: {mode}. Must be RGB or RGBA.")
+        elif mode == "RGBA":
+            if type(trns_color) == NDArray:
+                raise TypeError(
+                    "Cannot set trns_color on RGBA mode Pillow object. Must be RGB."
+                )
+            frame = create_frame_from_rgba(
+                pixels=numpy_data,
+                width=width,
+                height=height,
+                delay_num=delay_num,
+                delay_den=delay_den,
+            )
+        else:
+            raise TypeError(f"Invalid mode: {mode}. Must be RGB or RGBA.")
 
-            return self.apngasm.add_frame(frame)
+        return self.apngasm.add_frame(frame)
 
     def assemble(self, output_path: str) -> bool:
         """
@@ -407,45 +398,45 @@ class APNGAsmBinder:
         """
         return self.apngasm.assemble(output_path)
 
-    if NUMPY_LOADED:
+    def disassemble_as_numpy(self, file_path: str) -> list[NDArray[Any]]:
+        """
+        Disassembles an APNG file to a list of frames, expressed as 3D numpy array.
 
-        def disassemble_as_numpy(self, file_path: str) -> list[numpy.typing.NDArray[Any]]:
-            """
-            Disassembles an APNG file to a list of frames, expressed as 3D numpy array.
+        :param str file_path: The file path to the PNG image to be disassembled.
 
-            :param str file_path: The file path to the PNG image to be disassembled.
+        :return: A list containing the frames of the disassembled PNG.
+        :rtype: list[apngasm_python.APNGFrame]
+        """
+        from numpy import array
 
-            :return: A list containing the frames of the disassembled PNG.
-            :rtype: list[apngasm_python._apngasm_python.APNGFrame]
-            """
-            frames = self.apngasm.disassemble(file_path)
-            frames_numpy: list[numpy.typing.NDArray[Any]] = []
-            for frame in frames:
-                frames_numpy.append(numpy.array(frame.pixels)) # type: ignore
+        frames = self.apngasm.disassemble(file_path)
+        frames_numpy: list[NDArray[Any]] = []
+        for frame in frames:
+            frames_numpy.append(array(frame.pixels))
 
-            return frames_numpy
+        return frames_numpy
 
-    if PILLOW_LOADED:
+    def disassemble_as_pillow(self, file_path: str) -> list[Image.Image]:
+        """
+        Disassembles an APNG file to a list of frames, expressed as Pillow images.
 
-        def disassemble_as_pillow(self, file_path: str) -> list[Image.Image]:
-            """
-            Disassembles an APNG file to a list of frames, expressed as Pillow images.
+        :param str file_path: The file path to the PNG image to be disassembled.
 
-            :param str file_path: The file path to the PNG image to be disassembled.
+        :return: A list containing the frames of the disassembled PNG.
+        :rtype: list[Image.Image]
+        """
+        from PIL import Image
 
-            :return: A list containing the frames of the disassembled PNG.
-            :rtype: list[Image.Image]
-            """
-            frames = self.apngasm.disassemble(file_path)
-            frames_pillow: list[Image.Image] = []
-            for frame in frames:
-                mode = self.color_type_dict[frame.color_type]
-                frame_pillow = Image.frombytes( # type: ignore
-                    mode, (frame.width, frame.height), frame.pixels
-                )
-                frames_pillow.append(frame_pillow)
+        frames = self.apngasm.disassemble(file_path)
+        frames_pillow: list[Image.Image] = []
+        for frame in frames:
+            mode = self.color_type_dict[frame.color_type]
+            frame_pillow = Image.frombytes( # type: ignore
+                mode, (frame.width, frame.height), frame.pixels
+            )
+            frames_pillow.append(frame_pillow)
 
-            return frames_pillow
+        return frames_pillow
 
     def save_pngs(self, output_dir: str) -> bool:
         """
@@ -469,7 +460,7 @@ class APNGAsmBinder:
         :param str file_path: The path of JSON or XML file.
 
         :return: A vector containing the loaded frames.
-        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
+        :rtype: list[apngasm_python.APNGFrame]
         """
         return self.apngasm.load_animation_spec(file_path)
 
@@ -505,7 +496,7 @@ class APNGAsmBinder:
         Sets a listener.
         You probably won't need to use this function.
 
-        :param Optional[apngasm_python._apngasm_python.IAPNGAsmListener] listener: A pointer to the listener object.
+        :param Optional[apngasm_python.IAPNGAsmListener] listener: A pointer to the listener object.
             If the argument is None,
             a default APNGAsmListener will be created and assigned.
         """
@@ -533,7 +524,7 @@ class APNGAsmBinder:
         Returns the frame vector.
 
         :return: frame vector.
-        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
+        :rtype: list[apngasm_python.APNGFrame]
         """
         return self.apngasm.get_frames()
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from apngasm_python._apngasm_python import (
+from apngasm_python import (
     APNGAsm,
     APNGFrame,
     create_frame_from_rgb,
@@ -12,7 +12,7 @@ from PIL import Image
 import numpy as np
 
 
-def frame_info(frame):
+def frame_info(frame: APNGFrame):
     print(f"{frame.pixels = }")
     print(f"{frame.width = }")
     print(f"{frame.height = }")
@@ -53,7 +53,7 @@ frame.save("output/elephant-frame.png")
 
 # Getting one frame as Pillow Image
 mode = color_type_dict[frame.color_type]
-im = Image.frombytes(mode, (frame.width, frame.height), frame.pixels)
+im = Image.frombytes(mode, (frame.width, frame.height), frame.pixels) # type: ignore
 im.save("output/elephant-frame-pillow.png")
 
 # Get inforamtion about whole animation
@@ -74,7 +74,7 @@ print(f"{len(frames) = }")
 frame = frames[0]
 frame_info(frame)
 mode = color_type_dict[frame.color_type]
-im = Image.frombytes(mode, (frame.width, frame.height), frame.pixels)
+im = Image.frombytes(mode, (frame.width, frame.height), frame.pixels) # type: ignore
 im.save("output/ball0.png")
 
 # Disassemble all APNG into PNGs

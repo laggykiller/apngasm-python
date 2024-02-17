@@ -33,9 +33,9 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 autoapi_dirs = [
     os.path.abspath("../src-python/apngasm_python"),
-    os.path.abspath("../src-python/apngasm_python/_apngasm_python"),
 ]
 autoapi_python_use_implicit_namespaces = True
+autoapi_file_patterns = ["*.pyi", "*.py"]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
@@ -44,7 +44,7 @@ html_theme = "sphinx_immaterial"
 html_static_path = ["_static"]
 # material theme options (see theme.conf for more information)
 html_theme_options = {
-    "repo_name": "rlottie-python",
+    "repo_name": "apngasm-python",
     "globaltoc_collapse": True,
     "features": [
         "navigation.expand",

@@ -1,16 +1,22 @@
 # apngasm-python
 
-A nanobind API for [apngasm](https://github.com/apngasm/apngasm), a tool/library for APNG assembly/disassembly.
+A nanobind API for [apngasm](https://github.com/apngasm/apngasm), a tool/library for 
+APNG assembly/disassembly.
 
-apngasm is originally a CLI program for quickly assembling PNG images into animated PNG (APNG). It also supports creating compressed APNG.
+apngasm is originally a CLI program for quickly assembling PNG images into 
+animated PNG (APNG). It also supports creating compressed APNG.
 
-apngasm-python is a binding for apngasm using nanobind, allowing you to use apngasm without calling it using commands.
+apngasm-python is a binding for apngasm using nanobind, allowing you to use apngasm 
+without calling it using commands.
 
-With this module, you can even create APNG using images inside memory (No need to write them out as file and call apngasm! This is about 2 times faster from testing.)
+With this module, you can even create APNG using images inside memory (No need to write 
+them out as file and call apngasm! This is about 2 times faster from testing.)
 
-A similar python module is https://github.com/eight04/pyAPNG , which handles APNG files with python natively and does not support compression.
+A similar python module is https://github.com/eight04/pyAPNG , which handles APNG files 
+with python natively and does not support compression.
 
-For convenience, prebuilt library is packaged with this module, so you need not download apngasm.
+For convenience, prebuilt library is packaged with this module, so you need not 
+download apngasm.
 
 Documentations: https://apngasm-python.readthedocs.io/en/latest/
 
@@ -25,7 +31,8 @@ pip install Pillow numpy
 ```
 
 ## Example usage
-The recommended usage is to `from apngasm_python.apngasm import APNGAsmBinder`, see [example/example_binder.py](example/example_binder.py)
+The recommended usage is to `from apngasm_python.apngasm import APNGAsmBinder`, see 
+[example/example_binder.py](example/example_binder.py)
 ```python
 from apngasm_python.apngasm import APNGAsmBinder
 import numpy as np
@@ -64,9 +71,10 @@ with APNGAsmBinder() as apng:
 apngasm.save_pngs('output')
 ```
 
-Alternatively, you can reduce overhead and do advanced tasks by calling methods directly, see [example/example_direct.py](example/example_direct.py)
+Alternatively, you can reduce overhead and do advanced tasks by calling methods 
+directly, see [example/example_direct.py](example/example_direct.py)
 ```python
-from apngasm_python._apngasm_python import APNGAsm, APNGFrame, create_frame_from_rgb, create_frame_from_rgba
+from apngasm_python import APNGAsm, APNGFrame, create_frame_from_rgb, create_frame_from_rgba
 import numpy as np
 from PIL import Image
 import os
@@ -105,7 +113,8 @@ im.save('output/ball0.png')
 apngasm.save_pngs('output')
 ```
 
-The methods are based on [apngasm.h](https://github.com/apngasm/apngasm/blob/master/lib/src/apngasm.h) and [apngframe.h](https://github.com/apngasm/apngasm/blob/master/lib/src/apngframe.h)
+The methods are based on [apngasm.h](https://github.com/apngasm/apngasm/blob/master/lib/src/apngasm.h) 
+and [apngframe.h](https://github.com/apngasm/apngasm/blob/master/lib/src/apngframe.h)
 
 You can get more info about the binding from [src/apngasm_python.cpp](src/apngasm_python.cpp), or by...
 
