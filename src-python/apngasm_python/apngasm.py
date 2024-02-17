@@ -15,6 +15,7 @@ from . import (
     create_frame_from_rgba,
 )
 
+
 class APNGAsmBinder:
     """
     Python class for binding apngasm library
@@ -29,7 +30,7 @@ class APNGAsmBinder:
     def __enter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb): # type: ignore
+    def __exit__(self, exc_type, exc_val, exc_tb):  # type: ignore
         self.apngasm.reset()
 
     def frame_pixels_as_pillow(
@@ -53,7 +54,7 @@ class APNGAsmBinder:
             self.apngasm.get_frames()[frame].pixels = array(new_value)
         else:
             mode = self.color_type_dict[self.apngasm.get_frames()[frame].color_type]
-            return Image.frombytes( # type: ignore
+            return Image.frombytes(  # type: ignore
                 mode,
                 (
                     self.apngasm.get_frames()[frame].width,
@@ -431,7 +432,7 @@ class APNGAsmBinder:
         frames_pillow: list[Image.Image] = []
         for frame in frames:
             mode = self.color_type_dict[frame.color_type]
-            frame_pillow = Image.frombytes( # type: ignore
+            frame_pillow = Image.frombytes(  # type: ignore
                 mode, (frame.width, frame.height), frame.pixels
             )
             frames_pillow.append(frame_pillow)
@@ -491,7 +492,7 @@ class APNGAsmBinder:
         """
         return self.apngasm.save_xml(output_path, image_dir)
 
-    def set_apng_asm_listener(self, listener: Optional[IAPNGAsmListener] = None): # type: ignore
+    def set_apng_asm_listener(self, listener: Optional[IAPNGAsmListener] = None):  # type: ignore
         """
         Sets a listener.
         You probably won't need to use this function.
