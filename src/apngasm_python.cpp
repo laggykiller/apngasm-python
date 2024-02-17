@@ -32,7 +32,9 @@ std::map<int, size_t> rowbytesMap = {
     { 6, 4 }  // RGBA
 };
 
-NB_MODULE(MODULE_NAME, m) {
+NB_MODULE(MODULE_NAME, m_) {
+    (void) m_; /* unused */
+    nb::module_ m = nb::module_::import_("apngasm_python");
     m.doc() = "A nanobind API for apngasm, a tool/library for APNG assembly/disassembly";
     m.attr("__version__") = VERSION_INFO;
 
@@ -423,7 +425,7 @@ NB_MODULE(MODULE_NAME, m) {
         )pbdoc")
 
         .def("add_frame_from_rgb", nb::overload_cast<apngasm::rgb *, unsigned int, unsigned int, apngasm::rgb *, unsigned, unsigned>(&apngasm::APNGAsm::addFrame),
-        "pixels_rgb"_a, "width"_a, "height"_a, "trns_color"_a = NULL, "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
+        "pixels_rgb"_a, "width"_a, "height"_a, "trns_color"_a.none() = NULL, "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
         R"pbdoc(
         Adds an APNGFrame object to the vector.
         Not possible to use in Python. As alternative,

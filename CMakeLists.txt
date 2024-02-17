@@ -114,10 +114,11 @@ install(TARGETS _apngasm_python
         COMPONENT python_modules)
 
 # Generate stubs for the Python module
-# nanobind_add_stub(
-#     apngasm_python_stub
-#     MODULE apngasm_python._apngasm_python
-#     OUTPUT src-python/apngasm_python/_apngasm_python.pyi
-#     MARKER_FILE src-python/apngasm_python/py.typed
-#     VERBOSE
-# )
+nanobind_add_stub(
+    apngasm_python_stub
+    INSTALL_TIME
+    MODULE apngasm_python
+    OUTPUT __init__.pyi
+    MARKER_FILE py.typed
+    VERBOSE
+)

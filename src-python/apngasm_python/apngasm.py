@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-from ._apngasm_python import (
+from . import (
     APNGAsm,
     APNGFrame,
     IAPNGAsmListener,
     create_frame_from_rgb,
     create_frame_from_rgb_trns,
     create_frame_from_rgba,
+    __version__, # type: ignore
 )
-from ._apngasm_python import __version__ # type: ignore
 
 try:
     import numpy
@@ -16,14 +16,14 @@ try:
 
     NUMPY_LOADED = True
 except ModuleNotFoundError:
-    NUMPY_LOADED = False
+    NUMPY_LOADED = False # type: ignore
 
 try:
     from PIL import Image
 
     PILLOW_LOADED = True
 except ModuleNotFoundError:
-    PILLOW_LOADED = False
+    PILLOW_LOADED = False # type: ignore
 
 from typing import Optional, Any
 
@@ -45,7 +45,7 @@ class APNGAsmBinder:
     def __exit__(self, exc_type, exc_val, exc_tb): # type: ignore
         self.apngasm.reset()
 
-    if PILLOW_LOADED:
+    if PILLOW_LOADED and NUMPY_LOADED:
 
         def frame_pixels_as_pillow(
             self, frame: int, new_value: Optional[Image.Image] = None
@@ -62,10 +62,10 @@ class APNGAsmBinder:
             :rtype: Optional[PIL.Image.Image]
             """
             if new_value:
-                self.apngasm.get_frames()[frame].pixels = numpy.array(new_value)
+                self.apngasm.get_frames()[frame].pixels = numpy.array(new_value) # type: ignore
             else:
                 mode = self.color_type_dict[self.apngasm.get_frames()[frame].color_type]
-                return Image.frombytes(
+                return Image.frombytes( # type: ignore
                     mode,
                     (
                         self.apngasm.get_frames()[frame].width,
@@ -93,7 +93,7 @@ class APNGAsmBinder:
             if new_value:
                 self.apngasm.get_frames()[frame].pixels = new_value
             else:
-                return self.apngasm.get_frames()[frame].pixels
+                return numpy.array(self.apngasm.get_frames()[frame].pixels) # type: ignore
 
     def frame_width(self, frame: int, new_value: Optional[int] = None) -> Optional[int]:
         """
@@ -172,7 +172,7 @@ class APNGAsmBinder:
             if new_value:
                 self.apngasm.get_frames()[frame].palette = new_value
             else:
-                return self.apngasm.get_frames()[frame].palette
+                return numpy.array(self.apngasm.get_frames()[frame].palette) # type: ignore
 
         def frame_transparency(
             self, frame: int, new_value: Optional[numpy.typing.NDArray[Any]] = None
@@ -192,7 +192,7 @@ class APNGAsmBinder:
             if new_value:
                 self.apngasm.get_frames()[frame].transparency = new_value
             else:
-                return self.apngasm.get_frames()[frame].transparency
+                return numpy.array(self.apngasm.get_frames()[frame].transparency) # type: ignore
 
     def frame_palette_size(
         self, frame: int, new_value: Optional[int] = None
@@ -285,7 +285,7 @@ class APNGAsmBinder:
             file_path=file_path, delay_num=delay_num, delay_den=delay_den
         )
 
-    if PILLOW_LOADED:
+    if PILLOW_LOADED and NUMPY_LOADED:
 
         def add_frame_from_pillow(
             self, pillow_image: Image.Image, delay_num: int = 100, delay_den: int = 1000
@@ -304,8 +304,8 @@ class APNGAsmBinder:
             """
             if pillow_image.mode not in ("RGB", "RGBA"):
                 pillow_image = pillow_image.convert("RGBA")
-            return self.add_frame_from_numpy(
-                numpy_data=numpy.array(pillow_image),
+            return self.add_frame_from_numpy( # type: ignore
+                numpy_data=numpy.array(pillow_image), # type: ignore
                 width=pillow_image.width,
                 height=pillow_image.height,
                 mode=pillow_image.mode,
@@ -317,10 +317,10 @@ class APNGAsmBinder:
 
         def add_frame_from_numpy(
             self,
-            numpy_data: numpy.typing.NDArray,
+            numpy_data: numpy.typing.NDArray[Any],
             width: Optional[int] = None,
             height: Optional[int] = None,
-            trns_color: Optional[numpy.typing.NDArray] = None,
+            trns_color: Optional[numpy.typing.NDArray[Any]] = None,
             mode: Optional[str] = None,
             delay_num: int = 100,
             delay_den: int = 1000,
@@ -345,23 +345,24 @@ class APNGAsmBinder:
             :return: The new number of frames.
             :rtype: int
             """
-            width = width if width else numpy.shape(numpy_data)[1]
-            height = height if height else numpy.shape(numpy_data)[0]
+            width = width if width else numpy.shape(numpy_data)[1] # type: ignore
+            height = height if height else numpy.shape(numpy_data)[0] # type: ignore
 
             if not mode:
-                if numpy.shape(numpy_data)[2] == 3:
+                if numpy.shape(numpy_data)[2] == 3: # type: ignore
                     mode = "RGB"
-                elif numpy.shape(numpy_data)[2] == 4:
+                elif numpy.shape(numpy_data)[2] == 4: # type: ignore
                     mode = "RGBA"
                 else:
                     raise TypeError(
                         "Cannot determine mode from numpy_data. "
                         "expected 3rd dimension size to be 3 (RGB) or 4 (RGBA). "
-                        f"The given numpy_data 3rd dimension size was {numpy.shape(numpy_data)[2]}."
+                        "The given numpy_data 3rd dimension size was "
+                        f"{numpy.shape(numpy_data)[2]}." # type: ignore
                     )
 
             if mode == "RGB":
-                if type(trns_color) == numpy.typing.NDArray:
+                if type(trns_color) == numpy.typing.NDArray: # type: ignore
                     frame = create_frame_from_rgb_trns(
                         pixels=numpy_data,
                         width=width,
@@ -379,7 +380,7 @@ class APNGAsmBinder:
                         delay_den=delay_den,
                     )
             elif mode == "RGBA":
-                if type(trns_color) == numpy.typing.NDArray:
+                if type(trns_color) == numpy.typing.NDArray: # type: ignore
                     raise TypeError(
                         "Cannot set trns_color on RGBA mode Pillow object. Must be RGB."
                     )
@@ -406,36 +407,45 @@ class APNGAsmBinder:
         """
         return self.apngasm.assemble(output_path)
 
-    def disassemble_as_numpy(self, file_path: str) -> list[APNGFrame]:
-        """
-        Disassembles an APNG file to a list of frames, expressed as 3D numpy array.
+    if NUMPY_LOADED:
 
-        :param str file_path: The file path to the PNG image to be disassembled.
+        def disassemble_as_numpy(self, file_path: str) -> list[numpy.typing.NDArray[Any]]:
+            """
+            Disassembles an APNG file to a list of frames, expressed as 3D numpy array.
 
-        :return: A list containing the frames of the disassembled PNG.
-        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
-        """
-        return self.apngasm.disassemble(file_path)
+            :param str file_path: The file path to the PNG image to be disassembled.
 
-    def disassemble_as_pillow(self, file_path: str) -> list[APNGFrame]:
-        """
-        Disassembles an APNG file to a list of frames, expressed as Pillow images.
+            :return: A list containing the frames of the disassembled PNG.
+            :rtype: list[apngasm_python._apngasm_python.APNGFrame]
+            """
+            frames = self.apngasm.disassemble(file_path)
+            frames_numpy: list[numpy.typing.NDArray[Any]] = []
+            for frame in frames:
+                frames_numpy.append(numpy.array(frame.pixels)) # type: ignore
 
-        :param str file_path: The file path to the PNG image to be disassembled.
+            return frames_numpy
 
-        :return: A list containing the frames of the disassembled PNG.
-        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
-        """
-        frames_numpy = self.apngasm.disassemble(file_path)
-        frames_pillow = []
-        for frame in frames_numpy:
-            mode = self.color_type_dict[frame.color_type]
-            frame_pillow = Image.frombytes(
-                mode, (frame.width, frame.height), frame.pixels
-            )
-            frames_pillow.append(frame_pillow)
+    if PILLOW_LOADED:
 
-        return frames_pillow
+        def disassemble_as_pillow(self, file_path: str) -> list[Image.Image]:
+            """
+            Disassembles an APNG file to a list of frames, expressed as Pillow images.
+
+            :param str file_path: The file path to the PNG image to be disassembled.
+
+            :return: A list containing the frames of the disassembled PNG.
+            :rtype: list[Image.Image]
+            """
+            frames = self.apngasm.disassemble(file_path)
+            frames_pillow: list[Image.Image] = []
+            for frame in frames:
+                mode = self.color_type_dict[frame.color_type]
+                frame_pillow = Image.frombytes( # type: ignore
+                    mode, (frame.width, frame.height), frame.pixels
+                )
+                frames_pillow.append(frame_pillow)
+
+            return frames_pillow
 
     def save_pngs(self, output_dir: str) -> bool:
         """
@@ -490,7 +500,7 @@ class APNGAsmBinder:
         """
         return self.apngasm.save_xml(output_path, image_dir)
 
-    def set_apng_asm_listener(self, listener: Optional[IAPNGAsmListener] = None):
+    def set_apng_asm_listener(self, listener: Optional[IAPNGAsmListener] = None): # type: ignore
         """
         Sets a listener.
         You probably won't need to use this function.
