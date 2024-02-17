@@ -31,10 +31,10 @@ pip install Pillow numpy
 ```
 
 ## Example usage
-The recommended usage is to `from apngasm_python.apngasm import APNGAsmBinder`, see 
+The recommended usage is to `from apngasm_python import APNGAsmBinder`, see 
 [example/example_binder.py](example/example_binder.py)
 ```python
-from apngasm_python.apngasm import APNGAsmBinder
+from apngasm_python import APNGAsmBinder
 import numpy as np
 from PIL import Image
 import os
