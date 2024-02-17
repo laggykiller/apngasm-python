@@ -114,23 +114,10 @@ install(TARGETS _apngasm_python
         COMPONENT python_modules)
 
 # Generate stubs for the Python module
-# option(WITH_PY_STUBS
-#     "Generate Python stub files (.pyi) for the Python module." On)
-# if (WITH_PY_STUBS AND NOT CMAKE_CROSSCOMPILING)
-#     include(cmake/NanobindStubgen.cmake)
-#     nanobind_stubgen(_apngasm_python)
-#     add_custom_command(TARGET _apngasm_python POST_BUILD
-#         COMMAND ${PYTHON_EXECUTABLE} patch_stub.py $<TARGET_FILE_DIR:_apngasm_python>/_apngasm_python.pyi
-#         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/scripts
-#         USES_TERMINAL)
-#     nanobind_stubgen_install(_apngasm_python ${PY_BUILD_CMAKE_MODULE_NAME})
-# endif()
-
 # nanobind_add_stub(
 #     apngasm_python_stub
-#     MODULE apngasm_python
+#     MODULE apngasm_python._apngasm_python
 #     OUTPUT src-python/apngasm_python/_apngasm_python.pyi
-#     DEPENDS _apngasm_python
 #     MARKER_FILE src-python/apngasm_python/py.typed
 #     VERBOSE
 # )

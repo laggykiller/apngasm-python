@@ -68,9 +68,6 @@ config = "Release"
 [tool.py-build-cmake.windows.cmake.options]
 CMAKE_CXX_FLAGS_RELWITHDEBINFO = "/Zi /Ob0 /Od /RTC1"
 
-[tool.py-build-cmake.stubgen]
-args = ["-v"]
-
 [tool.cibuildwheel]
 build-verbosity = 1
 environment = { PY_BUILD_CMAKE_VERBOSE="1" }
