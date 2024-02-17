@@ -25,7 +25,7 @@ try:
 except ModuleNotFoundError:
     PILLOW_LOADED = False
 
-from typing import Optional
+from typing import Optional, Any
 
 
 class APNGAsmBinder:
@@ -42,7 +42,7 @@ class APNGAsmBinder:
     def __enter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type, exc_val, exc_tb): # type: ignore
         self.apngasm.reset()
 
     if PILLOW_LOADED:
@@ -77,8 +77,8 @@ class APNGAsmBinder:
     if NUMPY_LOADED:
 
         def frame_pixels_as_numpy(
-            self, frame: int, new_value: Optional[numpy.typing.NDArray] = None
-        ) -> Optional[numpy.typing.NDArray]:
+            self, frame: int, new_value: Optional[numpy.typing.NDArray[Any]] = None
+        ) -> Optional[numpy.typing.NDArray[Any]]:
             """
             Get/Set the raw pixel data of frame, expressed as a 3D numpy array.
             This should be set AFTER you set the width, height and color_type.
@@ -156,8 +156,8 @@ class APNGAsmBinder:
     if NUMPY_LOADED:
 
         def frame_palette(
-            self, frame: int, new_value: Optional[numpy.typing.NDArray] = None
-        ) -> Optional[numpy.typing.NDArray]:
+            self, frame: int, new_value: Optional[numpy.typing.NDArray[Any]] = None
+        ) -> Optional[numpy.typing.NDArray[Any]]:
             """
             Get/Set the palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA)
             Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]]
@@ -175,8 +175,8 @@ class APNGAsmBinder:
                 return self.apngasm.get_frames()[frame].palette
 
         def frame_transparency(
-            self, frame: int, new_value: Optional[numpy.typing.NDArray] = None
-        ) -> Optional[numpy.typing.NDArray]:
+            self, frame: int, new_value: Optional[numpy.typing.NDArray[Any]] = None
+        ) -> Optional[numpy.typing.NDArray[Any]]:
             """
             Get/Set the color [r, g, b] to be treated as transparent in the frame, expressed as 1D numpy array.
             For more info, refer to 'tRNS Transparency' in

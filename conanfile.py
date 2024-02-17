@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# type: ignore
 from conan import ConanFile
 import shutil
 from scripts.get_arch import get_arch
@@ -9,16 +11,16 @@ class ApngasmRecipe(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
 
     def requirements(self):
-        self.requires("zlib/1.2.13") # type: ignore
-        self.requires("libpng/1.6.40") # type: ignore
+        self.requires("zlib/1.2.13")
+        self.requires("libpng/1.6.40")
         self.requires(
-            "boost/1.75.0" # type: ignore
+            "boost/1.75.0"
         )  # https://github.com/conan-io/conan-center-index/issues/19704
 
     def build_requirements(self):
-        self.build_requires("b2/4.10.1") # type: ignore
+        self.build_requires("b2/4.10.1")
         if not shutil.which("cmake"):
-            self.tool_requires("cmake/[>=3.27]") # type: ignore
+            self.tool_requires("cmake/[>=3.27]")
 
     def build(self):
         build_type = "Release"

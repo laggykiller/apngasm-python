@@ -3,7 +3,6 @@ import platform
 import os
 import sys
 import subprocess
-import platform
 import shutil
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -12,9 +11,9 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 from scripts.get_arch import conan_archs, get_arch
 
 
-def install_deps(arch):
+def install_deps(arch: str):
     # Use Conan to install dependencies
-    settings = []
+    settings: list[str] = []
 
     if platform.system() == "Windows":
         settings.append("os=Windows")
@@ -35,7 +34,7 @@ def install_deps(arch):
     if arch:
         settings.append("arch=" + arch)
 
-    build = []
+    build: list[str] = []
     if platform.system() == "Linux":
         # Need to compile dependencies if Linux
         build.append("*")
