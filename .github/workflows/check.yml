@@ -22,11 +22,11 @@ jobs:
       run: |
         pip install build ruff
         pip install git+https://github.com/wjakob/nanobind.git@stubgen
-        ruff check ./src-python
-        ruff check ./scripts
-        python -m build .
-        ruff format ./src-python
-        ruff format ./scripts
+        ruff check src-python
+        ruff check scripts
+        pip install .
+        ruff format src-python
+        ruff format scripts
         python -m nanobind.stubgen \
             -m apngasm_python \
             -o src-python/apngasm_python/_apngasm_python.pyi \
