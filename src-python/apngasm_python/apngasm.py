@@ -41,8 +41,8 @@ class APNGAsmBinder:
         This should be set AFTER you set the width, height and color_type.
 
         :param int frame: Target frame number.
-        :param Optional[PIL.Image.Image] new_value: If set, then the raw pixel data of frame
-            is set with this value.
+        :param Optional[PIL.Image.Image] new_value: If set, then the raw pixel data of 
+            frame is set with this value.
 
         :return: Pillow image object of the frame (get) or None (set)
         :rtype: Optional[PIL.Image.Image]
@@ -71,10 +71,11 @@ class APNGAsmBinder:
         This should be set AFTER you set the width, height and color_type.
 
         :param int frame: Target frame number.
-        :param Optional[numpy.typing.NDArray[Any]] new_value: If set, then the raw pixel data of frame
-            is set with this value.
+        :param Optional[numpy.typing.NDArray[Any]] new_value: If set, then the 
+            raw pixel  data of frame is set with this value.
 
-        :return: 3D numpy array representation of raw pixel data of frame (get) or None (set)
+        :return: 3D numpy array representation of 
+            raw pixel data of frame (get) or None (set)
         :rtype: Optional[numpy.typing.NDArray[Any]]
         """
         from numpy import array
@@ -146,14 +147,17 @@ class APNGAsmBinder:
         self, frame: int, new_value: Optional[NDArray[Any]] = None
     ) -> Optional[NDArray[Any]]:
         """
-        Get/Set the palette data of frame. Only applies to 'P' mode Image (i.e. Not RGB, RGBA)
-        Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]]
+        Get/Set the palette data of frame. 
+        Only applies to 'P' mode Image (i.e. Not RGB, RGBA). 
+        Expressed as 2D numpy array 
+        in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]]
 
         :param int frame: Target frame number.
-        :param Optional[numpy.typing.NDArray[Any]] new_value: If set, then the palette data of frame
-            is set with this value.
+        :param Optional[numpy.typing.NDArray[Any]] new_value: If set, then 
+            the palette data of frame is set with this value.
 
-        :return: 2D numpy array representation of palette data of frame (get) or None (set)
+        :return: 2D numpy array representation of 
+            palette data of frame (get) or None (set)
         :rtype: Optional[numpy.typing.NDArray[Any]]
         """
         from numpy import array
@@ -167,15 +171,17 @@ class APNGAsmBinder:
         self, frame: int, new_value: Optional[NDArray[Any]] = None
     ) -> Optional[NDArray[Any]]:
         """
-        Get/Set the color [r, g, b] to be treated as transparent in the frame, expressed as 1D numpy array.
+        Get/Set the color [r, g, b] to be treated as transparent in the frame, 
+        expressed as 1D numpy array. 
         For more info, refer to 'tRNS Transparency' in
         http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
 
         :param int frame: Target frame number.
-        :param Optional[numpy.typing.NDArray[Any]] new_value: If set, then the transparency of frame
-            is set with this value.
+        :param Optional[numpy.typing.NDArray[Any]] new_value: If set, then the 
+            transparency of frame is set with this value.
 
-        :return: The color [r, g, b] to be treated as transparent in the frame (get) or None (set)
+        :return: The color [r, g, b] to be treated as transparent
+            in the frame (get) or None (set)
         :rtype: Optional[numpy.typing.NDArray[Any]]
         """
         from numpy import array
@@ -229,8 +235,8 @@ class APNGAsmBinder:
         Duration of time is delay_num / delay_den seconds.
 
         :param int frame: Target frame number.
-        :param Optional[int] new_value: If set, then the nominator of the duration of frame
-            is set with this value.
+        :param Optional[int] new_value: If set, then the nominator of the 
+            duration of frame is set with this value.
 
         :return: Nominator of the duration of frame.
         :rtype: Optional[int]
@@ -248,8 +254,8 @@ class APNGAsmBinder:
         Duration of time is delay_num / delay_den seconds.
 
         :param int frame: Target frame number.
-        :param Optional[int] new_value: If set, then the denominator of the duration of frame
-            is set with this value.
+        :param Optional[int] new_value: If set, then the denominator of the 
+            duration of frame is set with this value.
 
         :return: Denominator of the duration of frame.
         :rtype: Optional[int]
@@ -319,14 +325,17 @@ class APNGAsmBinder:
         The frame duration is equal to delay_num / delay_den seconds.
         Default frame duration is 100/1000 second, or 0.1 second.
 
-        :param numpy.typing.NDArray[Any] numpy_data: The pixel data, expressed as 3D numpy array.
+        :param numpy.typing.NDArray[Any] numpy_data: The pixel data, expressed as 
+            3D numpy array.
         :param Optional[int] width: The width of the pixel data.
             If not given, the 2nd dimension size of numpy_data is used.
         :param Optional[int] height: The height of the pixel data.
             If not given, the 1st dimension size of numpy_data is used.
-        :param Optional[str] mode: The color mode of data. Possible values are RGB or RGBA.
-            If not given, it is determined using the 3rd dimension size of numpy_data.
-        :param Optional[numpy.typing.NDArray[Any]] trns_color: The color [r, g, b] to be treated as transparent, expressed as 1D numpy array.
+        :param Optional[str] mode: The color mode of data. Possible values are 
+            RGB or RGBA. If not given, it is determined using the 3rd dimension size 
+            of numpy_data.
+        :param Optional[numpy.typing.NDArray[Any]] trns_color: The color [r, g, b] to 
+            be treated as transparent, expressed as 1D numpy array. 
             Only use if RGB mode.
         :param int delay_num: The delay numerator for this frame (defaults to 100).
         :param int delay_den: The delay denominator for this frame (defaults to 1000).
@@ -334,8 +343,7 @@ class APNGAsmBinder:
         :return: The new number of frames.
         :rtype: int
         """
-        from numpy import shape
-        from numpy.typing import NDArray
+        from numpy import shape, ndarray
 
         width = width if width else shape(numpy_data)[1]
         height = height if height else shape(numpy_data)[0]
@@ -354,7 +362,7 @@ class APNGAsmBinder:
                 )
 
         if mode == "RGB":
-            if type(trns_color) == NDArray:
+            if isinstance(trns_color, ndarray):
                 frame = create_frame_from_rgb_trns(
                     pixels=numpy_data,
                     width=width,
@@ -372,7 +380,7 @@ class APNGAsmBinder:
                     delay_den=delay_den,
                 )
         elif mode == "RGBA":
-            if type(trns_color) == NDArray:
+            if isinstance(trns_color, ndarray):
                 raise TypeError(
                     "Cannot set trns_color on RGBA mode Pillow object. Must be RGB."
                 )
@@ -497,8 +505,8 @@ class APNGAsmBinder:
         Sets a listener.
         You probably won't need to use this function.
 
-        :param Optional[apngasm_python._apngasm_python.IAPNGAsmListener] listener: A pointer to the listener object.
-            If the argument is None,
+        :param Optional[apngasm_python._apngasm_python.IAPNGAsmListener] listener: 
+            A pointer to the listener object. If the argument is None,
             a default APNGAsmListener will be created and assigned.
         """
         raise NotImplementedError("set_apng_asm_listener is not implemented")
@@ -508,7 +516,8 @@ class APNGAsmBinder:
         """
         Set loop count of animation.
 
-        :param int loops: Loop count of animation. If the argument is 0 a loop count is infinity.
+        :param int loops: Loop count of animation. If the argument is 0 
+            a loop count is infinity.
         """
         return self.apngasm.set_loops(loops)
 

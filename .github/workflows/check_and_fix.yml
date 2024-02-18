@@ -24,10 +24,11 @@ jobs:
         python-version: '3.8'
     - name: Check, update stub and formatting
       run: |
-        pip install build ruff
+        pip install build ruff pyright
         pip install git+https://github.com/wjakob/nanobind.git@stubgen
         ruff check src-python
         ruff check scripts
+        # pyright
         pip install .
         ruff format src-python
         ruff format scripts
