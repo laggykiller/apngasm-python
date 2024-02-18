@@ -3,6 +3,10 @@ name: Update stub
 on:
   push:
 
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: true
+
 jobs:
   stubgen:
     runs-on: ubuntu-latest
@@ -18,7 +22,7 @@ jobs:
     - uses: actions/setup-python@v5
       with:
         python-version: '3.8'
-    - name: Check
+    - name: Check, update stub and formatting
       run: |
         pip install build ruff
         pip install git+https://github.com/wjakob/nanobind.git@stubgen
