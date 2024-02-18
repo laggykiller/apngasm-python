@@ -1,4 +1,4 @@
-name: Update stub
+name: Check, update stub and formatting
 
 on:
   push:
@@ -32,7 +32,7 @@ jobs:
         ruff format src-python
         ruff format scripts
         python -m nanobind.stubgen \
-            -m apngasm_python \
+            -m apngasm_python._apngasm_python \
             -o src-python/apngasm_python/_apngasm_python.pyi \
             -M src-python/apngasm_python/py.typed
     - name: Commit & Push changes
