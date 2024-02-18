@@ -31,7 +31,7 @@ def install_deps(arch: str):
         settings.append("compiler.libcxx=libstdc++")
     if arch:
         settings.append("arch=" + arch)
-    
+
     options.append("boost/*:without_atomic=True")
     options.append("boost/*:without_chrono=True")
     options.append("boost/*:without_cobalt=True")
