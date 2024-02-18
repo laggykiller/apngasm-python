@@ -11,11 +11,11 @@ class ApngasmRecipe(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
 
     def requirements(self):
-        self.requires("zlib/1.2.13")
-        self.requires("libpng/1.6.40")
+        self.requires("zlib/1.3.1")
+        self.requires("libpng/1.6.42")
         self.requires(
-            "boost/1.75.0"
-        )  # https://github.com/conan-io/conan-center-index/issues/19704
+            "boost/1.84.0"
+        )
 
     def build_requirements(self):
         self.build_requires("b2/4.10.1")

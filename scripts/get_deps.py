@@ -10,6 +10,8 @@ from get_arch import conan_archs, get_arch
 def install_deps(arch: str):
     # Use Conan to install dependencies
     settings: list[str] = []
+    build: list[str] = []
+    options: list[str] = []
 
     if platform.system() == "Windows":
         settings.append("os=Windows")
@@ -29,8 +31,41 @@ def install_deps(arch: str):
         settings.append("compiler.libcxx=libstdc++")
     if arch:
         settings.append("arch=" + arch)
+    
+    options.append("boost/*:without_atomic=True")
+    options.append("boost/*:without_chrono=True")
+    options.append("boost/*:without_cobalt=True")
+    options.append("boost/*:without_container=True")
+    options.append("boost/*:without_context=True")
+    options.append("boost/*:without_contract=True")
+    options.append("boost/*:without_coroutine=True")
+    options.append("boost/*:without_date_time=True")
+    options.append("boost/*:without_exception=True")
+    options.append("boost/*:without_fiber=True")
+    options.append("boost/*:without_filesystem=True")
+    options.append("boost/*:without_graph=True")
+    options.append("boost/*:without_graph_parallel=True")
+    options.append("boost/*:without_iostreams=True")
+    options.append("boost/*:without_json=True")
+    options.append("boost/*:without_locale=True")
+    options.append("boost/*:without_log=True")
+    options.append("boost/*:without_math=True")
+    options.append("boost/*:without_mpi=True")
+    options.append("boost/*:without_nowide=True")
+    options.append("boost/*:without_program_options=False")
+    options.append("boost/*:without_python=True")
+    options.append("boost/*:without_random=True")
+    options.append("boost/*:without_regex=False")
+    options.append("boost/*:without_serialization=True")
+    options.append("boost/*:without_stacktrace=True")
+    options.append("boost/*:without_system=False")
+    options.append("boost/*:without_test=True")
+    options.append("boost/*:without_thread=True")
+    options.append("boost/*:without_timer=True")
+    options.append("boost/*:without_type_erasure=True")
+    options.append("boost/*:without_url=True")
+    options.append("boost/*:without_wave=True")
 
-    build: list[str] = []
     if platform.system() == "Linux":
         # Need to compile dependencies if Linux
         build.append("*")
@@ -46,6 +81,7 @@ def install_deps(arch: str):
     print("conan cli settings:")
     print("settings: " + str(settings))
     print("build: " + str(build))
+    print("options: " + str(options))
 
     subprocess.run(["conan", "profile", "detect"])
 
@@ -57,6 +93,7 @@ def install_deps(arch: str):
             "install",
             *[x for s in settings for x in ("-s", s)],
             *[x for b in build for x in ("-b", b)],
+            *[x for o in options for x in ("-o", o)],
             "-of",
             conan_output,
             "--deployer=direct_deploy",

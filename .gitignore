@@ -6,3 +6,4 @@ conan_output/
 example/output/
 venv/
 docs/_build/
+CMakeUserPresets.json
