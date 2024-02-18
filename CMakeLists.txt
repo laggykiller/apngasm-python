@@ -120,5 +120,6 @@ nanobind_add_stub(
     MODULE apngasm_python
     OUTPUT "${PY_BUILD_CMAKE_MODULE_NAME}/__init__.pyi"
     MARKER_FILE "${PY_BUILD_CMAKE_MODULE_NAME}/py.typed"
+    COMPONENT python_modules
     VERBOSE
 )

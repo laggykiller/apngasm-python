@@ -6,13 +6,14 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
     from PIL import Image
 
-from . import (
+from ._apngasm_python import ( # type: ignore
     APNGAsm,
     APNGFrame,
     IAPNGAsmListener,
     create_frame_from_rgb,
     create_frame_from_rgb_trns,
     create_frame_from_rgba,
+    __version__, # type: ignore
 )
 
 
@@ -406,7 +407,7 @@ class APNGAsmBinder:
         :param str file_path: The file path to the PNG image to be disassembled.
 
         :return: A list containing the frames of the disassembled PNG.
-        :rtype: list[apngasm_python.APNGFrame]
+        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         """
         from numpy import array
 
@@ -461,7 +462,7 @@ class APNGAsmBinder:
         :param str file_path: The path of JSON or XML file.
 
         :return: A vector containing the loaded frames.
-        :rtype: list[apngasm_python.APNGFrame]
+        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         """
         return self.apngasm.load_animation_spec(file_path)
 
@@ -497,7 +498,7 @@ class APNGAsmBinder:
         Sets a listener.
         You probably won't need to use this function.
 
-        :param Optional[apngasm_python.IAPNGAsmListener] listener: A pointer to the listener object.
+        :param Optional[apngasm_python._apngasm_python.IAPNGAsmListener] listener: A pointer to the listener object.
             If the argument is None,
             a default APNGAsmListener will be created and assigned.
         """
@@ -525,7 +526,7 @@ class APNGAsmBinder:
         Returns the frame vector.
 
         :return: frame vector.
-        :rtype: list[apngasm_python.APNGFrame]
+        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
         """
         return self.apngasm.get_frames()
 

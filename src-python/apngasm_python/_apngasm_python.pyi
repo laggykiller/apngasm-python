@@ -1,8 +1,5 @@
 from numpy.typing import ArrayLike
-from typing import Annotated
-from typing import Optional
-from typing import Sequence
-from typing import overload
+from typing import overload, Sequence, Annotated
 
 class APNGAsm:
     """Class representing APNG file, storing APNGFrame(s) and other metadata."""
@@ -11,14 +8,14 @@ class APNGAsm:
         """Construct an empty APNGAsm object."""
 
     @overload
-    def __init__(self, frames: Sequence[apngasm_python.APNGFrame]) -> None:
+    def __init__(self, frames: Sequence[APNGFrame]) -> None:
         """
         Construct APNGAsm object from an existing vector of apngasm frames.
 
         :param list[apngasm_python._apngasm_python.APNGFrame] frames: A list of APNGFrame objects.
         """
 
-    def add_frame(self, frame: apngasm_python.APNGFrame) -> int:
+    def add_frame(self, frame: APNGFrame) -> int:
         """
         Adds an APNGFrame object to the frame vector.
 
@@ -41,7 +38,7 @@ class APNGAsm:
         :rtype: int
         """
 
-    def add_frame_from_rgb(self, pixels_rgb: apngasm_python.rgb, width: int, height: int, trns_color: Optional[apngasm_python.rgb] = 0, delay_num: int = 100, delay_den: int = 1000) -> int:
+    def add_frame_from_rgb(self, pixels_rgb: rgb, width: int, height: int, trns_color: rgb | None = 0, delay_num: int = 100, delay_den: int = 1000) -> int:
         """
         Adds an APNGFrame object to the vector.
         Not possible to use in Python. As alternative,
@@ -61,7 +58,7 @@ class APNGAsm:
         :rtype: int
         """
 
-    def add_frame_from_rgba(self, pixels_rgba: apngasm_python.rgba, width: int, height: int, delay_num: int = 100, delay_den: int = 1000) -> int:
+    def add_frame_from_rgba(self, pixels_rgba: rgba, width: int, height: int, delay_num: int = 100, delay_den: int = 1000) -> int:
         """
         Adds an APNGFrame object to the vector.
         Not possible to use in Python. As alternative,
@@ -90,7 +87,7 @@ class APNGAsm:
         :rtype: bool
         """
 
-    def disassemble(self, file_path: str) -> list[apngasm_python.APNGFrame]:
+    def disassemble(self, file_path: str) -> list[APNGFrame]:
         """
         Disassembles an APNG file.
 
@@ -110,7 +107,7 @@ class APNGAsm:
         :rtype: bool
         """
 
-    def load_animation_spec(self, file_path: str) -> list[apngasm_python.APNGFrame]:
+    def load_animation_spec(self, file_path: str) -> list[APNGFrame]:
         """
         Loads an animation spec from JSON or XML.
         Loaded frames are added to the end of the frame vector.
@@ -145,7 +142,7 @@ class APNGAsm:
         :rtype: bool
         """
 
-    def set_apngasm_listener(self, listener: Optional[apngasm_python.IAPNGAsmListener] = None) -> None:
+    def set_apngasm_listener(self, listener: IAPNGAsmListener | None = None) -> None:
         """
         Sets a listener.
 
@@ -166,7 +163,7 @@ class APNGAsm:
         :param int skip_first: Flag of skip first frame.
         """
 
-    def get_frames(self) -> list[apngasm_python.APNGFrame]:
+    def get_frames(self) -> list[APNGFrame]:
         """
         Returns the frame vector.
 
@@ -233,7 +230,7 @@ class APNGFrame:
         """
 
     @overload
-    def __init__(self, pixels: apngasm_python.rgb, width: int, height: int, trns_color: apngasm_python.rgb, delay_num: int = 100, delay_den: int = 1000) -> None:
+    def __init__(self, pixels: rgb, width: int, height: int, trns_color: rgb, delay_num: int = 100, delay_den: int = 1000) -> None:
         """
         Creates an APNGFrame from a bitmapped array of RBG pixel data.
         Not possible to use in Python. To create APNGFrame from pixel data in memory,
@@ -251,7 +248,7 @@ class APNGFrame:
         """
 
     @overload
-    def __init__(self, pixels: apngasm_python.rgba, width: int, height: int, delay_num: int = 100, delay_den: int = 1000) -> None:
+    def __init__(self, pixels: rgba, width: int, height: int, delay_num: int = 100, delay_den: int = 1000) -> None:
         """
         Creates an APNGFrame from a bitmapped array of RBGA pixel data.
         Not possible to use in Python. To create APNGFrame from pixel data in memory,
@@ -371,7 +368,7 @@ class APNGFrame:
 
 class IAPNGAsmListener:
     """Class for APNGAsmListener. Meant to be used internally."""
-def create_frame_from_rgb(pixels: Annotated[ArrayLike, dict(dtype='uint8', shape=(None, None, 3))], width: int, height: int, delay_num: int = 100, delay_den: int = 1000) -> apngasm_python.APNGFrame:
+def create_frame_from_rgb(pixels: Annotated[ArrayLike, dict(dtype='uint8', shape=(None, None, 3))], width: int, height: int, delay_num: int = 100, delay_den: int = 1000) -> APNGFrame:
     """
     Creates an APNGFrame from a bitmapped array of RBG pixel data.
 
@@ -385,7 +382,7 @@ def create_frame_from_rgb(pixels: Annotated[ArrayLike, dict(dtype='uint8', shape
     :rtype: apngasm_python._apngasm_python.APNGFrame
     """
 
-def create_frame_from_rgb_trns(pixels: Annotated[ArrayLike, dict(dtype='uint8', shape=(None, None, 3))], width: int, height: int, trns_color: Annotated[ArrayLike, dict(dtype='uint8', shape=(3))], delay_num: int = 100, delay_den: int = 1000) -> apngasm_python.APNGFrame:
+def create_frame_from_rgb_trns(pixels: Annotated[ArrayLike, dict(dtype='uint8', shape=(None, None, 3))], width: int, height: int, trns_color: Annotated[ArrayLike, dict(dtype='uint8', shape=(3))], delay_num: int = 100, delay_den: int = 1000) -> APNGFrame:
     """
     Creates an APNGFrame from a bitmapped array of RBG pixel data, with one color treated as transparent.
 
@@ -400,7 +397,7 @@ def create_frame_from_rgb_trns(pixels: Annotated[ArrayLike, dict(dtype='uint8', 
     :rtype: apngasm_python._apngasm_python.APNGFrame
     """
 
-def create_frame_from_rgba(pixels: Annotated[ArrayLike, dict(dtype='uint8', shape=(None, None, 4))], width: int, height: int, delay_num: int = 100, delay_den: int = 1000) -> apngasm_python.APNGFrame:
+def create_frame_from_rgba(pixels: Annotated[ArrayLike, dict(dtype='uint8', shape=(None, None, 4))], width: int, height: int, delay_num: int = 100, delay_den: int = 1000) -> APNGFrame:
     """
     Creates an APNGFrame from a bitmapped array of RBGA pixel data.
 
@@ -475,9 +472,3 @@ class rgba:
 
     @a.setter
     def a(self, arg: int, /) -> None: ...
-
-del overload
-del Sequence
-del Optional
-del Annotated
-del ArrayLike

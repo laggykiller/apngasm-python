@@ -32,9 +32,7 @@ std::map<int, size_t> rowbytesMap = {
     { 6, 4 }  // RGBA
 };
 
-NB_MODULE(MODULE_NAME, m_) {
-    (void) m_; /* unused */
-    nb::module_ m = nb::module_::import_("apngasm_python");
+NB_MODULE(MODULE_NAME, m) {
     m.doc() = "A nanobind API for apngasm, a tool/library for APNG assembly/disassembly";
     m.attr("__version__") = VERSION_INFO;
 

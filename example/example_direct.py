@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from apngasm_python import (
+from apngasm_python._apngasm_python import (
     APNGAsm,
     APNGFrame,
     create_frame_from_rgb,
