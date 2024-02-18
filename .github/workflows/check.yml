@@ -1,0 +1,39 @@
+name: Update stub
+
+on:
+  push:
+
+jobs:
+  stubgen:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+        submodules: recursive
+    - name: Extract branch name
+      shell: bash
+      run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+      id: extract_branch
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.8'
+    - name: Check
+      run: |
+        pip install build ruff
+        pip install git+https://github.com/wjakob/nanobind.git@stubgen
+        ruff check ./src-python
+        ruff check ./scripts
+        python -m build .
+        ruff format ./src-python
+        ruff format ./scripts
+        python -m nanobind.stubgen \
+            -m apngasm_python \
+            -o src-python/apngasm_python/_apngasm_python.pyi \
+            -M src-python/apngasm_python/py.typed
+    - name: Commit & Push changes
+      uses: actions-js/push@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        message: Update stub and formatting
+        branch: ${{ steps.extract_branch.outputs.branch }}

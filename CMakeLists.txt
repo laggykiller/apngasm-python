@@ -121,5 +121,6 @@ nanobind_add_stub(
     OUTPUT "${PY_BUILD_CMAKE_MODULE_NAME}/__init__.pyi"
     MARKER_FILE "${PY_BUILD_CMAKE_MODULE_NAME}/py.typed"
     COMPONENT python_modules
+    EXCLUDE_FROM_ALL
     VERBOSE
 )

@@ -13,7 +13,6 @@ from ._apngasm_python import ( # type: ignore
     create_frame_from_rgb,
     create_frame_from_rgb_trns,
     create_frame_from_rgba,
-    __version__, # type: ignore
 )
 
 

@@ -22,7 +22,7 @@ def get_arch():
                 arch = k
                 break
 
-    if arch == None:
+    if arch is None:
         arch = platform.machine().lower()
 
     return arch
