@@ -72,11 +72,11 @@ class APNGAsmBinder:
         This should be set AFTER you set the width, height and color_type.
 
         :param int frame: Target frame number.
-        :param Optional[NDArray] new_value: If set, then the raw pixel data of frame
+        :param Optional[numpy.typing.NDArray[Any]] new_value: If set, then the raw pixel data of frame
             is set with this value.
 
         :return: 3D numpy array representation of raw pixel data of frame (get) or None (set)
-        :rtype: Optional[NDArray]
+        :rtype: Optional[numpy.typing.NDArray[Any]]
         """
         from numpy import array
 
@@ -151,11 +151,11 @@ class APNGAsmBinder:
         Expressed as 2D numpy array in format of [[r0, g0, b0], [r1, g1, b1], ..., [r255, g255, b255]]
 
         :param int frame: Target frame number.
-        :param Optional[NDArray] new_value: If set, then the palette data of frame
+        :param Optional[numpy.typing.NDArray[Any]] new_value: If set, then the palette data of frame
             is set with this value.
 
         :return: 2D numpy array representation of palette data of frame (get) or None (set)
-        :rtype: Optional[NDArray]
+        :rtype: Optional[numpy.typing.NDArray[Any]]
         """
         from numpy import array
 
@@ -173,11 +173,11 @@ class APNGAsmBinder:
         http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
 
         :param int frame: Target frame number.
-        :param Optional[NDArray] new_value: If set, then the transparency of frame
+        :param Optional[numpy.typing.NDArray[Any]] new_value: If set, then the transparency of frame
             is set with this value.
 
         :return: The color [r, g, b] to be treated as transparent in the frame (get) or None (set)
-        :rtype: Optional[NDArray]
+        :rtype: Optional[numpy.typing.NDArray[Any]]
         """
         from numpy import array
 
@@ -320,14 +320,14 @@ class APNGAsmBinder:
         The frame duration is equal to delay_num / delay_den seconds.
         Default frame duration is 100/1000 second, or 0.1 second.
 
-        :param NDArray numpy_data: The pixel data, expressed as 3D numpy array.
+        :param numpy.typing.NDArray[Any] numpy_data: The pixel data, expressed as 3D numpy array.
         :param Optional[int] width: The width of the pixel data.
             If not given, the 2nd dimension size of numpy_data is used.
         :param Optional[int] height: The height of the pixel data.
             If not given, the 1st dimension size of numpy_data is used.
         :param Optional[str] mode: The color mode of data. Possible values are RGB or RGBA.
             If not given, it is determined using the 3rd dimension size of numpy_data.
-        :param Optional[NDArray] trns_color: The color [r, g, b] to be treated as transparent, expressed as 1D numpy array.
+        :param Optional[numpy.typing.NDArray[Any]] trns_color: The color [r, g, b] to be treated as transparent, expressed as 1D numpy array.
             Only use if RGB mode.
         :param int delay_num: The delay numerator for this frame (defaults to 100).
         :param int delay_den: The delay denominator for this frame (defaults to 1000).
@@ -407,7 +407,7 @@ class APNGAsmBinder:
         :param str file_path: The file path to the PNG image to be disassembled.
 
         :return: A list containing the frames of the disassembled PNG.
-        :rtype: list[apngasm_python._apngasm_python.APNGFrame]
+        :rtype: list[numpy.typing.NDArray[Any]]
         """
         from numpy import array
 
@@ -425,7 +425,7 @@ class APNGAsmBinder:
         :param str file_path: The file path to the PNG image to be disassembled.
 
         :return: A list containing the frames of the disassembled PNG.
-        :rtype: list[Image.Image]
+        :rtype: list[PIL.Image.Image]
         """
         from PIL import Image
 
