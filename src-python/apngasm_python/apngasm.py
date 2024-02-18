@@ -6,7 +6,7 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
     from PIL import Image
 
-from ._apngasm_python import ( # type: ignore
+from ._apngasm_python import (  # type: ignore
     APNGAsm,
     APNGFrame,
     IAPNGAsmListener,
