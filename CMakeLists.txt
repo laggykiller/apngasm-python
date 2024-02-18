@@ -118,7 +118,7 @@ nanobind_add_stub(
     apngasm_python_stub
     INSTALL_TIME
     MODULE apngasm_python
-    OUTPUT __init__.pyi
-    MARKER_FILE py.typed
+    OUTPUT "${PY_BUILD_CMAKE_MODULE_NAME}/__init__.pyi"
+    MARKER_FILE "${PY_BUILD_CMAKE_MODULE_NAME}/py.typed"
     VERBOSE
 )
