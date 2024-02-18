@@ -4,7 +4,7 @@ import os
 import subprocess
 import shutil
 
-from scripts.get_arch import conan_archs, get_arch
+from get_arch import conan_archs, get_arch
 
 
 def install_deps(arch: str):
