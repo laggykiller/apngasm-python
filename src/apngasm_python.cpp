@@ -423,7 +423,7 @@ NB_MODULE(MODULE_NAME, m) {
         )pbdoc")
 
         .def("add_frame_from_rgb", nb::overload_cast<apngasm::rgb *, unsigned int, unsigned int, apngasm::rgb *, unsigned, unsigned>(&apngasm::APNGAsm::addFrame),
-        "pixels_rgb"_a, "width"_a, "height"_a, "trns_color"_a.none() = NULL, "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
+        "pixels_rgb"_a, "width"_a, "height"_a, "trns_color"_a.none(), "delay_num"_a = apngasm::DEFAULT_FRAME_NUMERATOR, "delay_den"_a = apngasm::DEFAULT_FRAME_DENOMINATOR,
         R"pbdoc(
         Adds an APNGFrame object to the vector.
         Not possible to use in Python. As alternative,

@@ -117,8 +117,8 @@ install(TARGETS _apngasm_python
 nanobind_add_stub(
     apngasm_python_stub
     INSTALL_TIME
-    MODULE apngasm_python
-    OUTPUT "${PY_BUILD_CMAKE_MODULE_NAME}/__init__.pyi"
+    MODULE apngasm_python._apngasm_python
+    OUTPUT "${PY_BUILD_CMAKE_MODULE_NAME}/_apngasm_python.pyi"
     MARKER_FILE "${PY_BUILD_CMAKE_MODULE_NAME}/py.typed"
     COMPONENT python_modules
     EXCLUDE_FROM_ALL
