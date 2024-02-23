@@ -25,7 +25,7 @@ jobs:
     - name: Check, update stub and formatting
       run: |
         pip install build ruff pyright
-        pip install git+https://github.com/wjakob/nanobind.git@stubgen
+        pip install git+https://github.com/wjakob/nanobind.git
         ruff check src-python
         ruff check scripts
         # pyright
