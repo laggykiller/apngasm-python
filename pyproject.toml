@@ -36,7 +36,8 @@ include = [
     "src-python/*",
     "scripts/*",
     "conanfile.py",
-    "apngasm/*"
+    "apngasm/*",
+    "lipo-dir-merge/*.py"
 ]
 
 [tool.py-build-cmake.cmake] # How to build the CMake project
