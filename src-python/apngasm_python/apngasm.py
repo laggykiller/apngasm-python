@@ -501,7 +501,7 @@ class APNGAsmBinder:
         """
         return self.apngasm.save_xml(output_path, image_dir)
 
-    def set_apng_asm_listener(self, listener: Optional[IAPNGAsmListener] = None):  # type: ignore
+    def set_apngasm_listener(self, listener: Optional[IAPNGAsmListener] = None):  # type: ignore
         """
         Sets a listener.
         You probably won't need to use this function.
@@ -510,8 +510,8 @@ class APNGAsmBinder:
             A pointer to the listener object. If the argument is None,
             a default APNGAsmListener will be created and assigned.
         """
-        raise NotImplementedError("set_apng_asm_listener is not implemented")
-        # return self.apngasm.set_apng_asm_listener(listener)
+        raise NotImplementedError("set_apngasm_listener is not implemented")
+        # return self.apngasm.set_apngasm_listener(listener)
 
     def set_loops(self, loops: int = 0):
         """
