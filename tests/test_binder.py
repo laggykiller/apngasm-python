@@ -214,7 +214,7 @@ def test_add_frame_from_numpy_rgba():
 
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
-def test_add_frame_from_numpy_rgb_trns():
+def test_add_frame_from_numpy_rgb():
     from PIL import Image
     import numpy
 
