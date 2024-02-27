@@ -400,3 +400,7 @@ def test_reset():
 def test_version():
     apngasm = APNGAsmBinder()
     assert isinstance(apngasm.version(), str)
+
+def test_with():
+    with APNGAsmBinder() as apngasm:
+        assert isinstance(apngasm.version(), str)
