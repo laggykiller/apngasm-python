@@ -547,14 +547,14 @@ class APNGAsmBinder:
         """
         return self.apngasm.get_loops()
 
-    def is_skip_first(self) -> int:
+    def is_skip_first(self) -> bool:
         """
         Returns the flag of skip first frame.
 
         :return: flag of skip first frame.
-        :rtype: int
+        :rtype: bool
         """
-        return self.apngasm.get_loops()
+        return self.apngasm.is_skip_first()
 
     def frame_count(self) -> int:
         """
