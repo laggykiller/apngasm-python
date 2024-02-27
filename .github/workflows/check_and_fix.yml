@@ -24,7 +24,7 @@ jobs:
         python-version: '3.8'
     - name: Check, update stub and formatting
       run: |
-        pip install build ruff pyright
+        pip install build ruff pyright Pillow numpy
         pip install git+https://github.com/wjakob/nanobind.git
         ruff check src-python
         ruff check scripts
