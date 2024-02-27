@@ -130,7 +130,9 @@ jobs:
           CIBW_BEFORE_TEST: pip install --only-binary ":all:" Pillow numpy; true
           CIBW_BEFORE_TEST_WINDOWS: pip install --only-binary ":all:" Pillow numpy || VER>NUL
           CIBW_TEST_COMMAND: pytest {package}/tests
-          CIBW_TEST_SKIP: pp*
+          # Skip test for universal2 wheels as it could not be installed during CI
+          # yet it could be installed on local machine during test
+          CIBW_TEST_SKIP: "pp* *-macosx_universal2"
 
       - uses: actions/upload-artifact@v3
         with:
