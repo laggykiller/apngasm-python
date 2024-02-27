@@ -9,6 +9,27 @@ on:
         - [published]
 
 jobs:
+  build_sdist:
+    name: Build source distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Build sdist
+        run: pipx run build --sdist
+
+      - name: Test sdist
+        run: |
+          python -m pip install dist/apngasm_python-*.tar.gz
+          pip install pytest Pillow numpy &&
+          pytest
+
+      - uses: actions/upload-artifact@v3
+        with:
+          path: dist/*.tar.gz
+
   build_wheels:
     name: Build wheels for ${{ matrix.os }} ${{ matrix.cibw_archs }} ${{ matrix.cibw_build }}
     runs-on: ${{ matrix.os }}
@@ -102,25 +123,14 @@ jobs:
           # CIBW_ENVIRONMENT: PY_BUILD_CMAKE_VERBOSE=1 ${{ matrix.cibw_environment }}
           CIBW_ENVIRONMENT: ${{ matrix.cibw_environment }}
           CIBW_BUILD: ${{ matrix.cibw_build }}
+          CIBW_TEST_REQUIRES: pytest
+          CIBW_BEFORE_TEST: pip install --only-binary ":all:" Pillow numpy; true
+          CIBW_BEFORE_TEST_WINDOWS: pip install --only-binary ":all:" Pillow numpy || VER>NUL
+          CIBW_TEST_COMMAND: pytest {package}/tests
 
       - uses: actions/upload-artifact@v3
         with:
           path: ./wheelhouse/*.whl
-  
-  build_sdist:
-    name: Build source distribution
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
-
-      - name: Build sdist
-        run: pipx run build --sdist
-
-      - uses: actions/upload-artifact@v3
-        with:
-          path: dist/*.tar.gz
 
   # upload_pypi_test:
   #   needs: [build_wheels, build_sdist]

@@ -42,33 +42,33 @@ import os
 apngasm = APNGAsmBinder()
 
 # From file
-for file_name in sorted(os.listdir('frames')):
+for file_name in sorted(os.listdir("samples/frames")):
     # To adjust frame duration, set delay_num and delay_den
     # The frame duration will be (delay_num / delay_den) seconds
-    apngasm.add_frame_from_file(file_path=os.path.join('frames', file_name), delay_num=100, delay_den=1000)
+    apngasm.add_frame_from_file(file_path=os.path.join("samples/frames", file_name), delay_num=100, delay_den=1000)
     
 # Default value of loops is 0, which is infinite looping of APNG animation
 # This sets the APNG animation to loop for 3 times before stopping
 apngasm.set_loops(3)
-apng.assemble('result-from-file.apng')
+apng.assemble("samples/result-from-file.apng")
 apngasm.reset()
 
 # From Pillow
-for file_name in sorted(os.listdir('frames')):
-    image = Image.open(os.path.join('frames', file_name)).convert('RGBA')
+for file_name in sorted(os.listdir("samples/frames")):
+    image = Image.open(os.path.join("samples/frames", file_name)).convert("RGBA")
     frame = apngasm.add_frame_from_pillow(image, delay_num=50, delay_den=1000)
-apngasm.assemble('result-from-pillow.apng')
+apngasm.assemble("result-from-pillow.apng")
 apngasm.reset()
 
 # Disassemble and get pillow image of one frame
 # You can use with statement to avoid calling reset()
 with APNGAsmBinder() as apng:
-    frames = apng.disassemble_as_pillow('input/ball.apng')
+    frames = apng.disassemble_as_pillow("samples/input/ball.apng")
     frame = frames[0]
-    frame.save('output/ball0.png')
+    frame.save("samples/output/ball0.png")
 
 # Disassemble all APNG into PNGs
-apngasm.save_pngs('output')
+apngasm.save_pngs("samples/output")
 ```
 
 Alternatively, you can reduce overhead and do advanced tasks by calling methods 
@@ -82,35 +82,35 @@ import os
 apngasm = APNGAsm()
 
 # From file
-for file_name in sorted(os.listdir('frames')):
+for file_name in sorted(os.listdir("samples/frames")):
     # To adjust frame duration, set delay_num and delay_den
     # The frame duration will be (delay_num / delay_den) seconds
-    apngasm.add_frame_from_file(file_path=os.path.join('frames', file_name), delay_num=100, delay_den=1000)
+    apngasm.add_frame_from_file(file_path=os.path.join("samples/frames", file_name), delay_num=100, delay_den=1000)
     
 # Default value of loops is 0, which is infinite looping of APNG animation
 # This sets the APNG animation to loop for 3 times before stopping
 apngasm.set_loops(3)
-apng.assemble('result-from-file.apng')
+apng.assemble("samples/result-from-file.apng")
 
 # From Pillow
 apngasm.reset()
-for file_name in sorted(os.listdir('frames')):
-    image = Image.open(os.path.join('frames', file_name)).convert('RGBA')
+for file_name in sorted(os.listdir("samples/frames")):
+    image = Image.open(os.path.join("samples/frames", file_name)).convert("RGBA")
     frame = create_frame_from_rgba(np.array(image), image.width, image.height)
     frame.delay_num = 50
     frame.delay_den = 1000
     apngasm.add_frame(frame)
-apngasm.assemble('result-from-pillow.apng')
+apngasm.assemble("samples/result-from-pillow.apng")
 
 # Disassemble and get pillow image of one frame
 apngasm.reset()
-frames = apngasm.disassemble('input/ball.apng')
+frames = apngasm.disassemble("samples/input/ball.apng")
 frame = frames[0]
 im = Image.frombytes(mode, (frame.width, frame.height), frame.pixels)
-im.save('output/ball0.png')
+im.save("samples/output/ball0.png")
 
 # Disassemble all APNG into PNGs
-apngasm.save_pngs('output')
+apngasm.save_pngs("samples/output")
 ```
 
 The methods are based on [apngasm.h](https://github.com/apngasm/apngasm/blob/master/lib/src/apngasm.h) 
