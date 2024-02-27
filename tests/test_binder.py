@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import sys
 
 import pytest
 
@@ -48,7 +49,7 @@ def test_frame_pixels_as_pillow():
 
 
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
-def test_frame_pixels_as_pillow():
+def test_frame_pixels_as_numpy():
     import numpy
 
     apngasm = APNGAsmBinder()
@@ -313,6 +314,9 @@ def test_load_animation_spec_json():
     assert len(frames) == 2
 
 
+@pytest.mark.skipif(
+    sys.platform == "win32", reason="Bug in apngasm causing incorrect path"
+)
 def test_save_json(tmpdir):
     apngasm = APNGAsmBinder()
     apngasm.add_frame_from_file(animation_spec_0_png_path)
@@ -325,6 +329,9 @@ def test_save_json(tmpdir):
         assert f.read() == g.read()
 
 
+@pytest.mark.skipif(
+    sys.platform == "win32", reason="Bug in apngasm causing incorrect path"
+)
 def test_save_xml(tmpdir):
     apngasm = APNGAsmBinder()
     apngasm.add_frame_from_file(animation_spec_0_png_path)

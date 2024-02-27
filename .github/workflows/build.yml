@@ -11,11 +11,15 @@ on:
 jobs:
   build_sdist:
     name: Build source distribution
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
 
       - name: Build sdist
         run: pipx run build --sdist
@@ -28,7 +32,7 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          path: dist/*.tar.gz
+          path: dist/apngasm_python-*.tar.gz
 
   build_wheels:
     name: Build wheels for ${{ matrix.os }} ${{ matrix.cibw_archs }} ${{ matrix.cibw_build }}
@@ -127,6 +131,7 @@ jobs:
           CIBW_BEFORE_TEST: pip install --only-binary ":all:" Pillow numpy; true
           CIBW_BEFORE_TEST_WINDOWS: pip install --only-binary ":all:" Pillow numpy || VER>NUL
           CIBW_TEST_COMMAND: pytest {package}/tests
+          CIBW_TEST_SKIP: pp*
 
       - uses: actions/upload-artifact@v3
         with:

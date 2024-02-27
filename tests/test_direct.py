@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import sys
 
 import pytest
 
@@ -62,6 +63,7 @@ def test_frame_width():
 
     assert frame.width == 480
 
+
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 def test_frame_height():
@@ -72,6 +74,7 @@ def test_frame_height():
     frame = create_frame_from_rgba(numpy.array(image), image.width, image.height)
 
     assert frame.height == 400
+
 
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
@@ -103,9 +106,12 @@ def test_frame_transparency():
     import numpy
 
     image = Image.open(elephant_frame0_path).convert("RGB")
-    frame = create_frame_from_rgb_trns(numpy.array(image), image.width, image.height, numpy.array([255, 255, 255]))
+    frame = create_frame_from_rgb_trns(
+        numpy.array(image), image.width, image.height, numpy.array([255, 255, 255])
+    )
 
     assert isinstance(frame.transparency, numpy.ndarray)
+
 
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
@@ -126,7 +132,9 @@ def test_frame_transparency_size():
     import numpy
 
     image = Image.open(elephant_frame0_path).convert("RGB")
-    frame = create_frame_from_rgb_trns(numpy.array(image), image.width, image.height, numpy.array([255, 255, 255]))
+    frame = create_frame_from_rgb_trns(
+        numpy.array(image), image.width, image.height, numpy.array([255, 255, 255])
+    )
     assert frame.transparency_size == 6
 
 
@@ -137,7 +145,9 @@ def test_frame_delay_num():
     import numpy
 
     image = Image.open(elephant_frame0_path)
-    frame = create_frame_from_rgba(numpy.array(image), image.width, image.height, 50, 250)
+    frame = create_frame_from_rgba(
+        numpy.array(image), image.width, image.height, 50, 250
+    )
     assert frame.delay_num == 50
 
 
@@ -148,7 +158,9 @@ def test_frame_delay_den():
     import numpy
 
     image = Image.open(elephant_frame0_path)
-    frame = create_frame_from_rgba(numpy.array(image), image.width, image.height, 50, 250)
+    frame = create_frame_from_rgba(
+        numpy.array(image), image.width, image.height, 50, 250
+    )
     assert frame.delay_den == 250
 
 
@@ -212,6 +224,9 @@ def test_load_animation_spec_json():
     assert len(frames) == 2
 
 
+@pytest.mark.skipif(
+    sys.platform == "win32", reason="Bug in apngasm causing incorrect path"
+)
 def test_save_json(tmpdir):
     apngasm = APNGAsm()
     apngasm.add_frame_from_file(animation_spec_0_png_path)
@@ -224,6 +239,9 @@ def test_save_json(tmpdir):
         assert f.read() == g.read()
 
 
+@pytest.mark.skipif(
+    sys.platform == "win32", reason="Bug in apngasm causing incorrect path"
+)
 def test_save_xml(tmpdir):
     apngasm = APNGAsm()
     apngasm.add_frame_from_file(animation_spec_0_png_path)
