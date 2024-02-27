@@ -36,6 +36,10 @@ jobs:
             -m apngasm_python._apngasm_python \
             -o src-python/apngasm_python/_apngasm_python.pyi \
             -M src-python/apngasm_python/py.typed
+    - name: Pytest
+      run: |
+        pip install pytest Pillow numpy &&
+        pytest
     - name: Commit & Push changes
       uses: actions-js/push@master
       with:
