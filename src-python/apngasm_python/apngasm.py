@@ -349,16 +349,17 @@ class APNGAsmBinder:
         height = height if height else shape(numpy_data)[0]
 
         if not mode:
-            if shape(numpy_data)[2] == 3:
-                mode = "RGB"
-            elif shape(numpy_data)[2] == 4:
-                mode = "RGBA"
+            if len(shape(numpy_data)) == 3:
+                if shape(numpy_data)[2] == 3:
+                    mode = "RGB"
+                elif shape(numpy_data)[2] == 4:
+                    mode = "RGBA"
             else:
                 raise TypeError(
                     "Cannot determine mode from numpy_data. "
                     "expected 3rd dimension size to be 3 (RGB) or 4 (RGBA). "
-                    "The given numpy_data 3rd dimension size was "
-                    f"{shape(numpy_data)[2]}."
+                    "The given numpy_data shape was "
+                    f"{shape(numpy_data)}."
                 )
 
         if mode == "RGB":
