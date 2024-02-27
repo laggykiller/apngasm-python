@@ -3,6 +3,7 @@ from typing import overload, Sequence, Optional, List, Annotated
 
 class APNGAsm:
     """Class representing APNG file, storing APNGFrame(s) and other metadata."""
+
     @overload
     def __init__(self) -> None:
         """Construct an empty APNGAsm object."""
@@ -215,6 +216,7 @@ class APNGAsm:
 
 class APNGFrame:
     """Class representing a frame in APNG."""
+
     @overload
     def __init__(self) -> None:
         """Creates an empty APNGFrame."""
@@ -368,6 +370,7 @@ class APNGFrame:
 
 class IAPNGAsmListener:
     """Class for APNGAsmListener. Meant to be used internally."""
+
 def create_frame_from_rgb(pixels: Annotated[ArrayLike, dict(dtype='uint8', shape=(None, None, 3))], width: int, height: int, delay_num: int = 100, delay_den: int = 1000) -> APNGFrame:
     """
     Creates an APNGFrame from a bitmapped array of RBG pixel data.
@@ -413,6 +416,7 @@ def create_frame_from_rgba(pixels: Annotated[ArrayLike, dict(dtype='uint8', shap
 
 class rgb:
     """Class for RGB object. Meant to be used internally."""
+
     @overload
     def __init__(self) -> None:
         """Create an empty RGB object. Meant to be used internally."""
@@ -441,6 +445,7 @@ class rgb:
 
 class rgba:
     """Class for RGBA object. Meant to be used internally."""
+
     @overload
     def __init__(self) -> None:
         """Create an empty RGBA object. Meant to be used internally."""
