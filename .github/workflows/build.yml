@@ -123,7 +123,6 @@ jobs:
         env:
           CIBW_BUILD_FRONTEND: build
           CIBW_ARCHS: ${{ matrix.cibw_archs }}
-          CIBW_BEFORE_ALL: ${{ matrix.cibw_before_all }}
           # CIBW_ENVIRONMENT: PY_BUILD_CMAKE_VERBOSE=1 ${{ matrix.cibw_environment }}
           CIBW_ENVIRONMENT: ${{ matrix.cibw_environment }}
           CIBW_BUILD: ${{ matrix.cibw_build }}
