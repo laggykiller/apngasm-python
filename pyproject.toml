@@ -18,7 +18,7 @@ Tracker = "https://github.com/laggykiller/apngasm-python/issues"
 [build-system] # How pip and other frontends should build this project
 requires = [
     "py-build-cmake==0.2.0a7",
-    "nanobind @ git+https://github.com/wjakob/nanobind.git@80a30c8",
+    "nanobind @ git+https://github.com/wjakob/nanobind.git@6ac8d44",
     "conan>=2.0",
     "wheel"
 ]
