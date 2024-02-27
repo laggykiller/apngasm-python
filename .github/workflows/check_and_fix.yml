@@ -28,8 +28,8 @@ jobs:
         pip install git+https://github.com/wjakob/nanobind.git
         ruff check src-python
         ruff check scripts
-        pyright
         pip install .
+        pyright
         ruff format src-python
         ruff format scripts
         python -m nanobind.stubgen \
