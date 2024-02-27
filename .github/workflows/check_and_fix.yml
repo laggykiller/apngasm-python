@@ -28,7 +28,7 @@ jobs:
         pip install git+https://github.com/wjakob/nanobind.git
         ruff check src-python
         ruff check scripts
-        # pyright
+        pyright
         pip install .
         ruff format src-python
         ruff format scripts
