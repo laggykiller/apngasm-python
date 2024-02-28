@@ -32,7 +32,7 @@ def install_deps(arch: str):
     if arch:
         settings.append("arch=" + arch)
 
-    options.append("boost/*:without_atomic=False")
+    options.append("boost/*:without_atomic=False") # Depedency for filesystem
     options.append("boost/*:without_chrono=True")
     options.append("boost/*:without_cobalt=True")
     options.append("boost/*:without_container=True")
@@ -42,7 +42,7 @@ def install_deps(arch: str):
     options.append("boost/*:without_date_time=True")
     options.append("boost/*:without_exception=True")
     options.append("boost/*:without_fiber=True")
-    options.append("boost/*:without_filesystem=False")
+    options.append("boost/*:without_filesystem=False") # Required by osx 10.9 fork
     options.append("boost/*:without_graph=True")
     options.append("boost/*:without_graph_parallel=True")
     options.append("boost/*:without_iostreams=True")
