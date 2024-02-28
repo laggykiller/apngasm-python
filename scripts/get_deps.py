@@ -122,10 +122,10 @@ def main():
             lipo_dir_merge_dst = conan_output_x64
         else:
             raise RuntimeError("Invalid arch: " + arch)
-        
+
         lipo_dir_merge_result = conan_output_arm.replace("armv8", "universal2")
         shutil.rmtree(lipo_dir_merge_result, ignore_errors=True)
-        
+
         subprocess.run(
             [
                 "python3",
