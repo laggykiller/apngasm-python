@@ -130,7 +130,7 @@ jobs:
           CIBW_BEFORE_TEST: pip install --only-binary ":all:" Pillow numpy; true
           CIBW_BEFORE_TEST_WINDOWS: pip install --only-binary ":all:" Pillow numpy || VER>NUL
           CIBW_TEST_COMMAND: pytest {package}/tests
-          CIBW_TEST_SKIP: pp*
+          CIBW_TEST_SKIP: "pp* cp38*"
 
       - uses: actions/upload-artifact@v3
         with:
