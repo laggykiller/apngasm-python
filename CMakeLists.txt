@@ -32,7 +32,7 @@ elseif (APPLE)
     if(${APNGASM_COMPILE_TARGET} STREQUAL "armv8")
         set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0")
     else()
-        set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
+        set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0")
     endif()
 endif()
 
