@@ -119,7 +119,7 @@ jobs:
           platforms: all
 
       - name: Build wheels for ${{ matrix.os }} ${{ matrix.cibw_archs }} ${{ matrix.cibw_build }}
-        uses: pypa/cibuildwheel@v2.16.5
+        uses: pypa/cibuildwheel@edd67e0
         env:
           CIBW_BUILD_FRONTEND: build
           CIBW_ARCHS: ${{ matrix.cibw_archs }}
@@ -130,9 +130,7 @@ jobs:
           CIBW_BEFORE_TEST: pip install --only-binary ":all:" Pillow numpy; true
           CIBW_BEFORE_TEST_WINDOWS: pip install --only-binary ":all:" Pillow numpy || VER>NUL
           CIBW_TEST_COMMAND: pytest {package}/tests
-          # Skip test for universal2 wheels as it could not be installed during CI
-          # yet it could be installed on local machine during test
-          CIBW_TEST_SKIP: "pp* *-macosx_universal2"
+          CIBW_TEST_SKIP: pp*
 
       - uses: actions/upload-artifact@v3
         with:
