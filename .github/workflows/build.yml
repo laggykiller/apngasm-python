@@ -72,8 +72,8 @@ jobs:
             cibw_build: "*"
             cibw_environment: >
               APNGASM_COMPILE_TARGET=universal2
-              _PYTHON_HOST_PLATFORM=macosx-11.0-universal2
-              MACOSX_DEPLOYMENT_TARGET=11.0
+              _PYTHON_HOST_PLATFORM=macosx-10.15-universal2
+              MACOSX_DEPLOYMENT_TARGET=10.15
           - os: ubuntu-20.04
             cibw_archs: x86_64
             cibw_build: "*"
