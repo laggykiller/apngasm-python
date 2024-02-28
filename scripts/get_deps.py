@@ -115,7 +115,7 @@ def patch_conan_toolchain_universal2(lipo_dir_merge_src: str):
                 result += "# " + line
             else:
                 result += line
-    
+
     with open(conan_toolchain_path, "w_") as f:
         f.write(result)
 
