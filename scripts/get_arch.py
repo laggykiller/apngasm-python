@@ -27,7 +27,7 @@ def get_arch() -> str:
         arch = arch_env
     else:
         arch = get_native_arch()
-    
+
     if arch == "universal2":
         arch = "universal2_" + get_native_arch()
 
