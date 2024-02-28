@@ -126,7 +126,7 @@ jobs:
           CIBW_ENVIRONMENT: PY_BUILD_CMAKE_VERBOSE=1 ${{ matrix.cibw_environment }}
           # CIBW_ENVIRONMENT: ${{ matrix.cibw_environment }}
           CIBW_BUILD: ${{ matrix.cibw_build }}
-          CIBW_SKIP: cp38*
+          # CIBW_SKIP: cp38*
           CIBW_TEST_REQUIRES: pytest
           CIBW_BEFORE_TEST: pip install --only-binary ":all:" Pillow numpy; true
           CIBW_BEFORE_TEST_WINDOWS: pip install --only-binary ":all:" Pillow numpy || VER>NUL
