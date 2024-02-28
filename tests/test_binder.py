@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from importlib.util import find_spec
 import os
-import sys
 
 import pytest
 
@@ -304,31 +303,31 @@ def test_load_animation_spec_json():
     assert len(frames) == 2
 
 
-@pytest.mark.skipif(
-    sys.platform == "win32", reason="Bug in apngasm causing incorrect path"
-)
+# @pytest.mark.skipif(
+#     sys.platform == "win32", reason="Bug in apngasm causing incorrect path"
+# )
 def test_save_json(tmpdir):
     apngasm = APNGAsmBinder()
     apngasm.add_frame_from_file(animation_spec_0_png_path)
     apngasm.add_frame_from_file(animation_spec_1_png_path)
     out = os.path.join(tmpdir, "animation_spec.json")
 
-    apngasm.save_json(out, input_dir)
+    apngasm.save_json(out, str(tmpdir))
 
     with open(out) as f, open(animation_spec_json) as g:
         assert f.read() == g.read()
 
 
-@pytest.mark.skipif(
-    sys.platform == "win32", reason="Bug in apngasm causing incorrect path"
-)
+# @pytest.mark.skipif(
+#     sys.platform == "win32", reason="Bug in apngasm causing incorrect path"
+# )
 def test_save_xml(tmpdir):
     apngasm = APNGAsmBinder()
     apngasm.add_frame_from_file(animation_spec_0_png_path)
     apngasm.add_frame_from_file(animation_spec_1_png_path)
     out = os.path.join(tmpdir, "animation_spec.xml")
 
-    apngasm.save_xml(out, input_dir)
+    apngasm.save_xml(out, str(tmpdir))
 
     with open(out) as f, open(animation_spec_xml) as g:
         assert f.read() == g.read()
