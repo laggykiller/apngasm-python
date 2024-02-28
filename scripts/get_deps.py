@@ -32,7 +32,7 @@ def install_deps(arch: str):
     if arch:
         settings.append("arch=" + arch)
 
-    options.append("boost/*:without_atomic=True")
+    options.append("boost/*:without_atomic=False")
     options.append("boost/*:without_chrono=True")
     options.append("boost/*:without_cobalt=True")
     options.append("boost/*:without_container=True")
