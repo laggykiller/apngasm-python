@@ -18,10 +18,10 @@ def install_deps(arch: str):
         settings.append("compiler.runtime=static")
     elif platform.system() == "Darwin":
         settings.append("os=Macos")
-        if arch == "x86_64":
-            settings.append("os.version=10.15")
-        else:
+        if arch == "armv8":
             settings.append("os.version=11.0")
+        else:
+            settings.append("os.version=10.15")
         settings.append("compiler=apple-clang")
         settings.append("compiler.libcxx=libc++")
     elif platform.system() == "Linux":
