@@ -45,9 +45,10 @@ if (WIN32)
 endif()
 
 # Add conan packages
-if ("${APNGASM_COMPILE_TARGET}" STREQUAL "universal2")
-    # x86_64 Contians static libraries that are universal2
+if ("${APNGASM_COMPILE_TARGET}" STREQUAL "universal2_x86_64")
     set(CONAN_TOOLCHAIN ${CMAKE_SOURCE_DIR}/conan_output/x86_64/conan_toolchain.cmake)
+elseif ("${APNGASM_COMPILE_TARGET}" STREQUAL "universal2_armv8")
+    set(CONAN_TOOLCHAIN ${CMAKE_SOURCE_DIR}/conan_output/armv8/conan_toolchain.cmake)
 else()
     set(CONAN_TOOLCHAIN ${CMAKE_SOURCE_DIR}/conan_output/${APNGASM_COMPILE_TARGET}/conan_toolchain.cmake)
 endif()

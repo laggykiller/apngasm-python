@@ -107,26 +107,36 @@ def install_deps(arch: str):
 def main():
     arch = get_arch()
 
-    if arch != "universal2":
+    if not arch.startswith("universal2"):
         install_deps(arch)
     else:
         # Repeat to install the other architecture version of libwebp
         conan_output_x64 = install_deps("x86_64")
         conan_output_arm = install_deps("armv8")
-        conan_output_universal2 = conan_output_arm.replace("armv8", "universal2")
-        shutil.rmtree(conan_output_universal2, ignore_errors=True)
+
+        if arch.endswith("x86_64"):
+            lipo_dir_merge_src = conan_output_x64
+            lipo_dir_merge_dst = conan_output_arm
+        elif arch.endswith("armv8"):
+            lipo_dir_merge_src = conan_output_arm
+            lipo_dir_merge_dst = conan_output_x64
+        else:
+            raise RuntimeError("Invalid arch: " + arch)
+
+        lipo_dir_merge_result = lipo_dir_merge_src.replace("armv8", "universal2")
+        shutil.rmtree(lipo_dir_merge_result, ignore_errors=True)
         subprocess.run(
             [
                 "python3",
                 "lipo-dir-merge/lipo-dir-merge.py",
-                conan_output_x64,
-                conan_output_arm,
-                conan_output_universal2,
+                lipo_dir_merge_src,
+                lipo_dir_merge_dst,
+                lipo_dir_merge_result,
             ]
         )
 
-        shutil.rmtree(conan_output_x64)
-        shutil.move(conan_output_universal2, conan_output_x64)
+        shutil.rmtree(lipo_dir_merge_src)
+        shutil.move(lipo_dir_merge_result, lipo_dir_merge_src)
 
 
 if __name__ == "__main__":
