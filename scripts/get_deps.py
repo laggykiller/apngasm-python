@@ -86,7 +86,6 @@ def install_deps(arch: str):
     subprocess.run(["conan", "profile", "detect", "-f"])
 
     conan_output = os.path.join("conan_output", arch)
-    shutil.rmtree(conan_output, ignore_errors=True)
 
     subprocess.run(
         [
