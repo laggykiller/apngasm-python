@@ -38,11 +38,7 @@ def get_arch() -> str:
 
 def main():
     arch = get_arch()
-    compile_target = os.getenv("APNGASM_COMPILE_TARGET")
-    if compile_target:
-        sys.stdout.write(compile_target)
-    else:
-        sys.stdout.write(arch)
+    sys.stdout.write(arch)
 
 
 if __name__ == "__main__":
