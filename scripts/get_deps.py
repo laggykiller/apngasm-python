@@ -83,7 +83,7 @@ def install_deps(arch: str):
     print("build: " + str(build))
     print("options: " + str(options))
 
-    subprocess.run(["conan", "profile", "detect"])
+    subprocess.run(["conan", "profile", "detect", "-f"])
 
     conan_output = os.path.join("conan_output", arch)
 
@@ -106,17 +106,9 @@ def install_deps(arch: str):
 
 def main():
     arch = get_arch()
-    if arch == "universal2":
-        conan_output = "conan_output/x86_64"
-    else:
-        conan_output = "conan_output/" + arch
-    if os.path.isdir(conan_output):
-        print("Dependencies found at:" + conan_output)
-        print("Skip conan install...")
-        return
 
     if arch != "universal2":
-        conan_output = install_deps(arch)
+        install_deps(arch)
     else:
         # Repeat to install the other architecture version of libwebp
         conan_output_x64 = install_deps("x86_64")

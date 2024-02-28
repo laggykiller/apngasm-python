@@ -60,14 +60,14 @@ jobs:
               APNGASM_COMPILE_TARGET=x86_64
               _PYTHON_HOST_PLATFORM=macosx-10.15-x86_64
               MACOSX_DEPLOYMENT_TARGET=10.15
-          - os: macos-12
+          - os: macos-14
             cibw_archs: arm64
             cibw_build: "*"
             cibw_environment: >
               APNGASM_COMPILE_TARGET=armv8
               _PYTHON_HOST_PLATFORM=macosx-11.0-arm64
               MACOSX_DEPLOYMENT_TARGET=11.0
-          - os: macos-12
+          - os: macos-14
             cibw_archs: universal2
             cibw_build: "*"
             cibw_environment: >
