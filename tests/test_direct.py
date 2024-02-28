@@ -1,22 +1,9 @@
 #!/usr/bin/env python3
+from importlib.util import find_spec
 import os
 import sys
 
 import pytest
-
-try:
-    from PIL import Image
-
-    PILLOW_LOADED = True
-except ModuleNotFoundError:
-    PILLOW_LOADED = False
-
-try:
-    import numpy
-
-    NUMPY_LOADED = True
-except ModuleNotFoundError:
-    NUMPY_LOADED = False
 
 from apngasm_python._apngasm_python import (
     APNGAsm,
@@ -24,6 +11,9 @@ from apngasm_python._apngasm_python import (
     create_frame_from_rgb_trns,
     create_frame_from_rgba,
 )
+
+PILLOW_LOADED = True if find_spec("PIL") else False
+NUMPY_LOADED = True if find_spec("numpy") else False
 
 file_dir = os.path.split(__file__)[0]
 samples_dir = os.path.join(file_dir, "../samples")
@@ -265,9 +255,9 @@ def test_skip_first():
     apngasm = APNGAsm()
     apngasm.add_frame_from_file(elephant_frame0_path)
     apngasm.set_skip_first(True)
-    assert apngasm.is_skip_first() == True
+    assert apngasm.is_skip_first() is True
     apngasm.set_skip_first(False)
-    assert apngasm.is_skip_first() == False
+    assert apngasm.is_skip_first() is False
 
 
 def test_get_frames():

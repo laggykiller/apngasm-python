@@ -30,6 +30,8 @@ jobs:
       run: |
         ruff check src-python
         ruff check scripts
+        ruff check tests
+        ruff check example
     - name: Install test
       run: pip install .
     - name: pyright
