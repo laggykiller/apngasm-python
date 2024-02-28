@@ -83,7 +83,7 @@ def install_deps(arch: str):
     print("build: " + str(build))
     print("options: " + str(options))
 
-    subprocess.run(["conan", "profile", "detect"])
+    subprocess.run(["conan", "profile", "detect", "-f"])
 
     conan_output = os.path.join("conan_output", arch)
 
