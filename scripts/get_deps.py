@@ -42,7 +42,7 @@ def install_deps(arch: str):
     options.append("boost/*:without_date_time=True")
     options.append("boost/*:without_exception=True")
     options.append("boost/*:without_fiber=True")
-    options.append("boost/*:without_filesystem=True")
+    options.append("boost/*:without_filesystem=False")
     options.append("boost/*:without_graph=True")
     options.append("boost/*:without_graph_parallel=True")
     options.append("boost/*:without_iostreams=True")
