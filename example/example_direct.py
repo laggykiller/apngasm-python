@@ -20,6 +20,7 @@ ball_apng_path = os.path.join(input_dir, "ball.apng")
 grey_png_path = os.path.join(input_dir, "grey.png")
 palette_png_path = os.path.join(input_dir, "palette.png")
 
+
 def frame_info(frame: APNGFrame):
     print(f"{frame.pixels = }")
     print(f"{frame.width = }")
@@ -36,7 +37,7 @@ def frame_info(frame: APNGFrame):
 # https://www.w3.org/TR/PNG-Chunks.html
 color_type_dict = {0: "L", 2: "RGB", 3: "P", 4: "LA", 6: "RGBA"}
 
-color_type_dict.update(dict((v, k) for k, v in color_type_dict.items())) # type: ignore
+color_type_dict.update(dict((v, k) for k, v in color_type_dict.items()))  # type: ignore
 
 # Cleanup
 shutil.rmtree(output_dir, ignore_errors=True)
@@ -62,7 +63,7 @@ frame.save(out)
 
 # Getting one frame as Pillow Image
 mode = color_type_dict[frame.color_type]
-im = Image.frombytes(mode, (frame.width, frame.height), frame.pixels) # type: ignore
+im = Image.frombytes(mode, (frame.width, frame.height), frame.pixels)  # type: ignore
 out = os.path.join(output_dir, "elephant-frame-pillow.png")
 im.save(out)
 
@@ -85,7 +86,7 @@ print(f"{len(frames) = }")
 frame = frames[0]
 frame_info(frame)
 mode = color_type_dict[frame.color_type]
-im = Image.frombytes(mode, (frame.width, frame.height), frame.pixels) # type: ignore
+im = Image.frombytes(mode, (frame.width, frame.height), frame.pixels)  # type: ignore
 out = os.path.join(output_dir, "ball0.png")
 im.save(out)
 
@@ -142,14 +143,14 @@ image2 = Image.open(palette_png_path).convert("RGBA")
 frame2 = APNGFrame()
 frame2.delay_num = 1
 frame2.delay_den = 1
-frame2.color_type = color_type_dict[image2.mode] # type: ignore
+frame2.color_type = color_type_dict[image2.mode]  # type: ignore
 frame2.width = image2.width
 frame2.height = image2.height
 frame2.pixels = np.array(image2)
 frame_info(frame2)
 
 # Another way of creating APNGAsm object
-apngasm = APNGAsm([frame0, frame1, frame2]) # type: ignore
+apngasm = APNGAsm([frame0, frame1, frame2])  # type: ignore
 
 out = os.path.join(output_dir, "birds-pillow.apng")
 success = apngasm.assemble(out)

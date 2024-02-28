@@ -38,6 +38,8 @@ jobs:
       run: |
         ruff format src-python
         ruff format scripts
+        ruff format tests
+        ruff format example
     - name: nanobind stubgen
       run: |
         python -m nanobind.stubgen \

@@ -38,7 +38,7 @@ frame.save(out)
 # Getting one frame as Pillow Image
 im = apngasm.frame_pixels_as_pillow(0)
 out = os.path.join(output_dir, "elephant-frame-pillow.png")
-im.save(out) # type: ignore
+im.save(out)  # type: ignore
 
 # Get inforamtion about whole animation
 print(f"{apngasm.get_loops() = }")
