@@ -105,6 +105,21 @@ def install_deps(arch: str):
     return conan_output
 
 
+def patch_conan_toolchain_universal2(lipo_dir_merge_src: str):
+    conan_toolchain_path = os.path.join(lipo_dir_merge_src, "conan_toolchain.cmake")
+
+    result = ""
+    with open(conan_toolchain_path) as f:
+        for line in f:
+            if line.startswith("set(CMAKE_OSX_ARCHITECTURES"):
+                result += "# " + line
+            else:
+                result += line
+    
+    with open(conan_toolchain_path, "w_") as f:
+        f.write(result)
+
+
 def main():
     arch = get_arch()
 
@@ -139,6 +154,8 @@ def main():
 
         shutil.rmtree(lipo_dir_merge_src)
         shutil.move(lipo_dir_merge_result, lipo_dir_merge_src)
+
+        patch_conan_toolchain_universal2(lipo_dir_merge_src)
 
 
 if __name__ == "__main__":
