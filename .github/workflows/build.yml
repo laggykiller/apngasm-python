@@ -99,6 +99,10 @@ jobs:
           #   cibw_environment: APNGASM_COMPILE_TARGET=s390x
             
     steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+          
       - uses: actions/checkout@v3
         with:
           submodules: true
