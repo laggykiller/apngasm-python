@@ -1,12 +1,8 @@
-#if defined _WIN32 || defined __CYGWIN__
-#  ifdef __GNUC__
-#    define APNGASM_PY_DECLSPEC __attribute__ ((visibility("default")))
+#if defined(_WIN32) && !defined(__GNUC__)
+#  ifdef _apngasm_python_EXPORTS
+#    define APNGASM_PY_DECLSPEC __declspec(dllexport)
 #  else
-#    ifdef _apngasm_python_EXPORTS
-#      define APNGASM_PY_DECLSPEC __declspec(dllexport)
-#    else
-#      define APNGASM_PY_DECLSPEC __declspec(dllimport)
-#    endif
+#    define APNGASM_PY_DECLSPEC __declspec(dllimport)
 #  endif
 #else
 #  define APNGASM_PY_DECLSPEC __attribute__ ((visibility("default")))
