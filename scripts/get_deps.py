@@ -3,6 +3,7 @@ import platform
 import os
 import subprocess
 import shutil
+import sys
 
 from get_arch import conan_archs, get_arch
 
@@ -15,7 +16,14 @@ def install_deps(arch: str):
 
     if platform.system() == "Windows":
         settings.append("os=Windows")
-        settings.append("compiler.runtime=static")
+        if sys.platform.startswith(("cygwin", "msys")) or shutil.which("cygcheck"):
+            # Need python headers and libraries, but msvc not able to find them
+            # If inside cygwin or msys.
+            settings.append("compiler=gcc")
+            settings.append("compiler.version=10")
+            settings.append("compiler.libcxx=libstdc++")
+        else:
+            settings.append("compiler.runtime=static")
     elif platform.system() == "Darwin":
         settings.append("os=Macos")
         if arch == "armv8":

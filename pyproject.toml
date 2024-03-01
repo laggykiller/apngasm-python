@@ -31,6 +31,7 @@ directory = "src-python"
 [tool.py-build-cmake.sdist] # What to include in source distributions
 include = [
     "CMakeLists.txt",
+    "PreLoad.cmake",
     "cmake/*.cmake",
     "src/*",
     "src-python/*",
@@ -63,8 +64,6 @@ config = "Release"
 
 [tool.py-build-cmake.windows.cmake] # Windows-specific options
 config = "Release"
-[tool.py-build-cmake.windows.cmake.options]
-CMAKE_CXX_FLAGS_RELWITHDEBINFO = "/Zi /Ob0 /Od /RTC1"
 
 [tool.cibuildwheel]
 build-verbosity = 1
