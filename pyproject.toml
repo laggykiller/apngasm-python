@@ -53,7 +53,7 @@ install_args = ["--verbose"]
 install_components = ["python_modules"]
 env = {}
 python_abi = 'abi3'
-abi3_minimum_cpython_version = 38
+abi3_minimum_cpython_version = 312
 
 [tool.py-build-cmake.linux.cmake] # Linux-specific options
 config = "Release"
