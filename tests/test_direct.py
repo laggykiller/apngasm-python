@@ -3,6 +3,7 @@ from importlib.util import find_spec
 import os
 
 import pytest
+from _pytest._py.path import LocalPath
 
 from apngasm_python._apngasm_python import (
     APNGAsm,
@@ -171,7 +172,7 @@ def test_add_frame_from_file_palette():
     assert frame_count == 1
 
 
-def test_assemble(tmpdir):
+def test_assemble(tmpdir: LocalPath):
     apngasm = APNGAsm()
     apngasm.add_frame_from_file(grey_png_path)
     apngasm.add_frame_from_file(palette_png_path)
@@ -191,7 +192,7 @@ def test_disassemble():
         assert isinstance(frame, APNGFrame)
 
 
-def test_save_pngs(tmpdir):
+def test_save_pngs(tmpdir: LocalPath):
     apngasm = APNGAsm()
     apngasm.add_frame_from_file(elephant_frame0_path)
     apngasm.save_pngs(str(tmpdir))
@@ -213,10 +214,7 @@ def test_load_animation_spec_json():
     assert len(frames) == 2
 
 
-# @pytest.mark.skipif(
-#     sys.platform == "win32", reason="Bug in apngasm causing incorrect path"
-# )
-def test_save_json(tmpdir):
+def test_save_json(tmpdir: LocalPath):
     apngasm = APNGAsm()
     apngasm.add_frame_from_file(animation_spec_0_png_path)
     apngasm.add_frame_from_file(animation_spec_1_png_path)
@@ -228,10 +226,7 @@ def test_save_json(tmpdir):
         assert f.read() == g.read()
 
 
-# @pytest.mark.skipif(
-#     sys.platform == "win32", reason="Bug in apngasm causing incorrect path"
-# )
-def test_save_xml(tmpdir):
+def test_save_xml(tmpdir: LocalPath):
     apngasm = APNGAsm()
     apngasm.add_frame_from_file(animation_spec_0_png_path)
     apngasm.add_frame_from_file(animation_spec_1_png_path)
