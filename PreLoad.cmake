@@ -3,5 +3,12 @@
 # If inside cygwin or msys.
 
 if (WIN32 AND NOT MSVC)
-    set (CMAKE_GENERATOR "Unix Makefiles" CACHE INTERNAL "" FORCE)
+    execute_process(COMMAND uname OUTPUT_VARIABLE uname)
+    if (uname MATCHES "^MINGW")
+        set (CMAKE_GENERATOR "MinGW Makefiles" CACHE INTERNAL "" FORCE)
+    elseif (uname MATCHES "^MSYS")
+        set (CMAKE_GENERATOR "MSYS Makefiles" CACHE INTERNAL "" FORCE)
+    else ()
+        set (CMAKE_GENERATOR "Ninja" CACHE INTERNAL "" FORCE)
+    endif()
 endif()
