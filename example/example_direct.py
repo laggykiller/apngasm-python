@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
-from apngasm_python._apngasm_python import (
-    APNGAsm,
-    APNGFrame,
-    create_frame_from_rgb,
-    create_frame_from_rgb_trns,
-    create_frame_from_rgba,
-)
 import os
 import shutil
-from PIL import Image
+
 import numpy as np
+from apngasm_python._apngasm_python import (APNGAsm, APNGFrame,
+                                            create_frame_from_rgb,
+                                            create_frame_from_rgb_trns,
+                                            create_frame_from_rgba)
+from PIL import Image
 
 file_dir = os.path.split(__file__)[0]
 samples_dir = os.path.join(file_dir, "../samples")
@@ -96,7 +94,7 @@ apngasm.save_pngs(output_dir)
 # Assemble from pillow images
 # Just for fun, let's also make it spin
 apngasm.reset()
-angle = 0
+angle = 0.0
 angle_step = 360 / len(os.listdir(frames_dir))
 for file_name in sorted(os.listdir(frames_dir)):
     image = Image.open(os.path.join(frames_dir, file_name))

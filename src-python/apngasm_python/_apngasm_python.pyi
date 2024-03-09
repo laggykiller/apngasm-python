@@ -1,5 +1,6 @@
+from collections.abc import Sequence
 from numpy.typing import ArrayLike
-from typing import overload, Sequence, Optional, List, Annotated
+from typing import overload, Optional, Annotated
 
 class APNGAsm:
     """Class representing APNG file, storing APNGFrame(s) and other metadata."""
@@ -88,7 +89,7 @@ class APNGAsm:
         :rtype: bool
         """
 
-    def disassemble(self, file_path: str) -> List[APNGFrame]:
+    def disassemble(self, file_path: str) -> list[APNGFrame]:
         """
         Disassembles an APNG file.
 
@@ -108,7 +109,7 @@ class APNGAsm:
         :rtype: bool
         """
 
-    def load_animation_spec(self, file_path: str) -> List[APNGFrame]:
+    def load_animation_spec(self, file_path: str) -> list[APNGFrame]:
         """
         Loads an animation spec from JSON or XML.
         Loaded frames are added to the end of the frame vector.
@@ -164,7 +165,7 @@ class APNGAsm:
         :param int skip_first: Flag of skip first frame.
         """
 
-    def get_frames(self) -> List[APNGFrame]:
+    def get_frames(self) -> list[APNGFrame]:
         """
         Returns the frame vector.
 

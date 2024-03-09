@@ -68,3 +68,17 @@ config = "Release"
 [tool.cibuildwheel]
 build-verbosity = 1
 environment = { PY_BUILD_CMAKE_VERBOSE="1" }
+
+[tool.pyright]
+include = ["src-python", "scripts", "tests", "example"]
+strict = ["*"]
+
+[tool.mypy]
+python_version = "3.9"
+exclude = ["lipo-dir-merge"]
+
+[tool.isort]
+extend_skip = ["lipo-dir-merge"]
+
+[tool.ruff]
+exclude = ["lipo-dir-merge"]

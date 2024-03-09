@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-from importlib.util import find_spec
 import os
+from importlib.util import find_spec
 
 import pytest
 from _pytest._py.path import LocalPath
-
-from apngasm_python.apngasm import APNGAsmBinder
 from apngasm_python._apngasm_python import APNGFrame
+from apngasm_python.apngasm import APNGAsmBinder
 
 PILLOW_LOADED = True if find_spec("PIL") else False
 NUMPY_LOADED = True if find_spec("numpy") else False
@@ -86,8 +85,8 @@ def test_frame_palette():
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 def test_frame_transparency():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     apngasm = APNGAsmBinder()
     with Image.open(elephant_frame0_path) as im_rgba:
@@ -110,8 +109,8 @@ def test_frame_palette_size():
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 def test_frame_transparency_size():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     apngasm = APNGAsmBinder()
     with Image.open(elephant_frame0_path) as im_rgba:
@@ -191,8 +190,8 @@ def test_add_frame_from_pillow_palette():
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 def test_add_frame_from_numpy_rgba():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     apngasm = APNGAsmBinder()
 
@@ -205,8 +204,8 @@ def test_add_frame_from_numpy_rgba():
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 def test_add_frame_from_numpy_rgb():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     apngasm = APNGAsmBinder()
 
@@ -220,8 +219,8 @@ def test_add_frame_from_numpy_rgb():
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 def test_add_frame_from_numpy_rgb_trns():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     apngasm = APNGAsmBinder()
 
@@ -236,8 +235,8 @@ def test_add_frame_from_numpy_rgb_trns():
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 def test_add_frame_from_numpy_non_rgb():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     apngasm = APNGAsmBinder()
 

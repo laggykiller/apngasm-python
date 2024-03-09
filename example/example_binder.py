@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-from apngasm_python.apngasm import APNGAsmBinder
 import os
 import shutil
-from PIL import Image
+
 import numpy as np
+from apngasm_python.apngasm import APNGAsmBinder
+from PIL import Image
 
 file_dir = os.path.split(__file__)[0]
 samples_dir = os.path.join(file_dir, "../samples")
@@ -29,11 +30,11 @@ for file_name in sorted(os.listdir(frames_dir)):
     apngasm.add_frame_from_file(os.path.join(frames_dir, file_name), 100, 1000)
 
 # Getting information about one frame
-frame = apngasm.get_frames()[0]
+apng_frame = apngasm.get_frames()[0]
 
 # Saving one frame as file
 out = os.path.join(output_dir, "elephant-frame.png")
-frame.save(out)
+apng_frame.save(out)
 
 # Getting one frame as Pillow Image
 im = apngasm.frame_pixels_as_pillow(0)
@@ -65,7 +66,7 @@ apngasm.save_pngs(output_dir)
 # Assemble from pillow images
 # Just for fun, let's also make it spin
 apngasm.reset()
-angle = 0
+angle = 0.0
 angle_step = 360 / len(os.listdir(frames_dir))
 for file_name in sorted(os.listdir(frames_dir)):
     image = Image.open(os.path.join(frames_dir, file_name))

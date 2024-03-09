@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
-import sys
 import platform
+import sys
 
 conan_archs = {
     "x86_64": ["amd64", "x86_64", "x64"],

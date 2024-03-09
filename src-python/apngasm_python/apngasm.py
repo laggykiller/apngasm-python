@@ -1,19 +1,16 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-from typing import Optional, Any, TYPE_CHECKING
+
+from typing import TYPE_CHECKING, Any, Optional
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
     from PIL import Image
 
-from ._apngasm_python import (  # type: ignore
-    APNGAsm,
-    APNGFrame,
-    IAPNGAsmListener,
-    create_frame_from_rgb,
-    create_frame_from_rgb_trns,
-    create_frame_from_rgba,
-)
+from ._apngasm_python import (APNGAsm, APNGFrame,  # type: ignore
+                              IAPNGAsmListener, create_frame_from_rgb,
+                              create_frame_from_rgb_trns,
+                              create_frame_from_rgba)
 
 
 class APNGAsmBinder:
@@ -52,6 +49,7 @@ class APNGAsmBinder:
 
         if new_value:
             self.apngasm.get_frames()[frame].pixels = array(new_value)
+            return None
         else:
             mode = self.color_type_dict[self.apngasm.get_frames()[frame].color_type]
             return Image.frombytes(  # type: ignore
@@ -82,6 +80,7 @@ class APNGAsmBinder:
 
         if new_value:
             self.apngasm.get_frames()[frame].pixels = new_value
+            return None
         else:
             return array(self.apngasm.get_frames()[frame].pixels)
 
@@ -98,6 +97,7 @@ class APNGAsmBinder:
         """
         if new_value:
             self.apngasm.get_frames()[frame].width = new_value
+            return None
         else:
             return self.apngasm.get_frames()[frame].width
 
@@ -116,6 +116,7 @@ class APNGAsmBinder:
         """
         if new_value:
             self.apngasm.get_frames()[frame].height = new_value
+            return None
         else:
             return self.apngasm.get_frames()[frame].height
 
@@ -140,6 +141,7 @@ class APNGAsmBinder:
         """
         if new_value:
             self.apngasm.get_frames()[frame].color_type = new_value
+            return None
         else:
             return self.apngasm.get_frames()[frame].color_type
 
@@ -164,6 +166,7 @@ class APNGAsmBinder:
 
         if new_value:
             self.apngasm.get_frames()[frame].palette = new_value
+            return None
         else:
             return array(self.apngasm.get_frames()[frame].palette)
 
@@ -188,6 +191,7 @@ class APNGAsmBinder:
 
         if new_value:
             self.apngasm.get_frames()[frame].transparency = new_value
+            return None
         else:
             return array(self.apngasm.get_frames()[frame].transparency)
 
@@ -206,6 +210,7 @@ class APNGAsmBinder:
         """
         if new_value:
             self.apngasm.get_frames()[frame].palette_size = new_value
+            return None
         else:
             return self.apngasm.get_frames()[frame].palette_size
 
@@ -224,6 +229,7 @@ class APNGAsmBinder:
         """
         if new_value:
             self.apngasm.get_frames()[frame].transparency_size = new_value
+            return None
         else:
             return self.apngasm.get_frames()[frame].transparency_size
 
@@ -243,6 +249,7 @@ class APNGAsmBinder:
         """
         if new_value:
             self.apngasm.get_frames()[frame].delay_num = new_value
+            return None
         else:
             return self.apngasm.get_frames()[frame].delay_num
 
@@ -262,6 +269,7 @@ class APNGAsmBinder:
         """
         if new_value:
             self.apngasm.get_frames()[frame].delay_den = new_value
+            return None
         else:
             return self.apngasm.get_frames()[frame].delay_den
 
@@ -343,7 +351,7 @@ class APNGAsmBinder:
         :return: The new number of frames.
         :rtype: int
         """
-        from numpy import shape, ndarray
+        from numpy import ndarray, shape
 
         width = width if width else shape(numpy_data)[1]
         height = height if height else shape(numpy_data)[0]

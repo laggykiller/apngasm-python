@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-import platform
 import os
-import subprocess
+import platform
 import shutil
+import subprocess
 import sys
 
-from get_arch import conan_archs, get_arch
+from get_arch import conan_archs, get_arch  # type: ignore
 
 
 def install_deps(arch: str):

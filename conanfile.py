@@ -3,7 +3,7 @@
 from conan import ConanFile
 import shutil
 from scripts.get_arch import get_arch
-from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps, cmake_layout
+from conan.tools.cmake import CMakeToolchain, CMakeDeps
 from conan.tools.apple import is_apple_os
 
 
@@ -21,7 +21,7 @@ class ApngasmRecipe(ConanFile):
             self.tool_requires("cmake/[>=3.27]")
 
     def build(self):
-        build_type = "Release"
+        build_type = "Release"  # noqa: F841
 
     def generate(self):
         tc = CMakeToolchain(self)

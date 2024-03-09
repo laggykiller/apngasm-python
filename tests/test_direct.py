@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
-from importlib.util import find_spec
 import os
+from importlib.util import find_spec
 
 import pytest
 from _pytest._py.path import LocalPath
-
-from apngasm_python._apngasm_python import (
-    APNGAsm,
-    APNGFrame,
-    create_frame_from_rgb_trns,
-    create_frame_from_rgba,
-)
+from apngasm_python._apngasm_python import (APNGAsm, APNGFrame,
+                                            create_frame_from_rgb_trns,
+                                            create_frame_from_rgba)
 
 PILLOW_LOADED = True if find_spec("PIL") else False
 NUMPY_LOADED = True if find_spec("numpy") else False
@@ -33,8 +29,8 @@ animation_spec_xml = os.path.join(input_dir, "animation_spec.xml")
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 def test_frame_pixels():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     image = Image.open(elephant_frame0_path)
     frame = create_frame_from_rgba(numpy.array(image), image.width, image.height)
@@ -45,8 +41,8 @@ def test_frame_pixels():
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 def test_frame_width():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     image = Image.open(elephant_frame0_path)
     frame = create_frame_from_rgba(numpy.array(image), image.width, image.height)
@@ -57,8 +53,8 @@ def test_frame_width():
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 def test_frame_height():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     image = Image.open(elephant_frame0_path)
     frame = create_frame_from_rgba(numpy.array(image), image.width, image.height)
@@ -69,8 +65,8 @@ def test_frame_height():
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 def test_frame_color_type():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     image = Image.open(elephant_frame0_path)
     frame = create_frame_from_rgba(numpy.array(image), image.width, image.height)
@@ -81,8 +77,8 @@ def test_frame_color_type():
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 def test_frame_palette():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     image = Image.open(elephant_frame0_path)
     frame = create_frame_from_rgba(numpy.array(image), image.width, image.height)
@@ -92,8 +88,8 @@ def test_frame_palette():
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 def test_frame_transparency():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     image = Image.open(elephant_frame0_path).convert("RGB")
     frame = create_frame_from_rgb_trns(
@@ -106,8 +102,8 @@ def test_frame_transparency():
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 def test_frame_palette_size():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     image = Image.open(elephant_frame0_path)
     frame = create_frame_from_rgba(numpy.array(image), image.width, image.height)
@@ -118,8 +114,8 @@ def test_frame_palette_size():
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 def test_frame_transparency_size():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     image = Image.open(elephant_frame0_path).convert("RGB")
     frame = create_frame_from_rgb_trns(
@@ -131,8 +127,8 @@ def test_frame_transparency_size():
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 def test_frame_delay_num():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     image = Image.open(elephant_frame0_path)
     frame = create_frame_from_rgba(
@@ -144,8 +140,8 @@ def test_frame_delay_num():
 @pytest.mark.skipif(NUMPY_LOADED is False, reason="Numpy not installed")
 @pytest.mark.skipif(PILLOW_LOADED is False, reason="Pillow not installed")
 def test_frame_delay_den():
-    from PIL import Image
     import numpy
+    from PIL import Image
 
     image = Image.open(elephant_frame0_path)
     frame = create_frame_from_rgba(
