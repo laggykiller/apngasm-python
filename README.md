@@ -1,7 +1,7 @@
 # apngasm-python
 
-A nanobind API for [apngasm](https://github.com/apngasm/apngasm), a tool/library for 
-APNG assembly/disassembly.
+A nanobind API for [apngasm](https://github.com/apngasm/apngasm), which is a
+tool/library for APNG assembly & disassembly with compression support.
 
 apngasm is originally a CLI program for quickly assembling PNG images into 
 animated PNG (APNG). It also supports creating compressed APNG.

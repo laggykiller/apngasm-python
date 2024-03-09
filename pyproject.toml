@@ -1,6 +1,6 @@
 [project] # Project metadata
 name = "apngasm-python"
-description = "A nanobind API for apngasm, a tool/library for APNG assembly/disassembly."
+description = "A nanobind python API for apngasm, a tool/library for APNG assembly & disassembly with compression support."
 requires-python = ">=3.8"
 readme = "README.md"
 license = { "file" = "LICENSE" }
