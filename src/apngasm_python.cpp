@@ -37,7 +37,7 @@ NB_MODULE(MODULE_NAME, m) {
     m.attr("__version__") = VERSION_INFO;
 
     m.def("create_frame_from_rgb", [](
-        nb::ndarray<unsigned char, nb::shape<nb::any, nb::any, 3>> *pixels,
+        nb::ndarray<unsigned char, nb::shape<-1, -1, 3>> *pixels,
         unsigned int width, unsigned int height,
         unsigned delayNum = apngasm::DEFAULT_FRAME_NUMERATOR,
         unsigned delayDen = apngasm::DEFAULT_FRAME_DENOMINATOR
@@ -72,7 +72,7 @@ NB_MODULE(MODULE_NAME, m) {
     )pbdoc");
 
     m.def("create_frame_from_rgb_trns", [](
-        nb::ndarray<unsigned char, nb::shape<nb::any, nb::any, 3>> *pixels,
+        nb::ndarray<unsigned char, nb::shape<-1, -1, 3>> *pixels,
         unsigned int width, unsigned int height,
         nb::ndarray<unsigned char, nb::shape<3>> *trns_color,
         unsigned delayNum = apngasm::DEFAULT_FRAME_NUMERATOR,
@@ -117,7 +117,7 @@ NB_MODULE(MODULE_NAME, m) {
     )pbdoc");
     
     m.def("create_frame_from_rgba", [](
-        nb::ndarray<unsigned char, nb::shape<nb::any, nb::any, 4>> *pixels,
+        nb::ndarray<unsigned char, nb::shape<-1, -1, 4>> *pixels,
         unsigned int width, unsigned int height,
         unsigned delayNum = apngasm::DEFAULT_FRAME_NUMERATOR,
         unsigned delayDen = apngasm::DEFAULT_FRAME_DENOMINATOR
@@ -257,9 +257,9 @@ NB_MODULE(MODULE_NAME, m) {
         [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC {
             size_t rowbytes = rowbytesMap[t._colorType];
             size_t shape[3] = { t._height, t._width, rowbytes };
-            return nb::ndarray<nb::numpy, unsigned char, nb::shape<nb::any, nb::any, nb::any>>(t._pixels, 3, shape);
+            return nb::ndarray<nb::numpy, unsigned char, nb::shape<-1, -1, -1>>(t._pixels, 3, shape);
         },
-        [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<nb::any, nb::any, nb::any>> *v) APNGASM_PY_DECLSPEC {
+        [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<-1, -1, -1>> *v) APNGASM_PY_DECLSPEC {
             size_t rowbytes = rowbytesMap[t._colorType];
             unsigned char *pixelsNew = new unsigned char[v->size()];
             unsigned char *v_ptr = v->data();
@@ -335,9 +335,9 @@ NB_MODULE(MODULE_NAME, m) {
         .def_prop_rw("transparency", 
         [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC {
             size_t shape[1] = { static_cast<size_t>(t._transparencySize) };
-            return nb::ndarray<nb::numpy, unsigned char, nb::shape<nb::any>>(t._transparency, 1, shape); 
+            return nb::ndarray<nb::numpy, unsigned char, nb::shape<-1>>(t._transparency, 1, shape); 
         },
-        [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<nb::any>> *v) APNGASM_PY_DECLSPEC {
+        [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<-1>> *v) APNGASM_PY_DECLSPEC {
             unsigned char *v_ptr = v->data();
             for (int i = 0; i < v->shape(0); ++i) {
                 t._transparency[i] = *v_ptr;
