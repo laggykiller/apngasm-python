@@ -75,7 +75,7 @@ strict = ["*"]
 
 [tool.mypy]
 python_version = "3.9"
-exclude = ["lipo-dir-merge"]
+include = ["src-python", "scripts", "tests", "example"]
 
 [tool.isort]
 extend_skip = ["lipo-dir-merge"]
