@@ -7,8 +7,8 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
     from PIL import Image
 
-from ._apngasm_python import (APNGAsm, APNGFrame,  # type: ignore
-                              IAPNGAsmListener, create_frame_from_rgb,
+from ._apngasm_python import APNGFrame  # type: ignore
+from ._apngasm_python import (APNGAsm, IAPNGAsmListener, create_frame_from_rgb,
                               create_frame_from_rgb_trns,
                               create_frame_from_rgba)
 
