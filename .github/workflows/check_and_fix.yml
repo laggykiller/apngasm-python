@@ -34,6 +34,7 @@ jobs:
       run: isort .
     - name: nanobind stubgen
       run: |
+        pip install "nanobind @ git+https://github.com/wjakob/nanobind.git"
         python -m nanobind.stubgen \
             -m apngasm_python._apngasm_python \
             -o src-python/apngasm_python/_apngasm_python.pyi \

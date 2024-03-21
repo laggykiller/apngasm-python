@@ -21,13 +21,13 @@ download apngasm.
 Documentations: https://apngasm-python.readthedocs.io/en/latest/
 
 ## Install
-```
+```bash
 pip install apngasm-python
 ```
 
 `Pillow` and `numpy` are optional dependencies. Without them,
 some functions are not usable. To also install them:
-```
+```bash
 pip install apngasm-python[full]
 ```
 
@@ -126,9 +126,8 @@ help(_apngasm_python)
 
 ## Building from source
 ```bash
-git clone https://github.com/laggykiller/apngasm-python.git
+git clone --recursive https://github.com/laggykiller/apngasm-python.git
 cd apngasm-python
-git submodule update --init --recursive
 
 # To build wheel
 python3 -m build .
@@ -152,6 +151,22 @@ export APNGASM_COMPILE_TARGET=x86
 export APNGASM_COMPILE_TARGET=armv8
 export APNGASM_COMPILE_TARGET=ppc64le
 export APNGASM_COMPILE_TARGET=s390x
+```
+
+## Development
+To run tests:
+```bash
+pip install pytest
+pytest
+```
+
+To lint:
+```bash
+pip install ruff mypy isort
+mypy
+isort .
+ruff check
+ruff format
 ```
 
 ## Credits
