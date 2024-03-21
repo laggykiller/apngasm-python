@@ -26,7 +26,7 @@ jobs:
       run: pip install .[full,test,lint]
     - name: Ruff check
       run: ruff check
-    - name: ruff format
+    - name: Ruff format
       run: ruff format
     - name: mypy
       run: mypy
