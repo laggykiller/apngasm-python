@@ -1,6 +1,8 @@
 from collections.abc import Sequence
+from typing import Annotated, Optional, overload
+
 from numpy.typing import ArrayLike
-from typing import overload, Optional, Annotated
+
 
 class APNGAsm:
     """Class representing APNG file, storing APNGFrame(s) and other metadata."""
