@@ -22,18 +22,14 @@ jobs:
     - uses: actions/setup-python@v5
       with:
         python-version: '3.9'
-    - name: Install dependency
-      run: |
-        pip install build ruff mypy isort Pillow numpy pytest types-Pillow
-        pip install git+https://github.com/wjakob/nanobind.git
+    - name: Install test
+      run: pip install .[full,test,lint]
     - name: Ruff check
       run: ruff check
-    - name: Install test
-      run: pip install .
-    - name: mypy
-      run: mypy
     - name: ruff format
       run: ruff format
+    - name: mypy
+      run: mypy
     - name: isort
       run: isort .
     - name: nanobind stubgen

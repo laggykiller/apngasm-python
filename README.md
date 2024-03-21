@@ -25,9 +25,10 @@ Documentations: https://apngasm-python.readthedocs.io/en/latest/
 pip install apngasm-python
 ```
 
-Optionally, you can also install `Pillow` and `numpy`
+`Pillow` and `numpy` are optional dependencies. Without them,
+some functions are not usable. To also install them:
 ```
-pip install Pillow numpy
+pip install apngasm-python[full]
 ```
 
 ## Example usage

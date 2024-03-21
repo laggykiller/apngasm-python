@@ -15,12 +15,28 @@ Repository = "https://github.com/laggykiller/apngasm-python"
 Documentation = "https://apngasm-python.readthedocs.io/en/latest/"
 Tracker = "https://github.com/laggykiller/apngasm-python/issues"
 
+[project.optional-dependencies]
+full = [
+    "Pillow",
+    "numpy",
+]
+
+test = [
+    "pytest",
+]
+
+lint = [
+    "ruff",
+    "mypy",
+    "isort",
+    "types-Pillow",
+]
+
 [build-system] # How pip and other frontends should build this project
 requires = [
     "py-build-cmake==0.2.0a12",
     "nanobind @ git+https://github.com/wjakob/nanobind.git",
-    "conan>=2.0",
-    "wheel"
+    "conan>=2.0"
 ]
 build-backend = "py_build_cmake.build"
 
