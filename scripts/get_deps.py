@@ -16,7 +16,7 @@ def install_deps(arch: str):
 
     if platform.system() == "Windows":
         settings.append("os=Windows")
-        if sys.platform.startswith(("cygwin", "msys")) or shutil.which("cygcheck"):
+        if sys.platform.startswith(("cygwin", "msys")):
             # Need python headers and libraries, but msvc not able to find them
             # If inside cygwin or msys.
             settings.append("compiler=gcc")
