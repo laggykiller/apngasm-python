@@ -257,7 +257,7 @@ NB_MODULE(MODULE_NAME, m) {
         [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC {
             size_t rowbytes = rowbytesMap[t._colorType];
             size_t shape[3] = { t._height, t._width, rowbytes };
-            return nb::ndarray<nb::numpy, unsigned char, nb::shape<-1, -1, -1>>(t._pixels, 3, shape);
+            return nb::ndarray<nb::numpy, unsigned char, nb::shape<-1, -1, -1>>(t._pixels, 3, shape, nb::handle());
         },
         [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<-1, -1, -1>> *v) APNGASM_PY_DECLSPEC {
             size_t rowbytes = rowbytesMap[t._colorType];
@@ -316,7 +316,7 @@ NB_MODULE(MODULE_NAME, m) {
                 paletteView[i][2] = t._palette[i].b;
             }
             size_t shape[2] = { 256, 3 };
-            return nb::ndarray<nb::numpy, unsigned char, nb::shape<256, 3>>(paletteView, 2, shape); 
+            return nb::ndarray<nb::numpy, unsigned char, nb::shape<256, 3>>(paletteView, 2, shape, nb::handle()); 
         },
         [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<256, 3>> *v) APNGASM_PY_DECLSPEC {
             unsigned char *v_ptr = v->data();
@@ -335,7 +335,7 @@ NB_MODULE(MODULE_NAME, m) {
         .def_prop_rw("transparency", 
         [](apngasm::APNGFrame &t) APNGASM_PY_DECLSPEC {
             size_t shape[1] = { static_cast<size_t>(t._transparencySize) };
-            return nb::ndarray<nb::numpy, unsigned char, nb::shape<-1>>(t._transparency, 1, shape); 
+            return nb::ndarray<nb::numpy, unsigned char, nb::shape<-1>>(t._transparency, 1, shape, nb::handle()); 
         },
         [](apngasm::APNGFrame &t, nb::ndarray<unsigned char, nb::shape<-1>> *v) APNGASM_PY_DECLSPEC {
             unsigned char *v_ptr = v->data();
