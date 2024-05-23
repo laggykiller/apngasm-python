@@ -35,7 +35,7 @@ lint = [
 [build-system] # How pip and other frontends should build this project
 requires = [
     "py-build-cmake==0.2.0a12",
-    "nanobind @ git+https://github.com/wjakob/nanobind.git",
+    "nanobind>=2.0.0",
     "conan>=2.0"
 ]
 build-backend = "py_build_cmake.build"
