@@ -22,32 +22,35 @@ execute_process(
 )
 message(STATUS "Finished get_deps.py")
 
-if (WIN32)
+if (MSVC)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Zi /Ob0 /Od /RTC1")
 elseif (LINUX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 elseif (APPLE)
-    if(${APNGASM_COMPILE_TARGET} STREQUAL "x86_64")
+    if(${APNGASM_COMPILE_TARGET} STREQUAL "armv8")
         set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0")
     else()
-        set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15")
+        set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -stdlib=libc++ -fno-aligned-allocation")
     endif()
 endif()
 
 set(ZLIB_USE_STATIC_LIBS ON)
 set(PNG_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_LIBS ON)
-if (WIN32)
+if (MSVC)
     set(Boost_USE_MULTITHREADED ON)
     set(Boost_USE_STATIC_RUNTIME ON)
 endif()
 
 # Add conan packages
-if ("${APNGASM_COMPILE_TARGET}" STREQUAL "universal2")
-    # x86_64 Contians static libraries that are universal2
+if ("${APNGASM_COMPILE_TARGET}" STREQUAL "universal2_x86_64")
     set(CONAN_TOOLCHAIN ${CMAKE_SOURCE_DIR}/conan_output/x86_64/conan_toolchain.cmake)
+elseif ("${APNGASM_COMPILE_TARGET}" STREQUAL "universal2_armv8")
+    set(CONAN_TOOLCHAIN ${CMAKE_SOURCE_DIR}/conan_output/armv8/conan_toolchain.cmake)
 else()
     set(CONAN_TOOLCHAIN ${CMAKE_SOURCE_DIR}/conan_output/${APNGASM_COMPILE_TARGET}/conan_toolchain.cmake)
 endif()
@@ -58,7 +61,7 @@ else()
     message(FATAL_ERROR "The conan_toolchain file could not be found: ${CONAN_TOOLCHAIN}")
 endif()
 
-project(apngasm-python VERSION 1.2.3)
+project(apngasm-python VERSION 1.3.0)
 set(PY_VERSION_SUFFIX "")
 set(PY_FULL_VERSION ${PROJECT_VERSION}${PY_VERSION_SUFFIX})
 
@@ -76,7 +79,7 @@ find_nanobind_python_first()
 
 # Compile the Python module
 nanobind_add_module(_apngasm_python "src/apngasm_python.cpp" NB_STATIC STABLE_ABI)
-if (WIN32)
+if (MSVC)
     nanobind_compile_options(_apngasm_python "/MT /MP /bigobj")
 endif()
 target_compile_definitions(_apngasm_python PRIVATE _apngasm_python_EXPORTS)
@@ -101,7 +104,7 @@ set_target_properties(_apngasm_python PROPERTIES
     CXX_VISIBILITY_PRESET "hidden"
     VISIBILITY_INLINES_HIDDEN true
     POSITION_INDEPENDENT_CODE true)
-if (WIN32)
+if (MSVC)
     set_target_properties(_apngasm_python PROPERTIES LINK_FALGS_RELEASE "/WHOLEARCHIVE:MNN")
 elseif (LINUX)
     target_link_options(_apngasm_python PRIVATE "LINKER:--exclude-libs,ALL")
@@ -114,14 +117,13 @@ install(TARGETS _apngasm_python
         COMPONENT python_modules)
 
 # Generate stubs for the Python module
-option(WITH_PY_STUBS
-    "Generate Python stub files (.pyi) for the Python module." On)
-if (WITH_PY_STUBS AND NOT CMAKE_CROSSCOMPILING)
-    include(cmake/NanobindStubgen.cmake)
-    nanobind_stubgen(_apngasm_python)
-    add_custom_command(TARGET _apngasm_python POST_BUILD
-        COMMAND ${PYTHON_EXECUTABLE} patch_stub.py $<TARGET_FILE_DIR:_apngasm_python>/_apngasm_python.pyi
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/scripts
-        USES_TERMINAL)
-    nanobind_stubgen_install(_apngasm_python ${PY_BUILD_CMAKE_MODULE_NAME})
-endif()
+nanobind_add_stub(
+    apngasm_python_stub
+    INSTALL_TIME
+    MODULE apngasm_python._apngasm_python
+    OUTPUT "${PY_BUILD_CMAKE_MODULE_NAME}/_apngasm_python.pyi"
+    MARKER_FILE "${PY_BUILD_CMAKE_MODULE_NAME}/py.typed"
+    COMPONENT python_modules
+    EXCLUDE_FROM_ALL
+    VERBOSE
+)

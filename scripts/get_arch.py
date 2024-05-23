@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
-import sys
 import platform
+import sys
 
 conan_archs = {
     "x86_64": ["amd64", "x86_64", "x64"],
@@ -12,29 +12,33 @@ conan_archs = {
 }
 
 
-def get_arch():
-    arch = None
-    if os.getenv("APNGASM_COMPILE_TARGET"):
-        arch = os.getenv("APNGASM_COMPILE_TARGET")
-    else:
-        for k, v in conan_archs.items():
-            if platform.machine().lower() in v:
-                arch = k
-                break
+def get_native_arch() -> str:
+    for k, v in conan_archs.items():
+        if platform.machine().lower() in v:
+            return k
 
-    if arch == None:
-        arch = platform.machine().lower()
+    # Failover
+    return platform.machine().lower()
+
+
+def get_arch() -> str:
+    arch_env = os.getenv("APNGASM_COMPILE_TARGET")
+    if isinstance(arch_env, str):
+        arch = arch_env
+    else:
+        arch = get_native_arch()
+
+    if arch == "universal2":
+        arch = "universal2_" + get_native_arch()
+
+        assert arch in ("universal2_x86_64", "universal2_armv8")
 
     return arch
 
 
 def main():
     arch = get_arch()
-    compile_target = os.getenv("APNGASM_COMPILE_TARGET")
-    if compile_target:
-        sys.stdout.write(compile_target)
-    else:
-        sys.stdout.write(arch)
+    sys.stdout.write(arch)
 
 
 if __name__ == "__main__":

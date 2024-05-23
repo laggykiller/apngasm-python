@@ -3,4 +3,7 @@ dist/
 .py-build-cmake_cache/
 .vscode/
 conan_output/
-example/output/
+samples/output/
+venv/
+docs/_build/
+CMakeUserPresets.json
