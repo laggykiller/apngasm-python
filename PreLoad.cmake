@@ -9,4 +9,4 @@
 # set (CMAKE_GENERATOR "MSYS Makefiles" CACHE INTERNAL "" FORCE)
 
 # Use this otherwise
-set (CMAKE_GENERATOR "Ninja" CACHE INTERNAL "" FORCE)
+# set (CMAKE_GENERATOR "Ninja" CACHE INTERNAL "" FORCE)
