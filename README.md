@@ -51,7 +51,7 @@ for file_name in sorted(os.listdir("samples/frames")):
 # Default value of loops is 0, which is infinite looping of APNG animation
 # This sets the APNG animation to loop for 3 times before stopping
 apngasm.set_loops(3)
-apng.assemble("samples/result-from-file.apng")
+apngasm.assemble("samples/result-from-file.apng")
 apngasm.reset()
 
 # From Pillow
@@ -91,7 +91,7 @@ for file_name in sorted(os.listdir("samples/frames")):
 # Default value of loops is 0, which is infinite looping of APNG animation
 # This sets the APNG animation to loop for 3 times before stopping
 apngasm.set_loops(3)
-apng.assemble("samples/result-from-file.apng")
+apngasm.assemble("samples/result-from-file.apng")
 
 # From Pillow
 apngasm.reset()
