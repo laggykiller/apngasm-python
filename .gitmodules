@@ -1,6 +1,3 @@
 [submodule "apngasm"]
 	path = apngasm
 	url = https://github.com/laggykiller/apngasm.git
-[submodule "lipo-dir-merge"]
-	path = lipo-dir-merge
-	url = https://github.com/faaxm/lipo-dir-merge.git
