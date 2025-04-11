@@ -14,7 +14,7 @@ class ApngasmRecipe(ConanFile):
 
     def requirements(self):
         self.requires("zlib/1.3.1")
-        self.requires("libpng/1.6.42")
+        self.requires("libpng/1.6.47")
         self.requires("boost/1.84.0")
 
     def build_requirements(self):
