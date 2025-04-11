@@ -34,10 +34,10 @@ lint = [
 
 [build-system] # How pip and other frontends should build this project
 requires = [
-    "py-build-cmake==0.2.0a12",
+    "py-build-cmake>=0.4.3",
     "nanobind>=2.0.0",
     "conan>=2.0",
-    "lipomerge"
+    "lipomerge>=0.1.1"
 ]
 build-backend = "py_build_cmake.build"
 
@@ -68,8 +68,6 @@ build_tool_args = []
 install_args = ["--verbose"]
 install_components = ["python_modules"]
 env = {}
-python_abi = 'abi3'
-abi3_minimum_cpython_version = 312
 
 [tool.py-build-cmake.linux.cmake] # Linux-specific options
 config = "Release"
@@ -80,6 +78,10 @@ config = "Release"
 
 [tool.py-build-cmake.windows.cmake] # Windows-specific options
 config = "Release"
+
+[tool.py-build-cmake.wheel]
+python_abi = 'abi3'
+abi3_minimum_cpython_version = 312
 
 [tool.cibuildwheel]
 build-verbosity = 1
