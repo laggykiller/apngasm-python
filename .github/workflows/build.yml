@@ -30,9 +30,11 @@ jobs:
           pip install pytest numpy Pillow
           pytest
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
+          name: sdist
           path: dist/apngasm_python-*.tar.gz
+          retention-days: 7
 
   build_wheels:
     name: Build wheels for ${{ matrix.os }} ${{ matrix.cibw_archs }} ${{ matrix.cibw_build }}
@@ -45,50 +47,62 @@ jobs:
             cibw_archs: AMD64
             cibw_build: "cp* pp*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86_64
+            artifact: win-amd64-cp_pp
           - os: windows-2019
             cibw_archs: x86
             cibw_build: "cp*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86
+            artifact: win-x86-cp
           - os: windows-2019
             cibw_archs: ARM64
             cibw_build: "cp*"
             cibw_environment: APNGASM_COMPILE_TARGET=armv8
+            artifact: win-amrm64-cp
           - os: macos-12
             cibw_archs: x86_64
             cibw_build: "cp* pp*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86_64
+            artifact: macos-x86_64-cp_pp
           - os: macos-14
             cibw_archs: arm64
             cibw_build: "cp* pp*"
             cibw_environment: APNGASM_COMPILE_TARGET=armv8
+            artifact: macos-arm64-cp_pp
           - os: macos-14
             cibw_archs: universal2
             cibw_build: "cp* pp*"
             cibw_environment: APNGASM_COMPILE_TARGET=universal2
-          - os: ubuntu-20.04
+            artifact: macos-universal2-cp_pp
+          - os: ubuntu-22.04
             cibw_archs: x86_64
             cibw_build: "cp* pp*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86_64
-          - os: ubuntu-20.04
+            artifact: many_musllinux-x86_64-cp_pp
+          - os: ubuntu-22.04
             cibw_archs: i686
             cibw_build: "cp* pp*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86
-          - os: ubuntu-20.04
+            artifact: many_musllinux-x86-cp_pp
+          - os: ubuntu-22.04-arm
             cibw_archs: aarch64
             cibw_build: "cp*-musllinux_* pp*-musllinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=armv8
-          - os: ubuntu-20.04
+            artifact: musllinux-armv8-cp_pp
+          - os: ubuntu-22.04-arm
             cibw_archs: aarch64
             cibw_build: "cp*-manylinux_* pp*-manylinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=armv8
-          - os: ubuntu-20.04
+            artifact: manylinux-armv8-cp_pp
+          - os: ubuntu-22.04
             cibw_archs: ppc64le
             cibw_build: "cp*-musllinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
-          - os: ubuntu-20.04
+            artifact: musllinux-ppc64le-cp
+          - os: ubuntu-22.04
             cibw_archs: ppc64le
             cibw_build: "cp*-manylinux_*"
             cibw_environment: APNGASM_COMPILE_TARGET=ppc64le
+            artifact: manylinux-ppc64le-cp
           # - os: ubuntu-20.04
           #   cibw_archs: s390x
           #   cibw_build: "*-musllinux_*"
@@ -132,25 +146,29 @@ jobs:
           pip install abi3audit
           abi3audit $(ls ./wheelhouse/*.whl) --debug --verbose
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
+          name: wheels-${{matrix.artifact}}
           path: ./wheelhouse/*.whl
+          retention-days: 7
 
   # upload_pypi_test:
   #   needs: [build_wheels, build_sdist]
   #   runs-on: ubuntu-latest
   #   if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
   #   steps:
-  #     - uses: actions/download-artifact@v3
-  #       with:
-  #         # unpacks default artifact into dist/
-  #         # if `name: artifact` is omitted, the action will create extra parent dir
-  #         name: artifact
-  #         path: dist
+  #     - name: "Download artifacts"
+  #       uses: actions/download-artifact@v4
+      
+  #     - name: "Move packages to the dist/ folder"
+  #       run: |
+  #         mkdir dist/
+  #         mv sdist/* dist/
+  #         mv wheels-*/*.whl dist/
 
-  #     - uses: pypa/gh-action-pypi-publish@v1.5.0
+  #     - name: "Publish packages on PyPI"
+  #       uses: pypa/gh-action-pypi-publish@v1.5.0
   #       with:
-  #         user: __token__
   #         password: ${{ secrets.TEST_PYPI_API_TOKEN }}
   #         repository_url: https://test.pypi.org/legacy/
 
@@ -159,14 +177,16 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'release' && github.event.action == 'published'
     steps:
-      - uses: actions/download-artifact@v3
-        with:
-          # unpacks default artifact into dist/
-          # if `name: artifact` is omitted, the action will create extra parent dir
-          name: artifact
-          path: dist
+      - name: "Download artifacts"
+        uses: actions/download-artifact@v4
+      
+      - name: "Move packages to the dist/ folder"
+        run: |
+          mkdir dist/
+          mv sdist/* dist/
+          mv wheels-*/*.whl dist/
 
-      - uses: pypa/gh-action-pypi-publish@v1.5.0
+      - name: "Publish packages on PyPI"
+        uses: pypa/gh-action-pypi-publish@v1.5.0
         with:
-          user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
