@@ -58,7 +58,7 @@ jobs:
             cibw_build: "cp*"
             cibw_environment: APNGASM_COMPILE_TARGET=armv8
             artifact: win-amrm64-cp
-          - os: macos-12
+          - os: macos-13
             cibw_archs: x86_64
             cibw_build: "cp* pp*"
             cibw_environment: APNGASM_COMPILE_TARGET=x86_64
